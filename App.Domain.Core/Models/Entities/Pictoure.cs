@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    internal class Pictoure
+    public class Pictoure
     {
+        public int Id { get; set; }
+        public string Url { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    public class Category
+    public class Cart
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public int ParentId { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsActive { get; set; }
+        public string Product { get; set; }
+        public int Price { get; set; }
+        public DateTime TimeOfCreate { get; set; }
     }
 }

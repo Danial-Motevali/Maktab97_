@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    internal class Wage
+    public class Wage
     {
+        public int Id { get; set; }
+            
     }
 }

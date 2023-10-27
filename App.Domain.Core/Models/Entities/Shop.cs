@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    internal class Shop
+    public class Shop
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string NameOfCreator { get; set; }
+        public DateTime TimeOfCreate { get; set; }
+        public bool IsDeleted { get; set; }
+        public int Medal { get; set; }
     }
 }

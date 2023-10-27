@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    public class Category
+    public class Address
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public int ParentId { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

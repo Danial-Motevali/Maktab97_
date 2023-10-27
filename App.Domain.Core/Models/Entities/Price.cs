@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    internal class Price
+    public class Price
     {
+        public int Id { get; set; }
+        public int ProdutPrice { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

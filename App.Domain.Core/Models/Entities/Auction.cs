@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    public class Category
+    public class Auction
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public int ParentId { get; set; }
+        public int LastPrice { get; set; }
+        public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime TimeOfStart { get; set; }
+        public DateTime TimeOfEnd { get; set;}
     }
 }

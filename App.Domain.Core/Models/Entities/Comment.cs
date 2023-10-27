@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    internal class Comment
+    public class Comment
     {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime TimeOfCreate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
