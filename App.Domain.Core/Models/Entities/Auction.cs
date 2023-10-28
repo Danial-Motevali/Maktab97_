@@ -14,5 +14,8 @@ namespace App.Domain.Core.Models.Entities
         public bool IsDeleted { get; set; }
         public DateTime TimeOfStart { get; set; }
         public DateTime TimeOfEnd { get; set;}
+
+        public int ProducId { get; set; }
+        public Product Product { get; set; }
     }
 }

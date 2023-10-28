@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Domain.Core.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,17 @@ namespace App.Domain.Core.Models.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public string Address { get; set; }
         public string position { get; set; }
         public string Email { get; set; }
         public string PassWord { get; set; }
+        public bool HasShop { get; set; }
+        public bool HasCart { get; set; }
     }
     public class ProfileDtoOutput
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public string Address { get; set; }
         public string position { get; set; }
         public string Email { get; set; }
         public string PassWord { get; set; }

@@ -12,5 +12,8 @@ namespace App.Domain.Core.Models.Entities
         public string Title { get; set; }
         public int ParentId { get; set; }
         public bool IsDeleted { get; set; }
+
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
     }
 }

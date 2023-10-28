@@ -12,5 +12,8 @@ namespace App.Domain.Core.Models.Entities
         public string City { get; set; }
         public string Street { get; set; }
         public bool IsDeleted { get; set; }
+
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; }
     }
 }

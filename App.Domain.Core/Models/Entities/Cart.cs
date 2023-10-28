@@ -13,5 +13,8 @@ namespace App.Domain.Core.Models.Entities
         public string Product { get; set; }
         public int Price { get; set; }
         public DateTime TimeOfCreate { get; set; }
+
+        public int ProfilId { get; set; }
+        public Profile Profile { get; set; }
     }
 }

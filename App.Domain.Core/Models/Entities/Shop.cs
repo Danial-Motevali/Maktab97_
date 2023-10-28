@@ -14,5 +14,10 @@ namespace App.Domain.Core.Models.Entities
         public DateTime TimeOfCreate { get; set; }
         public bool IsDeleted { get; set; }
         public int Medal { get; set; }
+
+        public ICollection<Product> Products { get; set; }
+
+        public int ProfilId { get; set; }
+        public Profile profile { get; set; }
     }
 }

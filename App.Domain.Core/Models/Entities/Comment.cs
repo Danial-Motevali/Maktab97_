@@ -13,5 +13,8 @@ namespace App.Domain.Core.Models.Entities
         public string Description { get; set; }
         public DateTime TimeOfCreate { get; set; }
         public bool IsDeleted { get; set; }
+
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; }
     }
 }

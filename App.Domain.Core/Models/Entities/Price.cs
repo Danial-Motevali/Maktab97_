@@ -11,5 +11,11 @@ namespace App.Domain.Core.Models.Entities
         public int Id { get; set; }
         public int ProdutPrice { get; set; }
         public bool IsDeleted { get; set; }
+
+        public int WageId { get; set; }
+        public Wage Wage { get; set; }
+
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
     }
 }
