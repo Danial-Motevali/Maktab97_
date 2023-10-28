@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Models.Entities
+namespace App.Domain.Core.Models.DTOs
 {
-    public class Wage
+    public class WageDtoInput
     {
         public int Id { get; set; }
+        public int NumberOf { get; set; }
+        public int Price { get; set; }
+    }
+    public class WageDtoOutput
+    {
         public int NumberOf { get; set; }
         public int Price { get; set; }
     }
