@@ -13,7 +13,7 @@ namespace App.Domain.Core.Models.Entities
         public string Street { get; set; }
         public bool IsDeleted { get; set; }
 
-        public int ProfileId { get; set; }
-        public Profile Profile { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

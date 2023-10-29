@@ -22,7 +22,7 @@ namespace App.Infrastructure.Data.EF
         public DbSet<Pictoure> Pictoures { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<User> Profiles { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Wage> Wages { get; set; }
 

@@ -17,7 +17,7 @@ namespace App.Domain.Core.Models.Entities
 
         public ICollection<Product> Products { get; set; }
 
-        public int ProfilId { get; set; }
-        public Profile profile { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

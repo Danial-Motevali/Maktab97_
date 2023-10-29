@@ -14,6 +14,7 @@ namespace UI
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
                      option.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"))
             );
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             var app = builder.Build();
 
