@@ -11,7 +11,6 @@ namespace App.Domain.Core.Models.Entities
         public int Id { get; set; }
         public int NumberOf { get; set; }
 
-        public int PriceId { get; set; }
-        public Price Price { get; set; }
+       
     }
 }

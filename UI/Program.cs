@@ -1,3 +1,6 @@
+using App.Infrastructure.Data.EF;
+using Microsoft.EntityFrameworkCore;
+
 namespace UI
 {
     public class Program
@@ -8,6 +11,9 @@ namespace UI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(option =>
+                     option.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"))
+            );
 
             var app = builder.Build();
 
