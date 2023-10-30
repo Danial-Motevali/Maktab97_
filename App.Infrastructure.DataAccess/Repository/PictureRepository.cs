@@ -1,5 +1,8 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Models.DTOs;
+using App.Domain.Core.Models.Entities;
+using App.Infrastructure.Data.EF;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +13,75 @@ namespace App.Infrastructure.DataAccess.Repository
 {
     public class PictureRepository : IPictourRepository
     {
-        public Task<bool> Add(PictureDtoInput pictureInput)
+        private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
+        public AddressRepository(ApplicationDbContext db, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _db = db;
+            _mapper = mapper;
+        }
+        public async Task<bool> Add(AddressDtoInput inputAddress)
+        {
+            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+
+            if (address != null)
+            {
+                var newProduct = _mapper.Map<Address>(inputAddress);
+
+                await _db.AddAsync(newProduct);
+                await _db.SaveChangesAsync();
+
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id)
         {
-            throw new NotImplementedException();
+            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (address != null)
+            {
+                address.IsDeleted = true;
+
+                await _db.SaveChangesAsync();
+
+                return true;
+            }
+            return false;
         }
 
-        public Task<List<PictureDtoOutput>> GetAll()
+        public async Task<List<AddressDtoOutPut>> GetAll()
         {
-            throw new NotImplementedException();
+            var addresses = _db.Addresses.ToList();
+            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+
+            return result;
         }
 
-        public Task<PictureDtoOutput> GetById(int Id)
+        public async Task<AddressDtoOutPut> GetById(int Id)
         {
-            throw new NotImplementedException();
+            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+            var getAddress = _mapper.Map<AddressDtoOutPut>(address);
+
+            return getAddress;
         }
 
-        public Task<bool> Update(int Id, PictureDtoInput pictureInput)
+        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
         {
-            throw new NotImplementedException();
+            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+
+            if (address != null)
+            {
+                address.Id = inputAddress.Id;
+                address.City = inputAddress.City;
+                address.Street = inputAddress.Street;
+
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

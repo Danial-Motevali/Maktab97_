@@ -13,7 +13,7 @@ namespace App.Infrastructure.DataAccess.Mapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<Address, AddressDtoInput>();
+            
         }
     }
 }

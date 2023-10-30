@@ -11,6 +11,7 @@ namespace App.Domain.Core.Models.DTOs
         public int Id { get; set; }
         public string Product { get; set; }
         public int Price { get; set; }
+        public bool IsDeleted { get; set; }
     }
     public class CartDtoOutput
     {

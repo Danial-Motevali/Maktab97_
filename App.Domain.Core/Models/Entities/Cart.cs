@@ -16,5 +16,6 @@ namespace App.Domain.Core.Models.Entities
 
         public int UserId { get; set; }
         public User User { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
