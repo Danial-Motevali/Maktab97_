@@ -52,31 +52,38 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<UserDtoOutput>> GetAll()
         {
-            var addresses = _db.Addresses.ToList();
-            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+            var users = _db.Users.ToList();
+            var result = users.Select(user => _mapper.Map<UserDtoOutput>(user)).ToList();
 
             return result;
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<UserDtoOutput> GetById(int Id)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AddressDtoOutPut>(address);
+            var users = _db.Users.FirstOrDefault(x => x.Id == Id);
+            var getUser = _mapper.Map<UserDtoOutput>(users);
 
-            return getAddress;
+            return getUser;
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
+        public async Task<bool> Update(int Id, UserDtoInput inputUser)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+            var user = _db.Users.FirstOrDefault(x => x.Id == Id);
 
-            if (address != null)
+            if (user != null)
             {
-                address.Id = inputAddress.Id;
-                address.City = inputAddress.City;
-                address.Street = inputAddress.Street;
+                user.Id = inputUser.Id;
+                user.FirstName = inputUser.FirstName;
+                user.LastName = inputUser.LastName;
+                user.UserName = inputUser.UserName;
+                user.position = inputUser.position;
+                user.Email = inputUser.Email;
+                user.PassWord = inputUser.PassWord;
+                user.HasShop = inputUser.HasShop;
+                user.HasCart = inputUser.HasCart;
+                user.IsDeleted = inputUser.IsDeleted;
 
                 await _db.SaveChangesAsync();
                 return true;

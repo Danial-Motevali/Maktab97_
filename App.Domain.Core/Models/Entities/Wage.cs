@@ -10,7 +10,6 @@ namespace App.Domain.Core.Models.Entities
     {
         public int Id { get; set; }
         public int NumberOf { get; set; }
-
-       
+        public bool IsDeleted { get; set; }
     }
 }
