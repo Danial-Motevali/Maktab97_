@@ -14,7 +14,8 @@ namespace App.Domain.Core.Models.Entities
         public string UserName { get; set; }
         public string position { get; set; }
         public string Email { get; set; }
-        public string PassWord { get; set; } 
+        public string PassWord { get; set; }
+        public bool IsDelted { get; set; }
 
         public bool HasShop { get; set; }
         public int ShopId { get; set; }

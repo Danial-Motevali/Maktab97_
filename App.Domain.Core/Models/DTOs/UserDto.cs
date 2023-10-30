@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.DTOs
 {
-    public class ProfileDtoInput
+    public class UserDtoInput
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -18,8 +18,9 @@ namespace App.Domain.Core.Models.DTOs
         public string PassWord { get; set; }
         public bool HasShop { get; set; }
         public bool HasCart { get; set; }
+        public bool IsDeleted { get; set; }
     }
-    public class ProfileDtoOutput
+    public class UserDtoOutput
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

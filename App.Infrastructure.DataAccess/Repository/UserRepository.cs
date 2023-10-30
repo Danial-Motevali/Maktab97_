@@ -3,6 +3,7 @@ using App.Domain.Core.Models.DTOs;
 using App.Domain.Core.Models.Entities;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +12,24 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructure.DataAccess.Repository
 {
-    public class ProfileRepository : IProductRepository
+    public class UserRepository : IProductRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        public AddressRepository(ApplicationDbContext db, IMapper mapper)
+        public UserRepository(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AddressDtoInput inputAddress)
+        public async Task<bool> Add(UserDtoInput inputUser)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var users = await _db.Users.FirstOrDefaultAsync(x => x.Id == inputUser.Id);
 
-            if (address != null)
+            if (users != null)
             {
-                var newProduct = _mapper.Map<Address>(inputAddress);
+                var newUser = _mapper.Map<User>(inputUser);
 
-                await _db.AddAsync(newProduct);
+                await _db.AddAsync(newUser);
                 await _db.SaveChangesAsync();
 
                 return true;
@@ -38,11 +39,11 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<bool> Delete(int Id)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == Id);
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == Id);
 
-            if (address != null)
+            if (user != null)
             {
-                address.IsDeleted = true;
+                user.IsDeleted = true;
 
                 await _db.SaveChangesAsync();
 
