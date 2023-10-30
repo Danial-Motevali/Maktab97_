@@ -52,31 +52,31 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<CartDtoOutput>> GetAll()
         {
-            var addresses = _db.Addresses.ToList();
-            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+            var carts = _db.Carts.ToList();
+            var result = carts.Select(cart => _mapper.Map<CartDtoOutput>(cart)).ToList();
 
             return result;
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<CartDtoOutput> GetById(int Id)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AddressDtoOutPut>(address);
+            var cart = _db.Carts.FirstOrDefault(x => x.Id == Id);
+            var getCart = _mapper.Map<CartDtoOutput>(cart);
 
-            return getAddress;
+            return getCart;
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
+        public async Task<bool> Update(int Id, CartDtoInput inputCart)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+            var cart = _db.Carts.FirstOrDefault(x => x.Id == Id);
 
-            if (address != null)
+            if (cart != null)
             {
-                address.Id = inputAddress.Id;
-                address.City = inputAddress.City;
-                address.Street = inputAddress.Street;
+                cart.Id = inputCart.Id;
+                cart.City = inputCart.City;
+                cart.Street = inputCart.Street;
 
                 await _db.SaveChangesAsync();
                 return true;

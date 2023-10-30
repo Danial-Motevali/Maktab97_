@@ -10,12 +10,15 @@ namespace App.Domain.Core.Models.Entities
     {
         public int Id { get; set; }
         public bool IsActive { get; set; }
-        public string Product { get; set; }
-        public int Price { get; set; }
         public DateTime TimeOfCreate { get; set; }
 
         public int UserId { get; set; }
         public User User { get; set; }
         public bool IsDeleted { get; set; }
+
+        public ICollection<Product> Products { get; set; }
+
+        public int PriceId { get; set; }
+        public Price Price { get; set; }
     }
 }

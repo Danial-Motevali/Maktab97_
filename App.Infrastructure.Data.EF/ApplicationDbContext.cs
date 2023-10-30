@@ -22,7 +22,7 @@ namespace App.Infrastructure.Data.EF
         public DbSet<Pictoure> Pictoures { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<User> Profiles { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Wage> Wages { get; set; }
 
@@ -34,15 +34,19 @@ namespace App.Infrastructure.Data.EF
                 .HasForeignKey(x => x.ShopId);
 
             modelBuilder.Entity<Address>()
-                .HasOne(x => x.Profile)
+                .HasOne(x => x.User)
                 .WithMany(x => x.Addresses)
-                .HasForeignKey(x => x.ProfileId);
+                .HasForeignKey(x => x.UserId);
 
             modelBuilder.Entity<Comment>()
-                .HasOne(x => x.Profile)
+                .HasOne(x => x.User)
                 .WithMany(x => x.Comments)
-                .HasForeignKey(x => x.ProfileId);
+                .HasForeignKey(x => x.UserId);
 
+            modelBuilder.Entity<Product>()
+                .HasOne(x => x.Cart)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CartId);
 
             base.OnModelCreating(modelBuilder);
         }

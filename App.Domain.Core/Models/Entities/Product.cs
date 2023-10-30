@@ -28,5 +28,8 @@ namespace App.Domain.Core.Models.Entities
 
         public int ShopId { get; set; }
         public Shop Shop { get; set; }
+
+        public int CartId { get; set; }
+        public Cart Cart { get; set; }
     }
 }

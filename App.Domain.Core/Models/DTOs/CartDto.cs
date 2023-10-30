@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Domain.Core.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,12 @@ namespace App.Domain.Core.Models.DTOs
     public class CartDtoInput
     {
         public int Id { get; set; }
-        public string Product { get; set; }
-        public int Price { get; set; }
+        public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
     }
     public class CartDtoOutput
     {
-        public string Product { get; set; }
-        public int Price { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
