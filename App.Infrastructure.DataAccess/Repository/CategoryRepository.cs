@@ -3,6 +3,7 @@ using App.Domain.Core.Models.DTOs;
 using App.Domain.Core.Models.Entities;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +16,20 @@ namespace App.Infrastructure.DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        public AddressRepository(ApplicationDbContext db, IMapper mapper)
+        public CategoryRepository(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AddressDtoInput inputAddress)
+        public async Task<bool> Add(CategoryDtoInput inputCategory)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var category = await _db.Categories.FirstOrDefaultAsync(x => x.Id == inputCategory.Id);
 
-            if (address != null)
+            if (category != null)
             {
-                var newProduct = _mapper.Map<Address>(inputAddress);
+                var newCategory = _mapper.Map<Category>(inputCategory);
 
-                await _db.AddAsync(newProduct);
+                await _db.AddAsync(newCategory);
                 await _db.SaveChangesAsync();
 
                 return true;
@@ -38,11 +39,11 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<bool> Delete(int Id)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == Id);
+            var category = await _db.Categories.FirstOrDefaultAsync(x => x.Id == Id);
 
-            if (address != null)
+            if (category != null)
             {
-                address.IsDeleted = true;
+                category.IsDeleted = true;
 
                 await _db.SaveChangesAsync();
 
@@ -51,31 +52,31 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<CategoryDtoOutput>> GetAll()
         {
-            var addresses = _db.Addresses.ToList();
-            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+            var categorys = _db.Addresses.ToList();
+            var result = categorys.Select(category => _mapper.Map<CategoryDtoOutput>(category)).ToList();
 
             return result;
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<CategoryDtoOutput> GetById(int Id)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AddressDtoOutPut>(address);
+            var category = _db.Categories.FirstOrDefault(x => x.Id == Id);
+            var getCategory = _mapper.Map<CategoryDtoOutput>(category);
 
-            return getAddress;
+            return getCategory;
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
+        public async Task<bool> Update(int Id, CategoryDtoInput inputCategory)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+            var category = _db.Categories.FirstOrDefault(x => x.Id == Id);
 
-            if (address != null)
+            if (category != null)
             {
-                address.Id = inputAddress.Id;
-                address.City = inputAddress.City;
-                address.Street = inputAddress.Street;
+                category.Id = inputCategory.Id;
+                category.Title = inputCategory.Title;
+                category.ParentId = inputCategory.ParentId;
 
                 await _db.SaveChangesAsync();
                 return true;

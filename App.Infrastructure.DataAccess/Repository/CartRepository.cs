@@ -27,7 +27,7 @@ namespace App.Infrastructure.DataAccess.Repository
 
             if (cart != null)
             {
-                var newCart = _mapper.Map<Address>(cartInput);
+                var newCart = _mapper.Map<Cart>(cartInput);
 
                 await _db.AddAsync(newCart);
                 await _db.SaveChangesAsync();
@@ -75,8 +75,8 @@ namespace App.Infrastructure.DataAccess.Repository
             if (cart != null)
             {
                 cart.Id = inputCart.Id;
-                cart.City = inputCart.City;
-                cart.Street = inputCart.Street;
+                cart.IsActive = inputCart.IsActive;
+                cart.IsDeleted = inputCart.IsDeleted;
 
                 await _db.SaveChangesAsync();
                 return true;

@@ -3,6 +3,7 @@ using App.Domain.Core.Models.DTOs;
 using App.Domain.Core.Models.Entities;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +16,20 @@ namespace App.Infrastructure.DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        public AddressRepository(ApplicationDbContext db, IMapper mapper)
+        public PriceRepository(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AddressDtoInput inputAddress)
+        public async Task<bool> Add(PriceDtoInput inputPrice)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var price = await _db.Prices.FirstOrDefaultAsync(x => x.Id == inputPrice.Id);
 
-            if (address != null)
+            if (price != null)
             {
-                var newProduct = _mapper.Map<Address>(inputAddress);
+                var newPrice = _mapper.Map<Price>(inputPrice);
 
-                await _db.AddAsync(newProduct);
+                await _db.AddAsync(newPrice);
                 await _db.SaveChangesAsync();
 
                 return true;
@@ -38,11 +39,11 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<bool> Delete(int Id)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == Id);
+            var price = await _db.Prices.FirstOrDefaultAsync(x => x.Id == Id);
 
-            if (address != null)
+            if (price != null)
             {
-                address.IsDeleted = true;
+                price.IsDeleted = true;
 
                 await _db.SaveChangesAsync();
 
@@ -51,31 +52,30 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<PriceDtoOutput>> GetAll()
         {
-            var addresses = _db.Addresses.ToList();
-            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+            var price = _db.Prices.ToList();
+            var result = price.Select(prices => _mapper.Map<PriceDtoOutput>(prices)).ToList();
 
             return result;
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<PriceDtoOutput> GetById(int Id)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AddressDtoOutPut>(address);
+            var price = _db.Prices.FirstOrDefault(x => x.Id == Id);
+            var getPrice = _mapper.Map<PriceDtoOutput>(price);
 
-            return getAddress;
+            return getPrice;
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
+        public async Task<bool> Update(int Id, PriceDtoInput inputPrice)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+            var price = _db.Prices.FirstOrDefault(x => x.Id == Id);
 
-            if (address != null)
+            if (price != null)
             {
-                address.Id = inputAddress.Id;
-                address.City = inputAddress.City;
-                address.Street = inputAddress.Street;
+                price.Id = inputPrice.Id;
+                price.ProdutPrice = inputPrice.ProdutPrice;
 
                 await _db.SaveChangesAsync();
                 return true;

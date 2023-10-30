@@ -3,6 +3,7 @@ using App.Domain.Core.Models.DTOs;
 using App.Domain.Core.Models.Entities;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,18 @@ namespace App.Infrastructure.DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        public AddressRepository(ApplicationDbContext db, IMapper mapper)
+        public ProductRepository(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AddressDtoInput inputAddress)
+        public async Task<bool> Add(ProductDtoInput inputProduct)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == inputProduct.Id);
 
-            if (address != null)
+            if (product != null)
             {
-                var newProduct = _mapper.Map<Address>(inputAddress);
+                var newProduct = _mapper.Map<Product>(inputProduct);
 
                 await _db.AddAsync(newProduct);
                 await _db.SaveChangesAsync();
@@ -38,11 +39,11 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<bool> Delete(int Id)
         {
-            var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == Id);
+            var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == Id);
 
-            if (address != null)
+            if (product != null)
             {
-                address.IsDeleted = true;
+                product.IsDeleted = true;
 
                 await _db.SaveChangesAsync();
 
@@ -51,31 +52,32 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<ProductDtoOutput>> GetAll()
         {
-            var addresses = _db.Addresses.ToList();
-            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+            var products = _db.Products.ToList();
+            var result = products.Select(product => _mapper.Map<ProductDtoOutput>(product)).ToList();
 
             return result;
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<ProductDtoOutput> GetById(int Id)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AddressDtoOutPut>(address);
+            var product = _db.Products.FirstOrDefault(x => x.Id == Id);
+            var getProduct = _mapper.Map<ProductDtoOutput>(product);
 
-            return getAddress;
+            return getProduct;
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
+        public async Task<bool> Update(int Id, ProductDtoInput inputProduct)
         {
-            var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
+            var product = _db.Products.FirstOrDefault(x => x.Id == Id);
 
-            if (address != null)
+            if (product != null)
             {
-                address.Id = inputAddress.Id;
-                address.City = inputAddress.City;
-                address.Street = inputAddress.Street;
+                product.Id = inputProduct.Id;
+                product.Title = inputProduct.Title;
+                product.Street = inputProduct.Street;
+                product.Street = inputProduct.Street;
 
                 await _db.SaveChangesAsync();
                 return true;
