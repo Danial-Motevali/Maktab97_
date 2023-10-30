@@ -7,7 +7,7 @@ namespace UI
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddService(this IServiceCollection services)
+        public static void Infstracture(this IServiceCollection services)
         {
             //configure repository
 
@@ -23,7 +23,6 @@ namespace UI
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IWageRepository, WageRepository>();
 
-            return services;
         }
     }
 }

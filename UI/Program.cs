@@ -14,24 +14,15 @@ namespace UI
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //connect to database
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
                      option.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"))
             );
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-            //configure my services
-            builder.Services.AddScoped<IAddressRepository, AddressRepository>();
-            builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
-            builder.Services.AddScoped<ICartRepository, CartRepository>();
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-            builder.Services.AddScoped<IPictourRepository, PictureRepository>();
-            builder.Services.AddScoped<IPriceRepository, PriceRepository>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IUSerRepository, UserRepository>();
-            builder.Services.AddScoped<IShopRepository, ShopRepository>();
-            builder.Services.AddScoped<IWageRepository, WageRepository>();
+            //configure the services in dependency class
+            builder.Services.Infstracture();
 
             var app = builder.Build();
 
