@@ -16,8 +16,5 @@ namespace App.Domain.Core.Models.Entities
         public int Medal { get; set; }
 
         public ICollection<Product> Products { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
     }
 }

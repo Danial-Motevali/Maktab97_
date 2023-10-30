@@ -48,6 +48,7 @@ namespace App.Infrastructure.Data.EF
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.CartId);
 
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231029135003_v1")]
+    [Migration("20231030155825_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -40,16 +40,16 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
                 });
@@ -69,9 +69,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("LastPrice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProducId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeOfEnd")
@@ -96,15 +93,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Product")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProfilId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("TimeOfCreate")
                         .HasColumnType("datetime2");
@@ -152,9 +142,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TimeOfCreate")
                         .HasColumnType("datetime2");
 
@@ -162,9 +149,12 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfileId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -180,17 +170,11 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
 
                     b.ToTable("Pictoures");
                 });
@@ -230,6 +214,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -238,6 +225,9 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("PictoureId")
+                        .HasColumnType("int");
 
                     b.Property<int>("PictureId")
                         .HasColumnType("int");
@@ -257,71 +247,19 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuctionId")
-                        .IsUnique();
+                    b.HasIndex("AuctionId");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("PictoureId");
 
                     b.HasIndex("PriceId");
 
                     b.HasIndex("ShopId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Models.Entities.Profile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasCart")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasShop")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PassWord")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ShopId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("position")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId")
-                        .IsUnique();
-
-                    b.HasIndex("ShopId")
-                        .IsUnique();
-
-                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Shop", b =>
@@ -346,15 +284,68 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProfilId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TimeOfCreate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Shops");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Models.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasCart")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasShop")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PassWord")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ShopId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Wage", b =>
@@ -364,6 +355,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("NumberOf")
                         .HasColumnType("int");
@@ -375,35 +369,24 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Address", b =>
                 {
-                    b.HasOne("App.Domain.Core.Models.Entities.Profile", "Profile")
+                    b.HasOne("App.Domain.Core.Models.Entities.User", "User")
                         .WithMany("Addresses")
-                        .HasForeignKey("ProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Profile");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Comment", b =>
                 {
-                    b.HasOne("App.Domain.Core.Models.Entities.Profile", "Profile")
+                    b.HasOne("App.Domain.Core.Models.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("ProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Profile");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Models.Entities.Pictoure", b =>
-                {
-                    b.HasOne("App.Domain.Core.Models.Entities.Product", "Product")
-                        .WithOne("Pictoure")
-                        .HasForeignKey("App.Domain.Core.Models.Entities.Pictoure", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Price", b =>
@@ -420,14 +403,26 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Product", b =>
                 {
                     b.HasOne("App.Domain.Core.Models.Entities.Auction", "Auction")
-                        .WithOne("Product")
-                        .HasForeignKey("App.Domain.Core.Models.Entities.Product", "AuctionId")
+                        .WithMany()
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Core.Models.Entities.Cart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Models.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Core.Models.Entities.Pictoure", "Pictoure")
+                        .WithMany()
+                        .HasForeignKey("PictoureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -445,24 +440,28 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.Navigation("Auction");
 
+                    b.Navigation("Cart");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Pictoure");
 
                     b.Navigation("Price");
 
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Models.Entities.Profile", b =>
+            modelBuilder.Entity("App.Domain.Core.Models.Entities.User", b =>
                 {
                     b.HasOne("App.Domain.Core.Models.Entities.Cart", "Cart")
-                        .WithOne("Profile")
-                        .HasForeignKey("App.Domain.Core.Models.Entities.Profile", "CartId")
+                        .WithMany()
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Models.Entities.Shop", "Shop")
-                        .WithOne("profile")
-                        .HasForeignKey("App.Domain.Core.Models.Entities.Profile", "ShopId")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -471,37 +470,21 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Models.Entities.Auction", b =>
-                {
-                    b.Navigation("Product")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Cart", b =>
                 {
-                    b.Navigation("Profile")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Models.Entities.Product", b =>
-                {
-                    b.Navigation("Pictoure")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Models.Entities.Profile", b =>
-                {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("Comments");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Models.Entities.Shop", b =>
                 {
                     b.Navigation("Products");
+                });
 
-                    b.Navigation("profile")
-                        .IsRequired();
+            modelBuilder.Entity("App.Domain.Core.Models.Entities.User", b =>
+                {
+                    b.Navigation("Addresses");
+
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructure.DataAccess.Repository
 {
-    public class UserRepository : IProductRepository
+    public class UserRepository : IUSerRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;

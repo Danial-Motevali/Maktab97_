@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    public interface IProfileRepository
+    public interface IUSerRepository
     {
-        Task<bool> Add(ProfileDtoInput profileInput);
+        Task<bool> Add(UserDtoInput userInput);
 
-        Task<bool> Update(int Id, ProfileDtoInput profileInput);
+        Task<bool> Update(int Id, UserDtoInput userInput);
 
         Task<bool> Delete(int Id);
 
-        Task<ProfileDtoOutput> GetById(int Id);
+        Task<UserDtoOutput> GetById(int Id);
 
-        Task<List<ProfileDtoOutput>> GetAll();
+        Task<List<UserDtoOutput>> GetAll();
     }
 }

@@ -21,8 +21,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     TimeOfStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeOfEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProducId = table.Column<int>(type: "int", nullable: false)
+                    TimeOfEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,10 +35,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    Product = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
                     TimeOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProfilId = table.Column<int>(type: "int", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,6 +59,20 @@ namespace App.Infrastructure.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pictoures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pictoures", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shops",
                 columns: table => new
                 {
@@ -71,8 +82,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                     NameOfCreator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TimeOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    Medal = table.Column<int>(type: "int", nullable: false),
-                    ProfilId = table.Column<int>(type: "int", nullable: false)
+                    Medal = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,7 +95,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NumberOf = table.Column<int>(type: "int", nullable: false)
+                    NumberOf = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,7 +104,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profiles",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -104,6 +115,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                     position = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PassWord = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     HasShop = table.Column<bool>(type: "bit", nullable: false),
                     ShopId = table.Column<int>(type: "int", nullable: false),
                     HasCart = table.Column<bool>(type: "bit", nullable: false),
@@ -111,15 +123,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Profiles", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Profiles_Carts_CartId",
+                        name: "FK_Users_Carts_CartId",
                         column: x => x.CartId,
                         principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Profiles_Shops_ShopId",
+                        name: "FK_Users_Shops_ShopId",
                         column: x => x.ShopId,
                         principalTable: "Shops",
                         principalColumn: "Id",
@@ -156,15 +168,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresses_Profiles_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profiles",
+                        name: "FK_Addresses_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -179,15 +191,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TimeOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Profiles_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profiles",
+                        name: "FK_Comments_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -202,11 +214,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                     Qty = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     PictureId = table.Column<int>(type: "int", nullable: false),
+                    PictoureId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     HasPrice = table.Column<bool>(type: "bit", nullable: false),
                     PriceId = table.Column<int>(type: "int", nullable: false),
                     AuctionId = table.Column<int>(type: "int", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false)
+                    ShopId = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,9 +232,21 @@ namespace App.Infrastructure.Data.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Products_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Pictoures_PictoureId",
+                        column: x => x.PictoureId,
+                        principalTable: "Pictoures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -237,42 +263,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Pictoures",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pictoures", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pictoures_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_ProfileId",
+                name: "IX_Addresses_UserId",
                 table: "Addresses",
-                column: "ProfileId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ProfileId",
+                name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "ProfileId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pictoures_ProductId",
-                table: "Pictoures",
-                column: "ProductId",
-                unique: true);
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prices_WageId",
@@ -282,13 +281,22 @@ namespace App.Infrastructure.Data.EF.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Products_AuctionId",
                 table: "Products",
-                column: "AuctionId",
-                unique: true);
+                column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CartId",
+                table: "Products",
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_PictoureId",
+                table: "Products",
+                column: "PictoureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_PriceId",
@@ -301,16 +309,14 @@ namespace App.Infrastructure.Data.EF.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profiles_CartId",
-                table: "Profiles",
-                column: "CartId",
-                unique: true);
+                name: "IX_Users_CartId",
+                table: "Users",
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profiles_ShopId",
-                table: "Profiles",
-                column: "ShopId",
-                unique: true);
+                name: "IX_Users_ShopId",
+                table: "Users",
+                column: "ShopId");
         }
 
         /// <inheritdoc />
@@ -323,16 +329,10 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Pictoures");
-
-            migrationBuilder.DropTable(
-                name: "Profiles");
-
-            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Carts");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Auctions");
@@ -341,7 +341,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "Pictoures");
+
+            migrationBuilder.DropTable(
                 name: "Prices");
+
+            migrationBuilder.DropTable(
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Shops");
