@@ -33,11 +33,12 @@ namespace UI
             services.AddScoped<ICategoruService, CategoryService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IPictureService, PictureService>();
-            services.AddScoped<IPriceService, Price>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IUSerRepository, UserRepository>();
-            services.AddScoped<IShopRepository, ShopRepository>();
-            services.AddScoped<IWageRepository, WageRepository>();
+            services.AddScoped<IPriceService, PriceService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IShopService, ShopService>();
+            services.AddScoped<IWageService, WageService>();
+
         }
     }
 }
