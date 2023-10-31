@@ -18,14 +18,14 @@ namespace App.Domain.Core.Models.Entities
         public string PassWord { get; set; }
         public bool IsDeleted { get; set; }
 
-        public int ShopId { get; set; }
-        public Shop Shop { get; set; }
+        public int? ShopId { get; set; }
+        public Shop? Shop { get; set; }
 
-        public int CartId { get; set; }
-        public Cart Cart { get; set; }
+        public int? CartId { get; set; }
+        public Cart? Cart { get; set; }
 
         public ICollection<Address> Addresses { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
 
     }
 }

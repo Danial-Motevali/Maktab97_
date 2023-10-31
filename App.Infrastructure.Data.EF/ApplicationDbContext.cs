@@ -28,11 +28,6 @@ namespace App.Infrastructure.Data.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>()
-                .HasOne(x => x.Shop)
-                .WithMany(x => x.Products)
-                .HasForeignKey(x => x.ShopId);
-
             modelBuilder.Entity<Address>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Addresses)
@@ -48,6 +43,10 @@ namespace App.Infrastructure.Data.EF
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.CartId);
 
+            modelBuilder.Entity<Product>()
+                .HasOne(x => x.Shop)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.ShopId);
 
             base.OnModelCreating(modelBuilder);
         }
