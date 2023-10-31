@@ -10,7 +10,8 @@ namespace App.Domain.Core.Models.DTOs
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
+        public bool IsDeleted { get; set; }
     }
     public class CategoryDtoOutput
     {

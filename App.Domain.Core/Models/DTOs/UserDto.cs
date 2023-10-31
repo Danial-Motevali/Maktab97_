@@ -13,11 +13,8 @@ namespace App.Domain.Core.Models.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public string position { get; set; }
         public string Email { get; set; }
         public string PassWord { get; set; }
-        public bool HasShop { get; set; }
-        public bool HasCart { get; set; }
         public bool IsDeleted { get; set; }
     }
     public class UserDtoOutput
@@ -25,7 +22,6 @@ namespace App.Domain.Core.Models.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public string position { get; set; }
         public string Email { get; set; }
         public string PassWord { get; set; }
     }

@@ -10,6 +10,7 @@ namespace App.Domain.Core.Models.DTOs
     {
         public int Id { get; set; }
         public int ProdutPrice { get; set; }
+        public bool IsDeleted { get; set; }
     }
     public class PriceDtoOutput
     {

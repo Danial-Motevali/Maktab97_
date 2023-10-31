@@ -11,11 +11,10 @@ namespace App.Domain.Core.Models.DTOs
     {
         public int Id { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+        public DateTime TimeOfCreate { get; set; }
     }
     public class CartDtoOutput
     {
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

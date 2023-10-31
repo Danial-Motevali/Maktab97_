@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace App.Domain.Core.Models.Entities
 {
     public class Product
     {
+        [Key]
         public int Id { get; set; }
         public string Title { get; set; }
         public int Qty { get; set; }
@@ -19,7 +21,6 @@ namespace App.Domain.Core.Models.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public bool HasPrice { get; set; }
         public int PriceId { get; set; }
         public Price Price { get; set; }
 
