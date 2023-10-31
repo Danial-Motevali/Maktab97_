@@ -78,11 +78,8 @@ namespace App.Infrastructure.DataAccess.Repository
                 user.FirstName = inputUser.FirstName;
                 user.LastName = inputUser.LastName;
                 user.UserName = inputUser.UserName;
-                user.position = inputUser.position;
                 user.Email = inputUser.Email;
                 user.PassWord = inputUser.PassWord;
-                user.HasShop = inputUser.HasShop;
-                user.HasCart = inputUser.HasCart;
                 user.IsDeleted = inputUser.IsDeleted;
 
                 await _db.SaveChangesAsync();

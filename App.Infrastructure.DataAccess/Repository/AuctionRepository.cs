@@ -43,7 +43,7 @@ namespace App.Infrastructure.DataAccess.Repository
 
             if (auction != null)
             {
-                auction.IsDeleted = true;
+                auction.IsActive = true;
 
                 await _db.SaveChangesAsync();
 

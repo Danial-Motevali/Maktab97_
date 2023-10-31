@@ -76,7 +76,6 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 shop.Id = inputShop.Id;
                 shop.Name = inputShop.Name;
-                shop.NameOfCreator = inputShop.NameOfCreator;
                 shop.Medal = inputShop.Medal;
 
                 await _db.SaveChangesAsync();

@@ -75,7 +75,7 @@ namespace App.Infrastructure.DataAccess.Repository
             if (wage != null)
             {
                 wage.Id = inputWage.Id;
-                wage.NumberOf = inputWage.NumberOf;
+                wage.HowMuch = inputWage.HowMuch;
                 wage.IsDeleted = inputWage.IsDeleted;
 
                 await _db.SaveChangesAsync();

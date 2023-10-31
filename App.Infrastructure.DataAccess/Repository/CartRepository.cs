@@ -43,7 +43,7 @@ namespace App.Infrastructure.DataAccess.Repository
 
             if (cart != null)
             {
-                cart.IsDeleted = true;
+                cart.IsActive = true;
 
                 await _db.SaveChangesAsync();
 
@@ -76,7 +76,6 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 cart.Id = inputCart.Id;
                 cart.IsActive = inputCart.IsActive;
-                cart.IsDeleted = inputCart.IsDeleted;
 
                 await _db.SaveChangesAsync();
                 return true;

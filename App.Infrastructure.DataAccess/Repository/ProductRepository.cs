@@ -78,7 +78,6 @@ namespace App.Infrastructure.DataAccess.Repository
                 product.Title = inputProduct.Title;
                 product.Qty = inputProduct.Qty;
                 product.IsDeleted = inputProduct.IsDeleted;
-                product.HasPrice = inputProduct.HasPrice;
 
                 await _db.SaveChangesAsync();
                 return true;
