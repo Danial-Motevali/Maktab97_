@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\App.Domain.Services\App.Domain.Services.csproj" />
     <ProjectReference Include="..\App.Infrastructure.Data.EF\App.Infrastructure.Data.EF.csproj" />
     <ProjectReference Include="..\App.Infrastructure.DataAccess\App.Infrastructure.DataAccess.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    public class AuctionServic : IAuctionRepository
+    public class AuctionServic : IAuctionService
     {
         private readonly IAuctionRepository _repository;
         public AuctionServic(IAuctionRepository repository)
