@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    internal class PictureService : IPictureService
+    public class PictureService : IPictureService
     {
         private readonly IPictureService _repository;
         public PictureService(IPictureService repository)

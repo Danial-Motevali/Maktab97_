@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    internal class ShopService : IShopService
+    public class ShopService : IShopService
     {
         private readonly IShopService _repository;
         public ShopService(IShopService repository)

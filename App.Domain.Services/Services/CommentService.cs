@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    internal class CommentService : ICommentService
+    public class CommentService : ICommentService
     {
         private readonly ICommentService _repository;
         public CommentService(ICommentService repository)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly IUserService _repository;
         public UserService(IUserService repository)

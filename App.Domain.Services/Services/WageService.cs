@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    internal class WageService : IWageService
+    public class WageService : IWageService
     {
         private readonly IWageService _repository;
         public WageService(IWageService repository)
