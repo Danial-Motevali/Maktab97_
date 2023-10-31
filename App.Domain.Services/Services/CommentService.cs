@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.Service;
+﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentService _repository;
-        public CommentService(ICommentService repository)
+        private readonly ICommentRepository _repository;
+        public CommentService(ICommentRepository repository)
         {
             _repository = repository;
         }

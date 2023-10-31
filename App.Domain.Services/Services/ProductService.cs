@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.Service;
+﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IProductService _repository;
-        public ProductService(IProductService repository)
+        private readonly IProductRepository _repository;
+        public ProductService(IProductRepository repository)
         {
             _repository = repository;
         }

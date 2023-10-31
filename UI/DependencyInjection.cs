@@ -32,8 +32,8 @@ namespace UI
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICategoruService, CategoryService>();
             services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IPictourRepository, PictureRepository>();
-            services.AddScoped<IPriceRepository, PriceRepository>();
+            services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IPriceService, Price>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUSerRepository, UserRepository>();
             services.AddScoped<IShopRepository, ShopRepository>();

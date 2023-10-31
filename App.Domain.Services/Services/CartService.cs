@@ -11,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class CartService : ICartService
     {
-        private readonly ICartService _repository;
-        public CartService(ICartService repository)
+        private readonly ICartRepository _repository;
+        public CartService(ICartRepository repository)
         {
             _repository = repository;
         }

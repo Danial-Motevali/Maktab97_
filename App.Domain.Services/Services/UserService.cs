@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.Service;
+﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserService _repository;
-        public UserService(IUserService repository)
+        private readonly IUSerRepository _repository;
+        public UserService(IUSerRepository repository)
         {
             _repository = repository;
         }

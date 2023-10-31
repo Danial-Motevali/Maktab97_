@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.Service;
+﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class WageService : IWageService
     {
-        private readonly IWageService _repository;
-        public WageService(IWageService repository)
+        private readonly IWageRepository _repository;
+        public WageService(IWageRepository repository)
         {
             _repository = repository;
         }

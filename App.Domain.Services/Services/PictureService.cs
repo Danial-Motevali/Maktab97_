@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.Service;
+﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class PictureService : IPictureService
     {
-        private readonly IPictureService _repository;
-        public PictureService(IPictureService repository)
+        private readonly IPictourRepository _repository;
+        public PictureService(IPictourRepository repository)
         {
             _repository = repository;
         }

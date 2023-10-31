@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Contract.Service;
+﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace App.Domain.Services.Services
 {
     public class CategoryService : ICategoruService
     {
-        private readonly ICategoruService _repository;
-        public CategoryService(ICategoruService repository)
+        private readonly ICategoryRepository _repository;
+        public CategoryService(ICategoryRepository repository)
         {
             _repository = repository;
         }
