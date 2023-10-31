@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface IWageService
+    public interface IWageService
     {
         Task<bool> Add(WageDtoInput wageInput);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface ICommentService
+    public interface ICommentService
     {
         Task<bool> Add(CommentDtoInput commentInput);
 

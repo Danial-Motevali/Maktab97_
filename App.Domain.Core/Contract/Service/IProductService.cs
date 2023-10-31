@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface IProductService
+    public interface IProductService
     {
         Task<bool> Add(ProductDtoInput productInput);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface ICategoruService
+    public interface ICategoruService
     {
         Task<bool> Add(CategoryDtoInput categoryInput);
 

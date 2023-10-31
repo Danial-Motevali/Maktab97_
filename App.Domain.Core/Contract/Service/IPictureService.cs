@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface IPictureService
+    public interface IPictureService
     {
         Task<bool> Add(PictureDtoInput pictureInput);
 

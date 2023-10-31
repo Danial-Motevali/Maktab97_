@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface IUserService
+    public interface IUserService
     {
         Task<bool> Add(UserDtoInput userInput);
 

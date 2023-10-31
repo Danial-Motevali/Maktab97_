@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface IAuctionService
+    public interface IAuctionService
     {
         Task<bool> Add(AuctionDtoInput auctionInput);
 

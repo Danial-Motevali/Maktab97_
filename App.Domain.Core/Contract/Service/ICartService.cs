@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface ICartService
+    public interface ICartService
     {
         Task<bool> Add(CartDtoInput cartInput);
 

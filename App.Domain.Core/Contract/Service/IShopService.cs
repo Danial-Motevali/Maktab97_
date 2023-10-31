@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Service
 {
-    internal interface IShopService
+    public interface IShopService
     {
         Task<bool> Add(ShopDtoInput shopInput);
 
