@@ -16,6 +16,6 @@ namespace App.Domain.Core.Models.Entities
         public bool IsDeleted { get; set; }
         public int Medal { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }

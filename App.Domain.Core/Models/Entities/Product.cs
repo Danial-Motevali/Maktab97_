@@ -21,16 +21,16 @@ namespace App.Domain.Core.Models.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public int PriceId { get; set; }
-        public Price Price { get; set; }
+        public int? PriceId { get; set; }
+        public Price? Price { get; set; }
 
-        public int AuctionId { get; set; }
-        public Auction Auction { get; set; }
+        public int? AuctionId { get; set; }
+        public Auction? Auction { get; set; }
 
-        public int ShopId { get; set; }
-        public Shop Shop { get; set; }
+        public int? ShopId { get; set; }
+        public Shop? Shop { get; set; }
 
-        public int CartId { get; set; }
-        public Cart Cart { get; set; }
+        public int? CartId { get; set; }
+        public Cart? Cart { get; set; }
     }
 }

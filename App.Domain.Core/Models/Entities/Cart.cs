@@ -14,6 +14,6 @@ namespace App.Domain.Core.Models.Entities
         public bool IsActive { get; set; }
         public DateTime TimeOfCreate { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }
