@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IShopRepository
     {
-        Task<bool> Add(ShopDtoInput shopInput);
+        Task<bool> Add(ShopDtoInput shopInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, ShopDtoInput shopInput);
+        Task<bool> Update(int Id, ShopDtoInput shopInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<ShopDtoOutput> GetById(int Id);
+        Task<ShopDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<ShopDtoOutput>> GetAll();
+        Task<List<ShopDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

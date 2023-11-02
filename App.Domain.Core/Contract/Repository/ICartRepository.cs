@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICartRepository
     {
-        Task<bool> Add(CartDtoInput CartInput);
+        Task<bool> Add(CartDtoInput CartInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CartDtoInput CartInput);
+        Task<bool> Update(int Id, CartDtoInput CartInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CartDtoOutput> GetById(int Id);
+        Task<CartDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CartDtoOutput>> GetAll();
+        Task<List<CartDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

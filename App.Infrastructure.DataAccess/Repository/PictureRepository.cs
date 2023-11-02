@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(PictureDtoInput inputPicture)
+        public async Task<bool> Add(PictureDtoInput inputPicture, CancellationToken cancellation)
         {
             var pictoure = await _db.Pictoures.FirstOrDefaultAsync(x => x.Id == inputPicture.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newPicture = _mapper.Map<Pictoure>(inputPicture);
 
-                await _db.AddAsync(newPicture);
-                await _db.SaveChangesAsync();
+                await _db.Pictoures.AddAsync(newPicture, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var pictoure = await _db.Pictoures.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 pictoure.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<PictureDtoOutput>> GetAll()
+        public async Task<List<PictureDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var pictoures = _db.Pictoures.ToList();
             var result = pictoures.Select(Pictoure => _mapper.Map<PictureDtoOutput>(Pictoure)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<PictureDtoOutput> GetById(int Id)
+        public async Task<PictureDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var pictoures = _db.Pictoures.FirstOrDefault(x => x.Id == Id);
             var getPictour = _mapper.Map<PictureDtoOutput>(pictoures);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getPictour;
         }
 
-        public async Task<bool> Update(int Id, PictureDtoInput inputPicture)
+        public async Task<bool> Update(int Id, PictureDtoInput inputPicture, CancellationToken cancellation)
         {
             var pictoures = _db.Pictoures.FirstOrDefault(x => x.Id == Id);
 
@@ -77,7 +77,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 pictoures.Id = inputPicture.Id;
                 pictoures.Url = inputPicture.Url;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

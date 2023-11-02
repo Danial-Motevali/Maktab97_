@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(UserDtoInput inputUser)
+        public async Task<bool> Add(UserDtoInput inputUser, CancellationToken cancellation)
         {
             var users = await _db.Users.FirstOrDefaultAsync(x => x.Id == inputUser.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newUser = _mapper.Map<User>(inputUser);
 
-                await _db.AddAsync(newUser);
-                await _db.SaveChangesAsync();
+                await _db.Users.AddAsync(newUser, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 user.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<UserDtoOutput>> GetAll()
+        public async Task<List<UserDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var users = _db.Users.ToList();
             var result = users.Select(user => _mapper.Map<UserDtoOutput>(user)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<UserDtoOutput> GetById(int Id)
+        public async Task<UserDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var users = _db.Users.FirstOrDefault(x => x.Id == Id);
             var getUser = _mapper.Map<UserDtoOutput>(users);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getUser;
         }
 
-        public async Task<bool> Update(int Id, UserDtoInput inputUser)
+        public async Task<bool> Update(int Id, UserDtoInput inputUser, CancellationToken cancellation)
         {
             var user = _db.Users.FirstOrDefault(x => x.Id == Id);
 
@@ -82,7 +82,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 user.PassWord = inputUser.PassWord;
                 user.IsDeleted = inputUser.IsDeleted;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

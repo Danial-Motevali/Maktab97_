@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface ICategoruService
     {
-        Task<bool> Add(CategoryDtoInput categoryInput);
+        Task<bool> Add(CategoryDtoInput categoryInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CategoryDtoInput categoryInput);
+        Task<bool> Update(int Id, CategoryDtoInput categoryInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CategoryDtoOutput> GetById(int Id);
+        Task<CategoryDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CategoryDtoOutput>> GetAll();
+        Task<List<CategoryDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

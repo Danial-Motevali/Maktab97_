@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(CategoryDtoInput inputCategory)
+        public async Task<bool> Add(CategoryDtoInput inputCategory, CancellationToken cancellation)
         {
             var category = await _db.Categories.FirstOrDefaultAsync(x => x.Id == inputCategory.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newCategory = _mapper.Map<Category>(inputCategory);
 
-                await _db.AddAsync(newCategory);
-                await _db.SaveChangesAsync();
+                await _db.Categories.AddAsync(newCategory, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var category = await _db.Categories.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,22 +45,22 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 category.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<CategoryDtoOutput>> GetAll()
+        public async Task<List<CategoryDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            var categorys = _db.Addresses.ToList();
+            var categorys = _db.Categories.ToList();
             var result = categorys.Select(category => _mapper.Map<CategoryDtoOutput>(category)).ToList();
 
             return result;
         }
 
-        public async Task<CategoryDtoOutput> GetById(int Id)
+        public async Task<CategoryDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var category = _db.Categories.FirstOrDefault(x => x.Id == Id);
             var getCategory = _mapper.Map<CategoryDtoOutput>(category);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getCategory;
         }
 
-        public async Task<bool> Update(int Id, CategoryDtoInput inputCategory)
+        public async Task<bool> Update(int Id, CategoryDtoInput inputCategory, CancellationToken cancellation)
         {
             var category = _db.Categories.FirstOrDefault(x => x.Id == Id);
 
@@ -78,7 +78,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 category.Title = inputCategory.Title;
                 category.ParentId = inputCategory.ParentId;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

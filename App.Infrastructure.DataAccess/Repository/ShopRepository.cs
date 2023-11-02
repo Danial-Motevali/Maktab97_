@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(ShopDtoInput inputShop)
+        public async Task<bool> Add(ShopDtoInput inputShop, CancellationToken cancellation)
         {
             var shop = await _db.Shops.FirstOrDefaultAsync(x => x.Id == inputShop.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newShop = _mapper.Map<Shop>(inputShop);
 
-                await _db.AddAsync(newShop);
-                await _db.SaveChangesAsync();
+                await _db.Shops.AddAsync(newShop, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var shop = await _db.Shops.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 shop.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<ShopDtoOutput>> GetAll()
+        public async Task<List<ShopDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var shops = _db.Shops.ToList();
             var result = shops.Select(shop => _mapper.Map<ShopDtoOutput>(shop)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<ShopDtoOutput> GetById(int Id)
+        public async Task<ShopDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var shop = _db.Addresses.FirstOrDefault(x => x.Id == Id);
             var getShop = _mapper.Map<ShopDtoOutput>(shop);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getShop;
         }
 
-        public async Task<bool> Update(int Id, ShopDtoInput inputShop)
+        public async Task<bool> Update(int Id, ShopDtoInput inputShop, CancellationToken cancellation)
         {
             var shop = _db.Shops.FirstOrDefault(x => x.Id == Id);
 
@@ -78,7 +78,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 shop.Name = inputShop.Name;
                 shop.Medal = inputShop.Medal;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

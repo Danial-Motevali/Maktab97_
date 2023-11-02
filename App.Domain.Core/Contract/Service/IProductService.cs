@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IProductService
     {
-        Task<bool> Add(ProductDtoInput productInput);
+        Task<bool> Add(ProductDtoInput productInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, ProductDtoInput productInput);
+        Task<bool> Update(int Id, ProductDtoInput productInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<ProductDtoOutput> GetById(int Id);
+        Task<ProductDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<ProductDtoOutput>> GetAll();
+        Task<List<ProductDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

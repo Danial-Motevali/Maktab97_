@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IPictureService
     {
-        Task<bool> Add(PictureDtoInput pictureInput);
+        Task<bool> Add(PictureDtoInput pictureInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, PictureDtoInput pictureInput);
+        Task<bool> Update(int Id, PictureDtoInput pictureInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<PictureDtoOutput> GetById(int Id);
+        Task<PictureDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<PictureDtoOutput>> GetAll();
+        Task<List<PictureDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

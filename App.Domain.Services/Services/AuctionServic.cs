@@ -12,39 +12,39 @@ namespace App.Domain.Services.Services
     public class AuctionServic : IAuctionService
     {
         private readonly IAuctionRepository _repository;
-        public AuctionServic(IAuctionRepository repository)
+        public AuctionServic(IAuctionRepository repository, CancellationToken cancellation)
         {
             _repository = repository;
         }
-        public async Task<bool> Add(AuctionDtoInput auctionInput)
+        public async Task<bool> Add(AuctionDtoInput auctionInput, CancellationToken cancellation)
         {
-            return await _repository.Add(auctionInput);
+            return await _repository.Add(auctionInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var auction = await _repository.GetById(Id);
+            var auction = await _repository.GetById(Id, cancellation);
             if (auction != null)
             {
-                await _repository.Delete(Id);
+                await _repository.Delete(Id, cancellation);
                 return true;
             }
             return false;
         }
 
-        public async Task<List<AuctionDtoOutput>> GetAll()
+        public async Task<List<AuctionDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(cancellation);
         }
 
-        public async Task<AuctionDtoOutput> GetById(int Id)
+        public async Task<AuctionDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
-            return await _repository.GetById(Id);
+            return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, AuctionDtoInput auctionInput)
+        public async Task<bool> Update(int Id, AuctionDtoInput auctionInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, auctionInput);
+            return await _repository.Update(Id, auctionInput, cancellation);
         }
     }
 }

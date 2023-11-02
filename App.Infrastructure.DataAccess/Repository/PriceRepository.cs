@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(PriceDtoInput inputPrice)
+        public async Task<bool> Add(PriceDtoInput inputPrice, CancellationToken cancellation)
         {
             var price = await _db.Prices.FirstOrDefaultAsync(x => x.Id == inputPrice.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newPrice = _mapper.Map<Price>(inputPrice);
 
-                await _db.AddAsync(newPrice);
-                await _db.SaveChangesAsync();
+                await _db.Prices.AddAsync(newPrice, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var price = await _db.Prices.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 price.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<PriceDtoOutput>> GetAll()
+        public async Task<List<PriceDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var price = _db.Prices.ToList();
             var result = price.Select(prices => _mapper.Map<PriceDtoOutput>(prices)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<PriceDtoOutput> GetById(int Id)
+        public async Task<PriceDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var price = _db.Prices.FirstOrDefault(x => x.Id == Id);
             var getPrice = _mapper.Map<PriceDtoOutput>(price);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getPrice;
         }
 
-        public async Task<bool> Update(int Id, PriceDtoInput inputPrice)
+        public async Task<bool> Update(int Id, PriceDtoInput inputPrice, CancellationToken cancellation)
         {
             var price = _db.Prices.FirstOrDefault(x => x.Id == Id);
 
@@ -77,7 +77,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 price.Id = inputPrice.Id;
                 price.ProdutPrice = inputPrice.ProdutPrice;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

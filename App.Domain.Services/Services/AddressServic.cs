@@ -17,35 +17,35 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(AddressDtoInput addressInput)
+        public async Task<bool> Add(AddressDtoInput addressInput, CancellationToken cancellation)
         {
-            return await _repository.Add(addressInput);
+            return await _repository.Add(addressInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var category = await _repository.GetById(Id);
+            var category = await _repository.GetById(Id, cancellation);
             if (category != null)
             {
-                await _repository.Delete(Id);
+                await _repository.Delete(Id, cancellation);
                 return true;
             }
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<AddressDtoOutPut>> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(cancellation);
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<AddressDtoOutPut> GetById(int Id, CancellationToken cancellation)
         {
-            return await _repository.GetById(Id);
+            return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput addressInput)
+        public async Task<bool> Update(int Id, AddressDtoInput addressInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, addressInput);
+            return await _repository.Update(Id, addressInput, cancellation);
         }
     }
 }

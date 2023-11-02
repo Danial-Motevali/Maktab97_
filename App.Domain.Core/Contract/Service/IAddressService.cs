@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IAddressService
     {
-        Task<bool> Add(AddressDtoInput addressInput);
+        Task<bool> Add(AddressDtoInput addressInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, AddressDtoInput addressInput);
+        Task<bool> Update(int Id, AddressDtoInput addressInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AddressDtoOutPut> GetById(int Id);
+        Task<AddressDtoOutPut> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AddressDtoOutPut>> GetAll();
+        Task<List<AddressDtoOutPut>> GetAll(CancellationToken cancellation);
     }
 }

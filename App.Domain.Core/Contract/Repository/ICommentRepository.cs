@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICommentRepository
     {
-        Task<bool> Add(CommentDtoInput commentInput);
+        Task<bool> Add(CommentDtoInput commentInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CommentDtoInput commentInput);
+        Task<bool> Update(int Id, CommentDtoInput commentInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CommentDtoOutput> GetById(int Id);
+        Task<CommentDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CommentDtoOutput>> GetAll();
+        Task<List<CommentDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

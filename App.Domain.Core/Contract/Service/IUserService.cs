@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IUserService
     {
-        Task<bool> Add(UserDtoInput userInput);
+        Task<bool> Add(UserDtoInput userInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, UserDtoInput userInput);
+        Task<bool> Update(int Id, UserDtoInput userInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<UserDtoOutput> GetById(int Id);
+        Task<UserDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<UserDtoOutput>> GetAll();
+        Task<List<UserDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

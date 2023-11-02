@@ -16,35 +16,35 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(WageDtoInput wageInput)
+        public async Task<bool> Add(WageDtoInput wageInput, CancellationToken cancellation)
         {
-            return await _repository.Add(wageInput);
+            return await _repository.Add(wageInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var cart = await _repository.GetById(Id);
+            var cart = await _repository.GetById(Id, cancellation);
             if (cart != null)
             {
-                await _repository.Delete(Id);
+                await _repository.Delete(Id, cancellation);
                 return true;
             }
             return false;
         }
 
-        public async Task<List<WageDtoOutput>> GetAll()
+        public async Task<List<WageDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(cancellation);
         }
 
-        public async Task<WageDtoOutput> GetById(int Id)
+        public async Task<WageDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
-            return await _repository.GetById(Id);
+            return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, WageDtoInput wageInput)
+        public async Task<bool> Update(int Id, WageDtoInput wageInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, wageInput);
+            return await _repository.Update(Id, wageInput, cancellation);
         }
     }
 }

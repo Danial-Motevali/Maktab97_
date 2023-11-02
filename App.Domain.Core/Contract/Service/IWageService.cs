@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IWageService
     {
-        Task<bool> Add(WageDtoInput wageInput);
+        Task<bool> Add(WageDtoInput wageInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, WageDtoInput wageInput);
+        Task<bool> Update(int Id, WageDtoInput wageInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<WageDtoOutput> GetById(int Id);
+        Task<WageDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<WageDtoOutput>> GetAll();
+        Task<List<WageDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface ICartService
     {
-        Task<bool> Add(CartDtoInput cartInput);
+        Task<bool> Add(CartDtoInput cartInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CartDtoInput cartInput);
+        Task<bool> Update(int Id, CartDtoInput cartInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CartDtoOutput> GetById(int Id);
+        Task<CartDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CartDtoOutput>> GetAll();
+        Task<List<CartDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

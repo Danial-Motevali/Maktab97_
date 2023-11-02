@@ -14,30 +14,30 @@ namespace App.Infrastructure.DataAccess.Mapper
         public AutoMapperProfile()
         {
             //for add part
-            CreateMap<AddressDtoInput, Address>();
-            CreateMap<AuctionDtoInput, Auction>();
-            CreateMap<CartDtoInput, Cart>();
-            CreateMap<CategoryDtoInput, Category>();
-            CreateMap<CommentDtoInput, Comment>();
-            CreateMap<PictureDtoInput, Pictoure>();
-            CreateMap<PriceDtoInput, Price>();
-            CreateMap<ProductDtoInput, Product>();
-            CreateMap<ShopDtoInput, Shop>();
-            CreateMap<UserDtoInput, User>();
-            CreateMap<WageDtoInput, Wage>();
+            CreateMap<AddressDtoInput, Address>().ReverseMap();
+            CreateMap<AuctionDtoInput, Auction>().ReverseMap();
+            CreateMap<CartDtoInput, Cart>().ReverseMap();
+            CreateMap<CategoryDtoInput, Category>().ReverseMap();
+            CreateMap<CommentDtoInput, Comment>().ReverseMap();
+            CreateMap<PictureDtoInput, Pictoure>().ReverseMap();
+            CreateMap<PriceDtoInput, Price>().ReverseMap();
+            CreateMap<ProductDtoInput, Product>().ReverseMap();
+            CreateMap<ShopDtoInput, Shop>().ReverseMap();
+            CreateMap<UserDtoInput, User>().ReverseMap();
+            CreateMap<WageDtoInput, Wage>().ReverseMap();
 
             //for get part
-            CreateMap<Address, AddressDtoOutPut>();
-            CreateMap<Auction, AuctionDtoOutput>();
-            CreateMap<Cart, CartDtoOutput>();
-            CreateMap<Category, CategoryDtoOutput>();
-            CreateMap<Comment, CommentDtoOutput>();
-            CreateMap<Pictoure, PictureDtoOutput>();
-            CreateMap<Price, PriceDtoOutput>();
-            CreateMap<Product, ProductDtoOutput>();
-            CreateMap<Shop, ShopDtoOutput>();
-            CreateMap<User, UserDtoOutput>();
-            CreateMap<Wage, WageDtoOutput>();
+            CreateMap<Address, AddressDtoOutPut>().ReverseMap();
+            CreateMap<Auction, AuctionDtoOutput>().ReverseMap();
+            CreateMap<Cart, CartDtoOutput>().ReverseMap();
+            CreateMap<Category, CategoryDtoOutput>().ReverseMap();
+            CreateMap<Comment, CommentDtoOutput>().ReverseMap();
+            CreateMap<Pictoure, PictureDtoOutput>().ReverseMap();
+            CreateMap<Price, PriceDtoOutput>().ReverseMap();
+            CreateMap<Product, ProductDtoOutput>().ReverseMap();
+            CreateMap<Shop, ShopDtoOutput>().ReverseMap();
+            CreateMap<User, UserDtoOutput>().ReverseMap();
+            CreateMap<Wage, WageDtoOutput>().ReverseMap();
         }
     }
 }

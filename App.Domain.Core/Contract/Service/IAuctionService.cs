@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IAuctionService
     {
-        Task<bool> Add(AuctionDtoInput auctionInput);
+        Task<bool> Add(AuctionDtoInput auctionInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, AuctionDtoInput auctionInput);
+        Task<bool> Update(int Id, AuctionDtoInput auctionInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AuctionDtoOutput> GetById(int Id);
+        Task<AuctionDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AuctionDtoOutput>> GetAll();
+        Task<List<AuctionDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(CommentDtoInput inputComment)
+        public async Task<bool> Add(CommentDtoInput inputComment, CancellationToken cancellation)
         {
             var comment = await _db.Comments.FirstOrDefaultAsync(x => x.Id == inputComment.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newComment = _mapper.Map<Comment>(inputComment);
 
-                await _db.AddAsync(newComment);
-                await _db.SaveChangesAsync();
+                await _db.Comments.AddAsync(newComment, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var comment = await _db.Comments.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 comment.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<CommentDtoOutput>> GetAll()
+        public async Task<List<CommentDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var comments = _db.Comments.ToList();
             var result = comments.Select(comment => _mapper.Map<CommentDtoOutput>(comment)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<CommentDtoOutput> GetById(int Id)
+        public async Task<CommentDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var comment = _db.Comments.FirstOrDefault(x => x.Id == Id);
             var getComment = _mapper.Map<CommentDtoOutput>(comment);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getComment;
         }
 
-        public async Task<bool> Update(int Id, CommentDtoInput inputComment)
+        public async Task<bool> Update(int Id, CommentDtoInput inputComment, CancellationToken cancellation)
         {
             var comment = _db.Comments.FirstOrDefault(x => x.Id == Id);
 
@@ -78,7 +78,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 comment.Title = inputComment.Title;
                 comment.Description = inputComment.Description;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

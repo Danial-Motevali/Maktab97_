@@ -16,35 +16,35 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(CommentDtoInput commentInput)
+        public async Task<bool> Add(CommentDtoInput commentInput, CancellationToken cancellation)
         {
-            return await _repository.Add(commentInput);
+            return await _repository.Add(commentInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var cart = await _repository.GetById(Id);
+            var cart = await _repository.GetById(Id, cancellation);
             if (cart != null)
             {
-                await _repository.Delete(Id);
+                await _repository.Delete(Id, cancellation);
                 return true;
             }
             return false;
         }
 
-        public async Task<List<CommentDtoOutput>> GetAll()
+        public async Task<List<CommentDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(cancellation);
         }
 
-        public async Task<CommentDtoOutput> GetById(int Id)
+        public async Task<CommentDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
-            return await _repository.GetById(Id);
+            return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, CommentDtoInput commentInput)
+        public async Task<bool> Update(int Id, CommentDtoInput commentInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, commentInput);
+            return await _repository.Update(Id, commentInput, cancellation);
         }
     }
 }

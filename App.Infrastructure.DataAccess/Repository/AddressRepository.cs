@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;   
             _mapper = mapper;
         }
-        public async Task<bool> Add(AddressDtoInput inputAddress)
+        public async Task<bool> Add(AddressDtoInput inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newProduct = _mapper.Map<Address>(inputAddress);
 
-                await _db.AddAsync(newProduct);
-                await _db.SaveChangesAsync();
+                await _db.Addresses.AddAsync(newProduct, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,22 +45,22 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 address.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<AddressDtoOutPut>> GetAll()
+        public async Task<List<AddressDtoOutPut>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Addresses.ToList();
-            var result = addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
+            var result =  addresses.Select(address => _mapper.Map<AddressDtoOutPut>(address)).ToList();
 
             return result;
         }
 
-        public async Task<AddressDtoOutPut> GetById(int Id)
+        public async Task<AddressDtoOutPut> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
             var getAddress = _mapper.Map<AddressDtoOutPut>(address);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getAddress;
         }
 
-        public async Task<bool> Update(int Id, AddressDtoInput inputAddress)
+        public async Task<bool> Update(int Id, AddressDtoInput inputAddress, CancellationToken cancellation)
         {
             var address = _db.Addresses.FirstOrDefault(x => x.Id == Id);
 
@@ -78,7 +78,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 address.City = inputAddress.City;
                 address.Street = inputAddress.Street;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

@@ -16,35 +16,35 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(UserDtoInput userInput)
+        public async Task<bool> Add(UserDtoInput userInput, CancellationToken cancellation)
         {
-            return await _repository.Add(userInput);
+            return await _repository.Add(userInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var cart = await _repository.GetById(Id);
+            var cart = await _repository.GetById(Id, cancellation);
             if (cart != null)
             {
-                await _repository.Delete(Id);
+                await _repository.Delete(Id, cancellation);
                 return true;
             }
             return false;
         }
 
-        public async Task<List<UserDtoOutput>> GetAll()
+        public async Task<List<UserDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(cancellation);
         }
 
-        public async Task<UserDtoOutput> GetById(int Id)
+        public async Task<UserDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
-            return await _repository.GetById(Id);
+            return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, UserDtoInput userInput)
+        public async Task<bool> Update(int Id, UserDtoInput userInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, userInput);
+            return await _repository.Update(Id, userInput, cancellation);
         }
     }
 }

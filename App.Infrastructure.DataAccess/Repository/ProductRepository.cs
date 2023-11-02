@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(ProductDtoInput inputProduct)
+        public async Task<bool> Add(ProductDtoInput inputProduct, CancellationToken cancellation)
         {
             var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == inputProduct.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newProduct = _mapper.Map<Product>(inputProduct);
 
-                await _db.AddAsync(newProduct);
-                await _db.SaveChangesAsync();
+                await _db.Products.AddAsync(newProduct, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 product.IsDeleted = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<ProductDtoOutput>> GetAll()
+        public async Task<List<ProductDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var products = _db.Products.ToList();
             var result = products.Select(product => _mapper.Map<ProductDtoOutput>(product)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<ProductDtoOutput> GetById(int Id)
+        public async Task<ProductDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var product = _db.Products.FirstOrDefault(x => x.Id == Id);
             var getProduct = _mapper.Map<ProductDtoOutput>(product);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getProduct;
         }
 
-        public async Task<bool> Update(int Id, ProductDtoInput inputProduct)
+        public async Task<bool> Update(int Id, ProductDtoInput inputProduct, CancellationToken cancellation)
         {
             var product = _db.Products.FirstOrDefault(x => x.Id == Id);
 
@@ -79,7 +79,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 product.Qty = inputProduct.Qty;
                 product.IsDeleted = inputProduct.IsDeleted;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

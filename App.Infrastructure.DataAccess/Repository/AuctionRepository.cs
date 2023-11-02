@@ -21,23 +21,23 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AuctionDtoInput inputAuction)
+        public async Task<bool> Add(AuctionDtoInput inputAuction, CancellationToken cancellation)
         {
             var auction = await _db.Auctions.FirstOrDefaultAsync(x => x.Id == inputAuction.Id);
 
             if (auction != null)
             {
-                var newAuction = _mapper.Map<Address>(inputAuction);
+                var newAuction = _mapper.Map<Auction>(inputAuction);
 
-                await _db.AddAsync(newAuction);
-                await _db.SaveChangesAsync();
+                await _db.Auctions.AddAsync(newAuction, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var auction = await _db.Auctions.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 auction.IsActive = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<AuctionDtoOutput>> GetAll()
+        public async Task<List<AuctionDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var auctions = _db.Auctions.ToList();
             var result = auctions.Select(auctions => _mapper.Map<AuctionDtoOutput>(auctions)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<AuctionDtoOutput> GetById(int Id)
+        public async Task<AuctionDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var auction = _db.Auctions.FirstOrDefault(x => x.Id == Id);
             var getAuction = _mapper.Map<AuctionDtoOutput>(auction);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getAuction;
         }
 
-        public async Task<bool> Update(int Id, AuctionDtoInput iputAction)
+        public async Task<bool> Update(int Id, AuctionDtoInput iputAction, CancellationToken cancellation)
         {
             var auction = _db.Auctions.FirstOrDefault(x => x.Id == Id);
 
@@ -78,7 +78,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 auction.LastPrice = iputAction.LastPrice;
                 auction.IsActive = iputAction.IsActive;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

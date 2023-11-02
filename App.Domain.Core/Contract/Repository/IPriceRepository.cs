@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IPriceRepository
     {
-        Task<bool> Add(PriceDtoInput priceInput);
+        Task<bool> Add(PriceDtoInput priceInput, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, PriceDtoInput priceInput);
+        Task<bool> Update(int Id, PriceDtoInput priceInput, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<PriceDtoOutput> GetById(int Id);
+        Task<PriceDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<PriceDtoOutput>> GetAll();
+        Task<List<PriceDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

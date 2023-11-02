@@ -16,35 +16,35 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(PictureDtoInput pictureInput)
+        public async Task<bool> Add(PictureDtoInput pictureInput, CancellationToken cancellation)
         {
-            return await _repository.Add(pictureInput);
+            return await _repository.Add(pictureInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var cart = await _repository.GetById(Id);
+            var cart = await _repository.GetById(Id, cancellation);
             if (cart != null)
             {
-                await _repository.Delete(Id);
+                await _repository.Delete(Id, cancellation);
                 return true;
             }
             return false;
         }
 
-        public async Task<List<PictureDtoOutput>> GetAll()
+        public async Task<List<PictureDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(cancellation);
         }
 
-        public async Task<PictureDtoOutput> GetById(int Id)
+        public async Task<PictureDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
-            return await _repository.GetById(Id);
+            return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, PictureDtoInput pictureInput)
+        public async Task<bool> Update(int Id, PictureDtoInput pictureInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, pictureInput);
+            return await _repository.Update(Id, pictureInput, cancellation);
         }
     }
 }

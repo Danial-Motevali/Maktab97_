@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(CartDtoInput cartInput)
+        public async Task<bool> Add(CartDtoInput cartInput, CancellationToken cancellation)
         {
             var cart = await _db.Carts.FirstOrDefaultAsync(x => x.Id == cartInput.Id);
 
@@ -29,15 +29,15 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 var newCart = _mapper.Map<Cart>(cartInput);
 
-                await _db.AddAsync(newCart);
-                await _db.SaveChangesAsync();
+                await _db.Carts.AddAsync(newCart, cancellation);
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
             var cart = await _db.Carts.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -45,14 +45,14 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 cart.IsActive = true;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
 
                 return true;
             }
             return false;
         }
 
-        public async Task<List<CartDtoOutput>> GetAll()
+        public async Task<List<CartDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var carts = _db.Carts.ToList();
             var result = carts.Select(cart => _mapper.Map<CartDtoOutput>(cart)).ToList();
@@ -60,7 +60,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return result;
         }
 
-        public async Task<CartDtoOutput> GetById(int Id)
+        public async Task<CartDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var cart = _db.Carts.FirstOrDefault(x => x.Id == Id);
             var getCart = _mapper.Map<CartDtoOutput>(cart);
@@ -68,7 +68,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return getCart;
         }
 
-        public async Task<bool> Update(int Id, CartDtoInput inputCart)
+        public async Task<bool> Update(int Id, CartDtoInput inputCart, CancellationToken cancellation)
         {
             var cart = _db.Carts.FirstOrDefault(x => x.Id == Id);
 
@@ -77,7 +77,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 cart.Id = inputCart.Id;
                 cart.IsActive = inputCart.IsActive;
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(cancellation);
                 return true;
             }
 

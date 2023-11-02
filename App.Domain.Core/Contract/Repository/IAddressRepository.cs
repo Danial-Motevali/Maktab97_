@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IAddressRepository
     {
-        Task<bool> Add(AddressDtoInput inputAddress);
+        Task<bool> Add(AddressDtoInput inputAddress, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, AddressDtoInput inputAddress);
+        Task<bool> Update(int Id, AddressDtoInput inputAddress, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id);
+        Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AddressDtoOutPut> GetById(int Id);
+        Task<AddressDtoOutPut> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AddressDtoOutPut>> GetAll();
+        Task<List<AddressDtoOutPut>> GetAll(CancellationToken cancellation);
     }
 }
