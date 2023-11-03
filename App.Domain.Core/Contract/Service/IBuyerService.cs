@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contract.Repository
+namespace App.Domain.Core.Contract.Services
 {
-    internal interface IPriceRepository
+    internal interface IBuyerService
     {
     }
 }

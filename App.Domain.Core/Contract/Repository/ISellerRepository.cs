@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IPriceRepository
+    internal interface ISellerRepository
     {
     }
 }
