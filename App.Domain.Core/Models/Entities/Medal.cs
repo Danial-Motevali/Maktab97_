@@ -1,12 +1,10 @@
 ﻿namespace App.Domain.Core.Entities;
 
-public class Wage
+public class Medal
 {
     public int Id { get; set; }
 
-    public int HowMuch { get; set; }
-
-    public bool IsDeleted { get; set; }
+    public string Rank { get; set; } = null!;
 
     public int UserId { get; set; }
 

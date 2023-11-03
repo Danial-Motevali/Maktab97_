@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace App.Domain.Core.Entities;
 
-namespace App.Domain.Core.Models.Entities
+public class Address
 {
-    public class Address
-    {
-        [Key]
-        public int Id { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public bool IsDeleted { get; set; }
+    public int Id { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
-    }
+    public string City { get; set; } = null!;
+
+    public string Street { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
+
+    public int UserId { get; set; }
+
+    public  Admin User { get; set; } = null!;
+
+    public  Seller User1 { get; set; } = null!;
+
+    public  Buyer UserNavigation { get; set; } = null!;
 }

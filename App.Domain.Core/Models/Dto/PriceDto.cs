@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Models.DTOs
+namespace App.Domain.Core.Models.Dto
 {
-    public class WageDtoInput
+    public class PriceDtoInput
     {
         public int Id { get; set; }
-        public int HowMuch { get; set; }
+
+        public int ProdutPrice { get; set; }
+
         public bool IsDeleted { get; set; }
     }
-    public class WageDtoOutput
+    public class PriceDtoOutput
     {
-        public int HowMuch { get; set; }
+        public int ProdutPrice { get; set; }
     }
 }

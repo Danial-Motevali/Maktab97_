@@ -1,6 +1,4 @@
-using App.Domain.Core.Contract.Repository;
 using App.Infrastructure.Data.EF;
-using App.Infrastructure.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace UI
