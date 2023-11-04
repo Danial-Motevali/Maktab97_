@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface ICategoryRepository
+    public interface ICategoryRepository
     {
         Task<bool> Add(CategoryDtoInput input, CancellationToken cancellation);
 

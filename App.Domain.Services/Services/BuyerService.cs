@@ -9,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    public class ShopService : IShopService
+    public class BuyerService : IBuyerService
     {
-        private readonly IShopRepository _repository;
-        public ShopService(IShopRepository repository)
+        private readonly IBuyerRepository _repository;
+        public BuyerService(IBuyerRepository repository)
         {
             _repository = repository;
         }
-        public async Task<bool> Add(ShopDtoInput shopInput, CancellationToken cancellation)
+        public async Task<bool> Add(BuyerDtoInput addressInput, CancellationToken cancellation)
         {
-            return await _repository.Add(shopInput, cancellation);
+            return await _repository.Add(addressInput, cancellation);
         }
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var cart = await _repository.GetById(Id, cancellation);
-            if (cart != null)
+            var category = await _repository.GetById(Id, cancellation);
+            if (category != null)
             {
                 await _repository.Delete(Id, cancellation);
                 return true;
@@ -32,19 +32,19 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<ShopDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<BuyerDtoOutput>> GetAll(CancellationToken cancellation)
         {
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task<ShopDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<BuyerDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, ShopDtoInput shopInput, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, BuyerDtoInput addressInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, shopInput, cancellation);
+            return await _repository.Update(Id, addressInput, cancellation);
         }
     }
 }

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Contract.Repository
+namespace App.Domain.Core.Contract.Service
 {
-    public interface IPriceRepository
+    public interface IPriceService
     {
         Task<bool> Add(PriceDtoInput input, CancellationToken cancellation);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface ISellerRepository
+    public interface ISellerRepository
     {
         Task<bool> Add(SellerDtoInput input, CancellationToken cancellation);
 

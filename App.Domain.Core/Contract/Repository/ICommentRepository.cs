@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface ICommentRepository
+    public interface ICommentRepository
     {
         Task<bool> Add(CommentDtoInput input, CancellationToken cancellation);
 

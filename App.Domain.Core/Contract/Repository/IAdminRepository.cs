@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IAdminRepository
+    public interface IAdminRepository
     {
         Task<bool> Add(AdminDtoInput input, CancellationToken cancellation);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IAuctionRepository
+    public interface IAuctionRepository
     {
         Task<bool> Add(AuctionDtoInput input, CancellationToken cancellation);
 

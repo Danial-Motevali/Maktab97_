@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IWageRepository
+    public interface IWageRepository
     {
         Task<bool> Add(WageDtoInput input, CancellationToken cancellation);
 

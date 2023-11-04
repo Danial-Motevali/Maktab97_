@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.Contract.Repository;
-using App.Domain.Core.Contract.Service;
-using App.Domain.Core.Models.DTOs;
+using App.Domain.Core.Contract.Services;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    public class CategoryService : ICategoruService
+    public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
         public CategoryService(ICategoryRepository repository)

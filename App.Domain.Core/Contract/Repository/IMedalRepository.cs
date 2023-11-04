@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IMedalRepository
+    public interface IMedalRepository
     {
         Task<bool> Add(MedalDtoInput input, CancellationToken cancellation);
 

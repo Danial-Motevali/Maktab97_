@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface ICartRepository
+    public interface ICartRepository
     {
         Task<bool> Add(CartDtoInput input, CancellationToken cancellation);
 

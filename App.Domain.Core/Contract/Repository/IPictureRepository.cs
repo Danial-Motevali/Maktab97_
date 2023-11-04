@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IPictureRepository
+    public interface IPictureRepository
     {
         Task<bool> Add(PictureDtoInput input, CancellationToken cancellation);
 

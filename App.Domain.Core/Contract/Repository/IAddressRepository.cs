@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Contract.Repository
 {
-    internal interface IAddressRepository
+    public interface IAddressRepository
     {
         Task<bool> Add(AddressDtoInput input, CancellationToken cancellation);
 
