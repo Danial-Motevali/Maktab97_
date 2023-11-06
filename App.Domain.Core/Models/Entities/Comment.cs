@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Models.Identity.Entites;
+
+namespace App.Domain.Core.Entities;
 
 public class Comment
 {

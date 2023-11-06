@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using AutoMapper;
 using System;
 using System.Collections.Generic;

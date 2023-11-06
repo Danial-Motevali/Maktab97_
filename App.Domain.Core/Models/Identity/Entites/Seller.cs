@@ -1,6 +1,9 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
-public class Seller
+namespace App.Domain.Core.Models.Identity.Entites;
+
+public class Seller : IdentityUser
 {
     public int Id { get; set; }
 

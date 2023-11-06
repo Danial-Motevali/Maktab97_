@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Identity.Entites;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;

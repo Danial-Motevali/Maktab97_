@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.Contract.Repository;
-using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
