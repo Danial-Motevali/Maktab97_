@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using App.Domain.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace App.Infrastructure.Data.EF;
 
-public partial class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -43,6 +45,7 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Shop> Shops { get; set; }
 
     public virtual DbSet<Wage> Wages { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -248,8 +251,11 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_Wages_Seller");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
+
+        //OnModelCreatingPartial(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    /*partial void OnModelCreatingPartial(ModelBuilder modelBuilder)*/
+
 }

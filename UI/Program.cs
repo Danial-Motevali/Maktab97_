@@ -1,4 +1,5 @@
 using App.Infrastructure.Data.EF;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace UI
@@ -16,6 +17,10 @@ namespace UI
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
                      option.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"))
             );
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -37,6 +42,7 @@ namespace UI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
