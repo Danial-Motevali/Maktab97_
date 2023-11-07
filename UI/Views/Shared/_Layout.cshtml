@@ -36,31 +36,43 @@
                                     <button type="submit" class="btn nav-link test-dark">out</button>
                                 </form>
                             </li>
-                            <li class="nav-item ml-auto">
-                                <form asp-controller="Admin" asp-action="Index" method="post">
-                                    <button type="submit" class="btn nav-link test-dark">Admin Dashbord</button>
-                                </form>
-                            </li>
-                            <li class="nav-item ml-auto">
-                                <form asp-controller="Buyer" asp-action="Index" method="post">
-                                    <button type="submit" class="btn nav-link test-dark">Buyer Dashbord</button>
-                                </form>
-                            </li>
-                            <li class="nav-item ml-auto">
-                                <form asp-controller="Seller" asp-action="Index" method="post">
-                                    <button type="submit" class="btn nav-link test-dark">Seller Dashbord</button>
-                                </form>
-                            </li>
-                            <li class="nav-item ml-auto">
-                                <form asp-controller="ManagerUser" asp-action="Index" method="get">
-                                    <button type="submit" class="btn nav-link test-dark">ManagerUser</button>
-                                </form>
-                            </li>
-                            <li class="nav-item ml-auto">
-                                <form asp-controller="ManagerRole" asp-action="Index" method="post">
-                                    <button type="submit" class="btn nav-link test-dark">ManagerRole</button>
-                                </form>
-                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Owner") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item ml-auto">
+                                    <form asp-controller="Admin" asp-action="Index" method="post">
+                                        <button type="submit" class="btn nav-link test-dark">Admin Dashbord</button>
+                                    </form>
+                                </li>
+                            }
+                            @if (User.IsInRole("Buyer") || User.IsInRole("Owner") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item ml-auto">
+                                    <form asp-controller="Buyer" asp-action="Index" method="post">
+                                        <button type="submit" class="btn nav-link test-dark">Buyer Dashbord</button>
+                                    </form>
+                                </li>
+                            }
+                            @if (User.IsInRole("Seller") || User.IsInRole("Owner") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item ml-auto">
+                                    <form asp-controller="Seller" asp-action="Index" method="post">
+                                        <button type="submit" class="btn nav-link test-dark">Seller Dashbord</button>
+                                    </form>
+                                </li>
+                            }
+                            @if (User.IsInRole("Owner"))
+                            {
+                                <li class="nav-item ml-auto">
+                                    <form asp-controller="ManagerUser" asp-action="Index" method="get">
+                                        <button type="submit" class="btn nav-link test-dark">ManagerUser</button>
+                                    </form>
+                                </li>
+                                <li class="nav-item ml-auto">
+                                    <form asp-controller="ManagerRole" asp-action="Index" method="post">
+                                        <button type="submit" class="btn nav-link test-dark">ManagerRole</button>
+                                    </form>
+                                </li>
+                            }
                         }
                         else
                         {
