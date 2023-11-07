@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using App.Domain.Core.Entities;
+﻿using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Identity.Entites;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace App.Infrastructure.Data.EF;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
+    //Identity
+    public virtual DbSet<Seller> Sellers { get; set; }
+    public virtual DbSet<Buyer> Buyers { get; set; }
+    public virtual DbSet<MyAdmin> Admins { get; set; }
+
+
     public virtual DbSet<Address> Addresses { get; set; }
 
-    public virtual DbSet<Admin> Admins { get; set; }
-
     public virtual DbSet<Auction> Auctions { get; set; }
-
-    public virtual DbSet<Buyer> Buyers { get; set; }
 
     public virtual DbSet<Cart> Carts { get; set; }
 
@@ -41,8 +41,6 @@ public class ApplicationDbContext : IdentityDbContext
 
     public virtual DbSet<ProductPicture> ProductPictures { get; set; }
 
-    public virtual DbSet<Seller> Sellers { get; set; }
-
     public virtual DbSet<Shop> Shops { get; set; }
 
     public virtual DbSet<Wage> Wages { get; set; }
@@ -54,21 +52,18 @@ public class ApplicationDbContext : IdentityDbContext
         {
             entity.HasOne(d => d.User).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Addresses_Admin");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.UserNavigation).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Addresses_Buyer");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.User1).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Addresses_Seller");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
-        modelBuilder.Entity<Admin>(entity =>
+        modelBuilder.Entity<MyAdmin>(entity =>
         {
             entity.ToTable("Admin");
 
@@ -112,8 +107,7 @@ public class ApplicationDbContext : IdentityDbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Cart)
                 .HasForeignKey<Cart>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Carts_Buyer");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -122,21 +116,18 @@ public class ApplicationDbContext : IdentityDbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Category)
                 .HasForeignKey<Category>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Categories_Products");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Comment>(entity =>
         {
             entity.HasOne(d => d.Buyer).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.BuyerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Comments_Buyer");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Inventory).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.InventoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Comments_Inventory");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Inventory>(entity =>
@@ -147,28 +138,23 @@ public class ApplicationDbContext : IdentityDbContext
 
             entity.HasOne(d => d.Auction).WithMany(p => p.Inventories)
                 .HasForeignKey(d => d.AuctionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Inventory_Auctions");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Cart).WithMany(p => p.Inventories)
                 .HasForeignKey(d => d.CartId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Inventory_Carts");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Price).WithMany(p => p.Inventories)
                 .HasForeignKey(d => d.PriceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Inventory_Prices");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Product).WithMany(p => p.Inventories)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Inventory_Products");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Shop).WithMany(p => p.Inventories)
                 .HasForeignKey(d => d.ShopId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Inventory_Shops1");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Medal>(entity =>
@@ -182,13 +168,12 @@ public class ApplicationDbContext : IdentityDbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Medals)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medal_Seller");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Picture>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Pictoures");
+            entity.HasKey(e => e.Id);
 
             entity.ToTable("Picture");
         });
@@ -254,9 +239,9 @@ public class ApplicationDbContext : IdentityDbContext
 
         base.OnModelCreating(modelBuilder);
 
-        //OnModelCreatingPartial(modelBuilder);
+        //    OnModelCreatingPartial(modelBuilder);
     }
 
-    /*partial void OnModelCreatingPartial(ModelBuilder modelBuilder)*/
+    //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
 }
