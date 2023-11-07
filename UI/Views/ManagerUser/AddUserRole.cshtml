@@ -1,0 +1,29 @@
+﻿@model App.Domain.Core.Models.Identity.Role.AddUserRoleDto
+@{
+    ViewData["Title"] = "AddUserRole";
+}
+
+<h1>Add User To Role</h1>
+
+@if (!Model.UserRole.Any())
+{
+    <h1>هی چی نیست</h1>
+}
+else
+{
+    <form asp-controller="ManagerUser" asp-action="AddUserRole" method="post"> 
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @for(int i = 0; i < Model.UserRole.Count; i++)
+        {
+            <div class="from-group">
+                <input asp-for="@Model.UserRole[i].IsSelected"/>
+                <label>@Model.UserRole[i].RoleName</label>
+
+                <input type="hidden" asp-for="@Model.UserRole[i].RoleName"/>
+            </div>
+        }
+        <input type="hidden" asp-for="@Model.Id"/>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+}

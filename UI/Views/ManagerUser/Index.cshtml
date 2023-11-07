@@ -1,0 +1,37 @@
+﻿@model List<App.Domain.Core.Models.Identity.Role.IndexDto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a asp-controller="ManagerRole" asp-action="AddRole" class="btn btn-Primary">Add Role</a>
+
+@if (!Model.Any())
+{
+    <h1>چیزی پیدا نشد</h1>
+}
+else
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="card mt-2">
+            <div class="card-header">
+                UserName : <b>@Model[i].UserName</b>
+            </div>
+            <div class="card-body">
+                Email : <b>@Model[i].Email</b>
+            </div>
+            <div class="card-footer">
+                <form asp-controller="ManagerUser" asp-action="DeleteUser" asp-route-id="@Model[i].Id" method="post">
+
+                    <a asp-controller="ManagerUser" asp-action="EditUser" asp-route-id="@Model[i].Id" class="btn btn-primary">Edit User</a>
+
+                    <a asp-controller="ManagerUser" asp-action="AddUserRole" asp-route-id="@Model[i].Id" class="btn btn-primary">Add To Role</a>
+
+                    <a asp-controller="ManagerUser" asp-action="RemoveUserRole" asp-route-id="@Model[i].Id" class="btn btn-primary">Remove User from Role</a>
+
+                    <button type="submit" class="btn btn-danger">Delete User</button>
+                </form>
+            </div>
+        </div>
+    }
+}

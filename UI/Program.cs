@@ -18,6 +18,7 @@ namespace UI
                      option.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"))
             );
 
+            //Add Identity 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

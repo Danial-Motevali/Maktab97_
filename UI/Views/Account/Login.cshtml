@@ -1,0 +1,25 @@
+﻿@using App.Domain.Core.Models.IdentityDto.Account
+
+@model LoginDto;
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form asp-controller="Account" asp-action="Login" method="post">
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label">UserName </label>
+        <input asp-for="UserName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PassWord" class="form-label">PassWord</label>
+        <input asp-for="PassWord" type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
