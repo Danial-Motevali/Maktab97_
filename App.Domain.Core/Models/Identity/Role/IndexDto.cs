@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Models.IdentityDto.Account
+namespace App.Domain.Core.Models.Identity.Role
 {
-    public class RegisterDto
+    public class IndexDto
     {
+        public string Id { get; set; }
         public string UserName { get; set; }
-        public string PassWord { get; set; }
         public string Email { get; set; }
     }
 }

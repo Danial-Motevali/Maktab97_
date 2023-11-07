@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Dto
 {
-    public class AdminDtoInput
+    public class AdminMyDtoInput
     {
         public int Id { get; set; }
 
@@ -15,13 +15,15 @@ namespace App.Domain.Core.Models.Dto
 
         public string LastName { get; set; } = null!;
 
+        public string UserName { get; set; } = null!;
+
         public string Email { get; set; } = null!;
 
         public string PassWord { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
     }
-    public class AdminDtoOutput
+    public class AdminMyDtoOutput
     {
 
         public string FirsName { get; set; } = null!;

@@ -14,7 +14,7 @@ public class Address
 
     public int UserId { get; set; }
 
-    public  Admin User { get; set; } = null!;
+    public  MyAdmin User { get; set; } = null!;
 
     public  Seller User1 { get; set; } = null!;
 

@@ -1,9 +1,9 @@
 ﻿using App.Domain.Core.Entities;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.Domain.Core.Models.Identity.Entites;
 
-public class Buyer : IdentityUser
+public class Buyer 
 {
     public int Id { get; set; }
 
