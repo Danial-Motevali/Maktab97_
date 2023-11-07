@@ -21,13 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AdminDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(AdminMyDtoInput inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Admins.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Admin>(inputAddress);
+                var newProduct = _mapper.Map<MyAdmin>(inputAddress);
 
                 await _db.Admins.AddAsync(newProduct, cancellation);
                 await _db.SaveChangesAsync(cancellation);
@@ -52,23 +52,23 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AdminDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<AdminMyDtoOutput>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Admins.ToList();
-            var result = addresses.Select(address => _mapper.Map<AdminDtoOutput>(address)).ToList();
+            var result = addresses.Select(address => _mapper.Map<AdminMyDtoOutput>(address)).ToList();
 
             return result;
         }
 
-        public async Task<AdminDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<AdminMyDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Admins.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AdminDtoOutput>(address);
+            var getAddress = _mapper.Map<AdminMyDtoOutput>(address);
 
             return getAddress;
         }
 
-        public async Task<bool> Update(int Id, AdminDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, AdminMyDtoInput inputAddress, CancellationToken cancellation)
         {
             var address = _db.Admins.FirstOrDefault(x => x.Id == Id);
 

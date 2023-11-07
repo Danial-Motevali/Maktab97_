@@ -16,7 +16,7 @@ namespace App.Infrastructure.DataAccess.Mapper
         {
             //for add part
             CreateMap<AddressDtoInput, Address>().ReverseMap();
-            CreateMap<AdminDtoInput, Admin>().ReverseMap();
+            CreateMap<AdminMyDtoInput, MyAdmin>().ReverseMap();
             CreateMap<AuctionDtoInput, Auction>().ReverseMap();
             CreateMap<BuyerDtoInput, Buyer>().ReverseMap();
             CreateMap<CartDtoInput, Cart>().ReverseMap();
@@ -33,7 +33,7 @@ namespace App.Infrastructure.DataAccess.Mapper
 
             //for get part
             CreateMap<Address, AddressDtoOutput>().ReverseMap();
-            CreateMap<Admin, AdminDtoOutput>().ReverseMap();
+            CreateMap<MyAdmin, AdminMyDtoOutput>().ReverseMap();
             CreateMap<Auction, AuctionDtoOutput>().ReverseMap();
             CreateMap<Buyer, BuyerDtoOutput>().ReverseMap();
             CreateMap<Cart, CartDtoOutput>().ReverseMap();
