@@ -16,7 +16,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(AdminDtoInput addressInput, CancellationToken cancellation)
+        public async Task<bool> Add(AdminMyDtoInput addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }
@@ -32,17 +32,17 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<AdminDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<AdminMyDtoOutput>> GetAll(CancellationToken cancellation)
         {
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task<AdminDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<AdminMyDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, AdminDtoInput addressInput, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, AdminMyDtoInput addressInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, addressInput, cancellation);
         }

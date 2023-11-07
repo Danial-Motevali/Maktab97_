@@ -9,14 +9,14 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IAdminService
     {
-        Task<bool> Add(AdminDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(AdminMyDtoInput input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, AdminDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, AdminMyDtoInput input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AdminDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<AdminMyDtoOutput> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AdminDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<AdminMyDtoOutput>> GetAll(CancellationToken cancellation);
     }
 }

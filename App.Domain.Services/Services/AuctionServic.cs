@@ -12,7 +12,7 @@ namespace App.Domain.Services.Services
     public class AuctionServic : IAuctionService
     {
         private readonly IAuctionRepository _repository;
-        public AuctionServic(IAuctionRepository repository, CancellationToken cancellation)
+        public AuctionServic(IAuctionRepository repository)
         {
             _repository = repository;
         }
