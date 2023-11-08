@@ -11,9 +11,9 @@ namespace App.Domain.Core.Contract.Repository
     {
         Task<bool> Add(SellerDtoInput input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, SellerDtoInput input, CancellationToken cancellation);
+        //Task<bool> Update(int Id, SellerDtoInput input, CancellationToken cancellation);
 
-        Task<bool> Delete(int Id, CancellationToken cancellation);
+        //Task<bool> Delete(int Id, CancellationToken cancellation);
 
         Task<SellerDtoOutput> GetById(int Id, CancellationToken cancellation);
 
