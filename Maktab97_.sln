@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Infrastructure.Data.EF"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Infrastructure.DataAccess", "App.Infrastructure.DataAccess\App.Infrastructure.DataAccess.csproj", "{16C86076-B166-4589-B8F4-56EB5804857B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Domain.Services", "App.Domain.Services\App.Domain.Services.csproj", "{E23FE4CB-C443-4F37-B13F-1AEE11B68077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Domain.Services", "App.Domain.Services\App.Domain.Services.csproj", "{E23FE4CB-C443-4F37-B13F-1AEE11B68077}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

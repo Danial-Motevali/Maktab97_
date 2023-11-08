@@ -37,20 +37,20 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<bool> Delete(int Id, CancellationToken cancellation)
-        {
-            var address = await _db.Sellers.FirstOrDefaultAsync(x => x.Id == Id);
+        //public async Task<bool> Delete(int Id, CancellationToken cancellation)
+        //{
+        //    var address = await _db.Sellers.FirstOrDefaultAsync(x => x.Id == Id);
 
-            if (address != null)
-            {
-                address.IsDeleted = true;
+        //    if (address != null)
+        //    {
+        //        address.IsDeleted = true;
 
-                await _db.SaveChangesAsync(cancellation);
+        //        await _db.SaveChangesAsync(cancellation);
 
-                return true;
-            }
-            return false;
-        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public async Task<List<SellerDtoOutput>> GetAll(CancellationToken cancellation)
         {
@@ -68,23 +68,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return getAddress;
         }
 
-        public async Task<bool> Update(int Id, SellerDtoInput inputAddress, CancellationToken cancellation)
-        {
-            var address = _db.Sellers.FirstOrDefault(x => x.Id == Id);
+        //public async Task<bool> Update(int Id, SellerDtoInput inputAddress, CancellationToken cancellation)
+        //{
+        //    var address = _db.Sellers.FirstOrDefault(x => x.Id == Id);
 
-            if (address != null)
-            {
-                address.Id = inputAddress.Id;
-                address.FirstName = inputAddress.FirstName;
-                address.LasName = inputAddress.LasName;
-                address.Email = inputAddress.Email;
-                address.PassWord = inputAddress.PassWord;
+        //    if (address != null)
+        //    {
+        //        address.Id = inputAddress.Id;
+        //        address.FirstName = inputAddress.FirstName;
+        //        address.LasName = inputAddress.LasName;
 
-                await _db.SaveChangesAsync(cancellation);
-                return true;
-            }
+        //        await _db.SaveChangesAsync(cancellation);
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
     }
 }

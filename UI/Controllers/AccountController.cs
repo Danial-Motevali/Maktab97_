@@ -8,9 +8,9 @@ namespace UI.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -27,7 +27,7 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newUser = new IdentityUser()
+                var newUser = new User()
                 {
                     //Id = input.Id,
                     Email = input.Email,

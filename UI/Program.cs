@@ -1,3 +1,4 @@
+using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace UI
             );
 
             //Add Identity 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            builder.Services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
