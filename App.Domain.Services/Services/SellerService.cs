@@ -21,16 +21,16 @@ namespace App.Domain.Services.Services
             return await _repository.Add(addressInput, cancellation);
         }
 
-        public async Task<bool> Delete(int Id, CancellationToken cancellation)
-        {
-            var category = await _repository.GetById(Id, cancellation);
-            if (category != null)
-            {
-                await _repository.Delete(Id, cancellation);
-                return true;
-            }
-            return false;
-        }
+        //public async Task<bool> Delete(int Id, CancellationToken cancellation)
+        //{
+        //    var category = await _repository.GetById(Id, cancellation);
+        //    if (category != null)
+        //    {
+        //        await _repository.Delete(Id, cancellation);
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public async Task<List<SellerDtoOutput>> GetAll(CancellationToken cancellation)
         {
@@ -42,9 +42,9 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, SellerDtoInput addressInput, CancellationToken cancellation)
-        {
-            return await _repository.Update(Id, addressInput, cancellation);
-        }
+        //public async Task<bool> Update(int Id, SellerDtoInput addressInput, CancellationToken cancellation)
+        //{
+        //    return await _repository.Update(Id, addressInput, cancellation);
+        //}
     }
 }
