@@ -7,8 +7,10 @@ public class Category
     public string Title { get; set; } = null!;
 
     public int? ParentId { get; set; }
+    public Category? Parent { get; set; }
 
     public bool IsDeleted { get; set; }
 
-    public Product IdNavigation { get; set; } = null!;
+    public int? ProductId { get; set; }
+    public Product product { get; set; } = null!;
 }

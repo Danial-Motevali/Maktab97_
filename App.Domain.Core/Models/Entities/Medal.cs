@@ -8,7 +8,7 @@ public class Medal
 
     public string Rank { get; set; } = null!;
 
-    public int UserId { get; set; }
+    public int? SellerId { get; set; }
 
-    public Seller User { get; set; } = null!;
+    public Seller Seller { get; set; } = null!;
 }

@@ -10,7 +10,7 @@ public class Wage
 
     public bool IsDeleted { get; set; }
 
-    public int UserId { get; set; }
+    public int? SellerId { get; set; }
 
     public Seller User { get; set; } = null!;
 }

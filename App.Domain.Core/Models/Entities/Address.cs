@@ -12,11 +12,13 @@ public class Address
 
     public bool IsDeleted { get; set; }
 
-    public int UserId { get; set; }
 
-    public  MyAdmin User { get; set; } = null!;
+    public int? MyAdminId { get; set; }
 
-    public  Seller User1 { get; set; } = null!;
+    public  MyAdmin? MyAdmin { get; set; }
 
-    public  Buyer UserNavigation { get; set; } = null!;
+    public int? SellerId { get; set; }
+    public  Seller? Seller { get; set; }
+    public int? BuyerId { get; set; }
+    public  Buyer? Buyer { get; set; } 
 }

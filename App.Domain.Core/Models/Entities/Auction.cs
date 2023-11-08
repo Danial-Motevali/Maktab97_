@@ -16,5 +16,6 @@ public class Auction
 
     public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
 
+    public int? SellerId { get; set; }
     public Seller? Seller { get; set; }
 }
