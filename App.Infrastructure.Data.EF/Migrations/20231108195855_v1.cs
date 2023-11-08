@@ -6,32 +6,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admin",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    FirsName = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nchar(250)", fixedLength: true, maxLength: 250, nullable: false),
-                    PassWord = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admin", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -45,7 +30,11 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -75,27 +64,12 @@ namespace App.Infrastructure.Data.EF.Migrations
                     LastPrice = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     TimeOfStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeOfEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TimeOfEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SellerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Auctions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Buyer",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nchar(250)", fixedLength: true, maxLength: 250, nullable: false),
-                    PassWord = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Buyer", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -149,7 +123,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TimeOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    SellerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,7 +137,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -178,12 +153,30 @@ namespace App.Infrastructure.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Admin",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admin", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admin_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -205,7 +198,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,8 +215,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,7 +239,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -263,38 +256,46 @@ namespace App.Infrastructure.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
+                name: "Buyer",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    TimeOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CartId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.PrimaryKey("PK_Buyer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_Buyer_Id",
-                        column: x => x.Id,
-                        principalTable: "Buyer",
-                        principalColumn: "Id");
+                        name: "FK_Buyer_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentId = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_Products_Id",
-                        column: x => x.Id,
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Categories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Categories_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                 });
@@ -327,25 +328,118 @@ namespace App.Infrastructure.Data.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    LasName = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nchar(250)", fixedLength: true, maxLength: 250, nullable: false),
-                    PassWord = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    MedalId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ShopId = table.Column<int>(type: "int", nullable: true),
+                    AuctionId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Seller", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Seller_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Seller_Auctions",
                         column: x => x.Id,
-                        principalTable: "Auctions",
+                        principalTable: "Shops",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Seller_Shops",
                         column: x => x.Id,
-                        principalTable: "Shops",
+                        principalTable: "Auctions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    TimeOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BuyerId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Carts_Buyer_Id",
+                        column: x => x.Id,
+                        principalTable: "Buyer",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    MyAdminId = table.Column<int>(type: "int", nullable: true),
+                    SellerId = table.Column<int>(type: "int", nullable: true),
+                    BuyerId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Admin_MyAdminId",
+                        column: x => x.MyAdminId,
+                        principalTable: "Admin",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Addresses_Buyer_BuyerId",
+                        column: x => x.BuyerId,
+                        principalTable: "Buyer",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Addresses_Seller_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "Seller",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medal",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Rank = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: false),
+                    SellerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medal", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Medal_Seller_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "Seller",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HowMuch = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    SellerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Wages_Seller",
+                        column: x => x.SellerId,
+                        principalTable: "Seller",
                         principalColumn: "Id");
                 });
 
@@ -354,13 +448,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    PriceId = table.Column<int>(type: "int", nullable: false),
                     Qnt = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     AuctionId = table.Column<int>(type: "int", nullable: false),
                     CartId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    PriceId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ShopId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -393,75 +487,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Admin_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Admin",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Addresses_Buyer_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Buyer",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Addresses_Seller_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Seller",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Medal",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Rank = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Medal", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Medal_Seller_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Seller",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Wages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HowMuch = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Wages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Wages_Seller",
-                        column: x => x.UserId,
-                        principalTable: "Seller",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -490,8 +515,23 @@ namespace App.Infrastructure.Data.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_UserId",
+                name: "IX_Addresses_BuyerId",
                 table: "Addresses",
+                column: "BuyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_MyAdminId",
+                table: "Addresses",
+                column: "MyAdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_SellerId",
+                table: "Addresses",
+                column: "SellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admin_UserId",
+                table: "Admin",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -534,6 +574,23 @@ namespace App.Infrastructure.Data.EF.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Buyer_UserId",
+                table: "Buyer",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentId",
+                table: "Categories",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ProductId",
+                table: "Categories",
+                column: "ProductId",
+                unique: true,
+                filter: "[ProductId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_BuyerId",
                 table: "Comments",
                 column: "BuyerId");
@@ -569,9 +626,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Medal_UserId",
+                name: "IX_Medal_SellerId",
                 table: "Medal",
-                column: "UserId");
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPicture_PictureId",
@@ -589,9 +646,14 @@ namespace App.Infrastructure.Data.EF.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Wages_UserId",
-                table: "Wages",
+                name: "IX_Seller_UserId",
+                table: "Seller",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wages_SellerId",
+                table: "Wages",
+                column: "SellerId");
         }
 
         /// <inheritdoc />
@@ -637,9 +699,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Inventory");
 
             migrationBuilder.DropTable(
@@ -658,13 +717,16 @@ namespace App.Infrastructure.Data.EF.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Auctions");
-
-            migrationBuilder.DropTable(
                 name: "Shops");
 
             migrationBuilder.DropTable(
+                name: "Auctions");
+
+            migrationBuilder.DropTable(
                 name: "Buyer");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

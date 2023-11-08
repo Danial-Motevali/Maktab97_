@@ -30,6 +30,9 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BuyerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -37,16 +40,23 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("MyAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("MyAdminId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Addresses");
                 });
@@ -63,6 +73,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("LastPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SellerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeOfEnd")
@@ -82,6 +95,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("BuyerId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -99,10 +115,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -110,6 +131,12 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique()
+                        .HasFilter("[ProductId] IS NOT NULL");
 
                     b.ToTable("Categories");
                 });
@@ -156,25 +183,30 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("AuctionId")
+                    b.Property<int?>("AuctionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("CartId")
+                    b.Property<int?>("CartId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PriceId")
+                    b.Property<int?>("PriceId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("Qnt")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShopId")
+                    b.Property<int?>("ShopId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -203,12 +235,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("nchar(10)")
                         .IsFixedLength();
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("SellerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Medal", (string)null);
                 });
@@ -312,6 +345,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TimeOfCreate")
                         .HasColumnType("datetime2");
 
@@ -334,12 +370,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("SellerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Wages");
                 });
@@ -349,34 +386,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nchar(250)")
-                        .IsFixedLength();
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
-
-                    b.Property<string>("PassWord")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Buyer", (string)null);
                 });
@@ -386,34 +404,12 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nchar(250)")
-                        .IsFixedLength();
-
-                    b.Property<string>("FirsName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
-
-                    b.Property<string>("PassWord")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Admin", (string)null);
                 });
@@ -423,97 +419,29 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nchar(250)")
-                        .IsFixedLength();
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LasName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
-
-                    b.Property<int>("MedalId")
+                    b.Property<int?>("AuctionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PassWord")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
+                    b.Property<int?>("ShopId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Seller", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -528,6 +456,17 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -575,7 +514,37 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -589,9 +558,32 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -600,7 +592,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -611,9 +603,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -622,13 +613,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -637,10 +628,10 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -658,46 +649,48 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Address", b =>
                 {
-                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Buyer", "UserNavigation")
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Buyer", "Buyer")
                         .WithMany("Addresses")
-                        .HasForeignKey("UserId")
-                        .IsRequired();
+                        .HasForeignKey("BuyerId");
 
-                    b.HasOne("App.Domain.Core.Models.Identity.Entites.MyAdmin", "User")
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.MyAdmin", "MyAdmin")
                         .WithMany("Addresses")
-                        .HasForeignKey("UserId")
-                        .IsRequired();
+                        .HasForeignKey("MyAdminId");
 
-                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "User1")
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "Seller")
                         .WithMany("Addresses")
-                        .HasForeignKey("UserId")
-                        .IsRequired();
+                        .HasForeignKey("SellerId");
 
-                    b.Navigation("User");
+                    b.Navigation("Buyer");
 
-                    b.Navigation("User1");
+                    b.Navigation("MyAdmin");
 
-                    b.Navigation("UserNavigation");
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Cart", b =>
                 {
-                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Buyer", "IdNavigation")
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Buyer", "Buyer")
                         .WithOne("Cart")
                         .HasForeignKey("App.Domain.Core.Entities.Cart", "Id")
                         .IsRequired();
 
-                    b.Navigation("IdNavigation");
+                    b.Navigation("Buyer");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Category", b =>
                 {
-                    b.HasOne("App.Domain.Core.Entities.Product", "IdNavigation")
-                        .WithOne("Category")
-                        .HasForeignKey("App.Domain.Core.Entities.Category", "Id")
-                        .IsRequired();
+                    b.HasOne("App.Domain.Core.Entities.Category", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
 
-                    b.Navigation("IdNavigation");
+                    b.HasOne("App.Domain.Core.Entities.Product", "product")
+                        .WithOne("Category")
+                        .HasForeignKey("App.Domain.Core.Entities.Category", "ProductId");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Comment", b =>
@@ -757,12 +750,12 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Medal", b =>
                 {
-                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "User")
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "Seller")
                         .WithMany("Medals")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("SellerId")
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.ProductPicture", b =>
@@ -788,77 +781,107 @@ namespace App.Infrastructure.Data.EF.Migrations
                 {
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "User")
                         .WithMany("Wages")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("SellerId")
                         .IsRequired()
                         .HasConstraintName("FK_Wages_Seller");
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Buyer", b =>
+                {
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.MyAdmin", b =>
+                {
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Seller", b =>
                 {
-                    b.HasOne("App.Domain.Core.Entities.Auction", "IdNavigation")
-                        .WithOne("Seller")
-                        .HasForeignKey("App.Domain.Core.Models.Identity.Entites.Seller", "Id")
-                        .IsRequired()
-                        .HasConstraintName("FK_Seller_Auctions");
-
-                    b.HasOne("App.Domain.Core.Entities.Shop", "Id1")
+                    b.HasOne("App.Domain.Core.Entities.Auction", "Auction")
                         .WithOne("Seller")
                         .HasForeignKey("App.Domain.Core.Models.Identity.Entites.Seller", "Id")
                         .IsRequired()
                         .HasConstraintName("FK_Seller_Shops");
 
-                    b.Navigation("Id1");
+                    b.HasOne("App.Domain.Core.Entities.Shop", "Shop")
+                        .WithOne("Seller")
+                        .HasForeignKey("App.Domain.Core.Models.Identity.Entites.Seller", "Id")
+                        .IsRequired()
+                        .HasConstraintName("FK_Seller_Auctions");
 
-                    b.Navigation("IdNavigation");
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("Shop");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
