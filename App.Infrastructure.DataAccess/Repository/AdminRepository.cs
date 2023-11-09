@@ -23,13 +23,13 @@ namespace App.Infrastructure.DataAccess.Repository
         }
         public async Task<bool> Add(AdminMyDtoInput inputAddress, CancellationToken cancellation)
         {
-            var address = await _db.Admins.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var address = await _db.MyAdmins.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
                 var newProduct = _mapper.Map<MyAdmin>(inputAddress);
 
-                await _db.Admins.AddAsync(newProduct, cancellation);
+                await _db.MyAdmins.AddAsync(newProduct, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -54,7 +54,7 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<List<AdminMyDtoOutput>> GetAll(CancellationToken cancellation)
         {
-            var addresses = _db.Admins.ToList();
+            var addresses = _db.MyAdmins.ToList();
             var result = addresses.Select(address => _mapper.Map<AdminMyDtoOutput>(address)).ToList();
 
             return result;
@@ -62,7 +62,7 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<AdminMyDtoOutput> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Admins.FirstOrDefault(x => x.Id == Id);
+            var address = _db.MyAdmins.FirstOrDefault(x => x.Id == Id);
             var getAddress = _mapper.Map<AdminMyDtoOutput>(address);
 
             return getAddress;
