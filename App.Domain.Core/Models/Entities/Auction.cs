@@ -14,7 +14,7 @@ public class Auction
 
     public DateTime TimeOfEnd { get; set; }
 
-    public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
+    public ICollection<Inventory>? Inventories { get; set; } = new List<Inventory>();
 
     public int? SellerId { get; set; }
     public Seller? Seller { get; set; }

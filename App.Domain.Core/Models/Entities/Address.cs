@@ -14,11 +14,11 @@ public class Address
 
 
     public int? MyAdminId { get; set; }
-
     public  MyAdmin? MyAdmin { get; set; }
 
     public int? SellerId { get; set; }
     public  Seller? Seller { get; set; }
+
     public int? BuyerId { get; set; }
     public  Buyer? Buyer { get; set; } 
 }
