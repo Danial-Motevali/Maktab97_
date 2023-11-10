@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Owner")]
     public class ManagerUserController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -47,10 +45,16 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(string id, string userName, string firstName, string lastName)
         {
-            if(string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)) return NotFound();
+            if(string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+                return NotFound();
+
             var user = await _userManager.FindByIdAsync(id);
-            if(user == null) return NotFound();
+
+            if(user == null)
+                return NotFound();
+
             user.UserName = userName;
+
             var result = await _userManager.UpdateAsync(user);
 
             if(result.Succeeded) return RedirectToAction("Index");
@@ -66,11 +70,15 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> AddUserRole(string id)
         {
-            if(string.IsNullOrEmpty(id)) return NotFound();
+            if(string.IsNullOrEmpty(id))
+                return NotFound();
 
             var user = await _userManager.FindByIdAsync(id);
-            if(user == null) return NotFound();
+
+            if(user == null)
+                return NotFound();
             var roles = _roleManager.Roles.ToList();
+
             var model = new AddUserRoleDto()
             {
                 Id = id,
@@ -93,12 +101,18 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserRole(AddUserRoleDto input)
         {
-            if(input == null) return NotFound();
+            if(input == null) return
+                    NotFound();
+
             var user = await _userManager.FindByIdAsync(input.Id);
-            if(user == null) return NotFound();
+
+            if(user == null)
+                return NotFound();
+
             var requestRoles = input.UserRole.Where(x => x.IsSelected)
                 .Select(x => x.RoleName)
                 .ToList();
+
             var result = await _userManager.AddToRolesAsync(user, requestRoles);
 
             if(result.Succeeded) return RedirectToAction("Index");
@@ -114,10 +128,15 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveUserRole(string id)
         {
-            if (string.IsNullOrEmpty(id)) return NotFound();
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null) return NotFound();
+
+            if (user == null)
+                return NotFound();
             var roles = _roleManager.Roles.ToList();
+
             var model = new AddUserRoleDto()
             {
                 Id = id,
@@ -140,9 +159,14 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveUserRole(AddUserRoleDto input)
         {
-            if (input == null) return NotFound();
+            if (input == null)
+                return NotFound();
+
             var user = await _userManager.FindByIdAsync(input.Id);
-            if (user == null) return NotFound();
+
+            if (user == null) return
+                    NotFound();
+
             var requestRoles = input.UserRole.Where(x => x.IsSelected)
                 .Select(x => x.RoleName)
                 .ToList();
