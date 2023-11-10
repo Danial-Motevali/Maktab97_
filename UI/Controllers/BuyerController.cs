@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
-    [Authorize(Roles = "Admin, Buyer")]
     public class BuyerController : Controller
     {
         // GET: BuyerController
