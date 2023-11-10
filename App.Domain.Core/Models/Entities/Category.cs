@@ -10,7 +10,4 @@ public class Category
     public Category? Parent { get; set; }
 
     public bool IsDeleted { get; set; }
-
-    public int? ProductId { get; set; }
-    public Product product { get; set; } = null!;
 }
