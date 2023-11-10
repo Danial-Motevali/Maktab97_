@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Identity.Role;
+﻿using App.Domain.Core.Models.Identity.Entites;
+using App.Domain.Core.Models.Identity.Role;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,9 @@ namespace UI.Controllers
     [Authorize(Roles = "Owner")]
     public class ManagerUserController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public ManagerUserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public ManagerUserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -23,9 +24,11 @@ namespace UI.Controllers
             var model = _userManager.Users
                 .Select(x => new IndexDto()
                 {
-                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
                     Email = x.Email,
                     UserName = x.UserName
+                    
                 }).ToList();
 
             return View(model);
@@ -42,9 +45,9 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(string id, string userName)
+        public async Task<IActionResult> EditUser(string id, string userName, string firstName, string lastName)
         {
-            if(string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName)) return NotFound();
+            if(string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)) return NotFound();
             var user = await _userManager.FindByIdAsync(id);
             if(user == null) return NotFound();
             user.UserName = userName;

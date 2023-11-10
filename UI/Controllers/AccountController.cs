@@ -31,6 +31,8 @@ namespace UI.Controllers
                 {
                     //Id = input.Id,
                     Email = input.Email,
+                    FirstName = input.FirstName,
+                    LastName = input.LastName,
                     UserName = input.UserName,
                     EmailConfirmed = true
                 };
