@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231108195855_v1")]
+    [Migration("20231109183923_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -78,9 +78,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("LastPrice")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SellerId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TimeOfEnd")
                         .HasColumnType("datetime2");
 
@@ -98,8 +95,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("BuyerId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -126,9 +122,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -136,10 +129,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique()
-                        .HasFilter("[ProductId] IS NOT NULL");
 
                     b.ToTable("Categories");
                 });
@@ -184,10 +173,12 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Inventory", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int?>("AuctionId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("CartId")
@@ -230,7 +221,10 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Medal", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Rank")
                         .IsRequired()
@@ -316,7 +310,10 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.ProductPicture", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("PictureId")
                         .HasColumnType("int");
@@ -356,6 +353,8 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SellerId");
+
                     b.ToTable("Shops");
                 });
 
@@ -387,7 +386,10 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Buyer", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CartId")
                         .HasColumnType("int");
@@ -397,6 +399,8 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Buyer", (string)null);
@@ -405,7 +409,10 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.MyAdmin", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -420,18 +427,20 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Seller", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AuctionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ShopId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
 
                     b.HasIndex("UserId");
 
@@ -671,29 +680,13 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Navigation("Seller");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Entities.Cart", b =>
-                {
-                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Buyer", "Buyer")
-                        .WithOne("Cart")
-                        .HasForeignKey("App.Domain.Core.Entities.Cart", "Id")
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-                });
-
             modelBuilder.Entity("App.Domain.Core.Entities.Category", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.Category", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("App.Domain.Core.Entities.Product", "product")
-                        .WithOne("Category")
-                        .HasForeignKey("App.Domain.Core.Entities.Category", "ProductId");
-
                     b.Navigation("Parent");
-
-                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Comment", b =>
@@ -717,8 +710,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                 {
                     b.HasOne("App.Domain.Core.Entities.Auction", "Auction")
                         .WithMany("Inventories")
-                        .HasForeignKey("AuctionId")
-                        .IsRequired();
+                        .HasForeignKey("AuctionId");
 
                     b.HasOne("App.Domain.Core.Entities.Cart", "Cart")
                         .WithMany("Inventories")
@@ -761,6 +753,17 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Navigation("Seller");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
+                {
+                    b.HasOne("App.Domain.Core.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Entities.ProductPicture", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.Picture", "Picture")
@@ -780,6 +783,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Entities.Shop", b =>
+                {
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId");
+
+                    b.Navigation("Seller");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Entities.Wage", b =>
                 {
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "User")
@@ -793,11 +805,17 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Buyer", b =>
                 {
+                    b.HasOne("App.Domain.Core.Entities.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId");
+
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("User");
                 });
@@ -816,16 +834,8 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Seller", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.Auction", "Auction")
-                        .WithOne("Seller")
-                        .HasForeignKey("App.Domain.Core.Models.Identity.Entites.Seller", "Id")
-                        .IsRequired()
-                        .HasConstraintName("FK_Seller_Shops");
-
-                    b.HasOne("App.Domain.Core.Entities.Shop", "Shop")
-                        .WithOne("Seller")
-                        .HasForeignKey("App.Domain.Core.Models.Identity.Entites.Seller", "Id")
-                        .IsRequired()
-                        .HasConstraintName("FK_Seller_Auctions");
+                        .WithMany()
+                        .HasForeignKey("AuctionId");
 
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.User", "User")
                         .WithMany()
@@ -834,8 +844,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Auction");
-
-                    b.Navigation("Shop");
 
                     b.Navigation("User");
                 });
@@ -894,8 +902,6 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Auction", b =>
                 {
                     b.Navigation("Inventories");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Entities.Cart", b =>
@@ -920,8 +926,6 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
                 {
-                    b.Navigation("Category");
-
                     b.Navigation("Inventories");
 
                     b.Navigation("ProductPictures");
@@ -930,15 +934,11 @@ namespace App.Infrastructure.Data.EF.Migrations
             modelBuilder.Entity("App.Domain.Core.Entities.Shop", b =>
                 {
                     b.Navigation("Inventories");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Buyer", b =>
                 {
                     b.Navigation("Addresses");
-
-                    b.Navigation("Cart");
 
                     b.Navigation("Comments");
                 });
