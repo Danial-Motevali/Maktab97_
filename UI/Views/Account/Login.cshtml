@@ -6,6 +6,11 @@
     ViewData["Title"] = "Login";
 }
 
+<div class="loader-wrapper">
+    <div class="theme-loader">
+        <div class="loader-p"></div>
+    </div>
+</div>
 <form asp-controller="Account" asp-action="Login" method="post">
     <div class="mb-3">
         <label asp-for="UserName" class="form-label">UserName </label>
@@ -13,7 +18,7 @@
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
     <div class="mb-3">
-        <label asp-for="PassWord" class="form-label">PassWord</label>
+        <label asp-for="PassWord" class="form-label">PassWord </label>
         <input asp-for="PassWord" type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
@@ -23,3 +28,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+
+
+
