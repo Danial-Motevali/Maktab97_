@@ -54,6 +54,8 @@ namespace UI.Controllers
                 return NotFound();
 
             user.UserName = userName;
+            user.FirstName = firstName;
+            user.LastName = lastName;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -192,6 +194,9 @@ namespace UI.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if(user == null)
                 return NotFound();
+
+            //soft Delete
+            //user.IsDeleted = true;
 
             await _userManager.DeleteAsync(user);
 
