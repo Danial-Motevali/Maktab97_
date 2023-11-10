@@ -1,4 +1,5 @@
-﻿@model Microsoft.AspNetCore.Identity.IdentityUser
+﻿@* @model Microsoft.AspNetCore.Identity.IdentityUser *@
+@model App.Domain.Core.Models.Identity.Entites.User
 @{
     ViewData["Title"] = "EditUser";
 }
@@ -12,6 +13,15 @@
         <lable class="control-label" asp-for="UserName"></lable>
         <input class="from-control" asp-for="UserName" />
     </div>
+    <div class="from-group">
+        <lable class="control-label" asp-for="FirstName"></lable>
+        <input class="from-control" asp-for="FirstName" />
+    </div>
+    <div class="from-group">
+        <lable class="control-label" asp-for="LastName"></lable>
+        <input class="from-control" asp-for="LastName" />
+    </div>
+
 
     <input type="hidden" asp-for="Id"/>
 
