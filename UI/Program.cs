@@ -2,6 +2,8 @@ using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace UI
 {
@@ -29,7 +31,16 @@ namespace UI
             //configure the services in dependency class
             builder.Services.Infstracture();
 
+            
+
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetService<ApplicationDbContext>();
+                DataSeeder.Seedfordata(context);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
