@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(ShopDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Shop inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Shops.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Shop>(inputAddress);
-
-                await _db.Shops.AddAsync(newProduct, cancellation);
+                await _db.Shops.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<ShopDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Shop>> GetAll(CancellationToken cancellation)
         {
-            var addresses = _db.Shops.ToList();
-            var result = addresses.Select(address => _mapper.Map<ShopDtoOutput>(address)).ToList();
+            var addresses =  _db.Shops.ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<ShopDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Shop> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Shops.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<ShopDtoOutput>(address);
+            var address =  _db.Shops.FirstOrDefault(x => x.Id == Id);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, ShopDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Shop inputAddress, CancellationToken cancellation)
         {
             var address = _db.Shops.FirstOrDefault(x => x.Id == Id);
 

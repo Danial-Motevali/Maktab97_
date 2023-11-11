@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(CategoryDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Category inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Categories.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Category>(inputAddress);
-
-                await _db.Categories.AddAsync(newProduct, cancellation);
+                await _db.Categories.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<CategoryDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Category>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Categories.ToList();
-            var result = addresses.Select(address => _mapper.Map<CategoryDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<CategoryDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Category> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Categories.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<CategoryDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, CategoryDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Category inputAddress, CancellationToken cancellation)
         {
             var address = _db.Categories.FirstOrDefault(x => x.Id == Id);
 

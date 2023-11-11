@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AuctionDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Auction inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Auctions.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Auction>(inputAddress);
-
-                await _db.Auctions.AddAsync(newProduct, cancellation);
+                await _db.Auctions.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<AuctionDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Auction>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Auctions.ToList();
-            var result = addresses.Select(address => _mapper.Map<AuctionDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<AuctionDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Auction> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Auctions.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AuctionDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, AuctionDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Auction inputAddress, CancellationToken cancellation)
         {
             var address = _db.Auctions.FirstOrDefault(x => x.Id == Id);
 

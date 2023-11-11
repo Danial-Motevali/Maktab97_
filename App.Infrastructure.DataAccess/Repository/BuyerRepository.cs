@@ -22,15 +22,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(BuyerDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Buyer inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Buyers.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Buyer>(inputAddress);
-
-                await _db.Buyers.AddAsync(newProduct, cancellation);
+                await _db.Buyers.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -53,23 +51,21 @@ namespace App.Infrastructure.DataAccess.Repository
         //    return false;
         //}
 
-        public async Task<List<BuyerDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Buyer>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Buyers.ToList();
-            var result = addresses.Select(address => _mapper.Map<BuyerDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<BuyerDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Buyer> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Buyers.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<BuyerDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        //public async Task<bool> Update(int Id, BuyerDtoInput inputAddress, CancellationToken cancellation)
+        //public async Task<bool> Update(int Id, Buyer inputAddress, CancellationToken cancellation)
         //{
         //    var address = _db.Buyers.FirstOrDefault(x => x.Id == Id);
 

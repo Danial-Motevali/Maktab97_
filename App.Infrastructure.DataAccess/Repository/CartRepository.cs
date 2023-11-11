@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(CartDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Cart inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Carts.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Cart>(inputAddress);
-
-                await _db.Carts.AddAsync(newProduct, cancellation);
+                await _db.Carts.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<CartDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Cart>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Carts.ToList();
-            var result = addresses.Select(address => _mapper.Map<CartDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<CartDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Cart> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Carts.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<CartDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, CartDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Cart inputAddress, CancellationToken cancellation)
         {
             var address = _db.Carts.FirstOrDefault(x => x.Id == Id);
 

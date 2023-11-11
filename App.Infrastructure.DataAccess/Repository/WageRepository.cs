@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(WageDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Wage inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Wages.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Wage>(inputAddress);
-
-                await _db.Wages.AddAsync(newProduct, cancellation);
+                await _db.Wages.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<WageDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Wage>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Wages.ToList();
-            var result = addresses.Select(address => _mapper.Map<WageDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<WageDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Wage> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Wages.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<WageDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, WageDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Wage inputAddress, CancellationToken cancellation)
         {
             var address = _db.Wages.FirstOrDefault(x => x.Id == Id);
 

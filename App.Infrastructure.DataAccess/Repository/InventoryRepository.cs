@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(InventoryDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Inventory inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Inventories.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Inventory>(inputAddress);
-
-                await _db.Inventories.AddAsync(newProduct, cancellation);
+                await _db.Inventories.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<InventoryDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Inventory>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Inventories.ToList();
-            var result = addresses.Select(address => _mapper.Map<InventoryDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<InventoryDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Inventory> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Inventories.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<InventoryDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, InventoryDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Inventory inputAddress, CancellationToken cancellation)
         {
             var address = _db.Inventories.FirstOrDefault(x => x.Id == Id);
 

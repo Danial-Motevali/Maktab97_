@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(MedalDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Medal inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Medals.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Medal>(inputAddress);
-
-                await _db.Medals.AddAsync(newProduct, cancellation);
+                await _db.Medals.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<MedalDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Medal>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Medals.ToList();
-            var result = addresses.Select(address => _mapper.Map<MedalDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<MedalDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Medal> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Medals.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<MedalDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, MedalDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Medal inputAddress, CancellationToken cancellation)
         {
             var address = _db.Medals.FirstOrDefault(x => x.Id == Id);
 

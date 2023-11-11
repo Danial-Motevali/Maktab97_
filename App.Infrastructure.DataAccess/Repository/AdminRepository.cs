@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(AdminMyDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(MyAdmin inputAddress, CancellationToken cancellation)
         {
             var address = await _db.MyAdmins.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<MyAdmin>(inputAddress);
-
-                await _db.MyAdmins.AddAsync(newProduct, cancellation);
+                await _db.MyAdmins.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
         //    return false;
         //}
 
-        public async Task<List<AdminMyDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<MyAdmin>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.MyAdmins.ToList();
-            var result = addresses.Select(address => _mapper.Map<AdminMyDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<AdminMyDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<MyAdmin> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.MyAdmins.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<AdminMyDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        //public async Task<bool> Update(int Id, AdminMyDtoInput inputAddress, CancellationToken cancellation)
+        //public async Task<bool> Update(int Id, MyAdmin inputAddress, CancellationToken cancellation)
         //{
         //    var address = _db.Admins.FirstOrDefault(x => x.Id == Id);
 

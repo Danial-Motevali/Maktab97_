@@ -21,15 +21,13 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(CommentDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(Comment inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Comments.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                var newProduct = _mapper.Map<Comment>(inputAddress);
-
-                await _db.Comments.AddAsync(newProduct, cancellation);
+                await _db.Comments.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -52,23 +50,21 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<CommentDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Comment>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Comments.ToList();
-            var result = addresses.Select(address => _mapper.Map<CommentDtoOutput>(address)).ToList();
 
-            return result;
+            return addresses;
         }
 
-        public async Task<CommentDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Comment> GetById(int Id, CancellationToken cancellation)
         {
             var address = _db.Comments.FirstOrDefault(x => x.Id == Id);
-            var getAddress = _mapper.Map<CommentDtoOutput>(address);
 
-            return getAddress;
+            return address;
         }
 
-        public async Task<bool> Update(int Id, CommentDtoInput inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Comment inputAddress, CancellationToken cancellation)
         {
             var address = _db.Comments.FirstOrDefault(x => x.Id == Id);
 
