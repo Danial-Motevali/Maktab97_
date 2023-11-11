@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface ICartService
     {
-        Task<bool> Add(CartDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Cart input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CartDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Cart input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CartDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Cart> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CartDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Cart>> GetAll(CancellationToken cancellation);
     }
 }

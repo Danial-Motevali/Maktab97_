@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface ISellerService
     {
-        Task<bool> Add(SellerDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Seller input, CancellationToken cancellation);
 
-        //Task<bool> Update(int Id, SellerDtoInput input, CancellationToken cancellation);
+        //Task<bool> Update(int Id, Seller input, CancellationToken cancellation);
 
         //Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<SellerDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Seller> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<SellerDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Seller>> GetAll(CancellationToken cancellation);
     }
 }
