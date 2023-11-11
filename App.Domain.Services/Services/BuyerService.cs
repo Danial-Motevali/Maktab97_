@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(BuyerDtoInput addressInput, CancellationToken cancellation)
+        public async Task<bool> Add(Buyer addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }
@@ -32,17 +33,17 @@ namespace App.Domain.Services.Services
         //    return false;
         //}
 
-        public async Task<List<BuyerDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Buyer>> GetAll(CancellationToken cancellation)
         {
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task<BuyerDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Buyer> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        //public async Task<bool> Update(int Id, BuyerDtoInput addressInput, CancellationToken cancellation)
+        //public async Task<bool> Update(int Id, Buyer addressInput, CancellationToken cancellation)
         //{
         //    return await _repository.Update(Id, addressInput, cancellation);
         //}

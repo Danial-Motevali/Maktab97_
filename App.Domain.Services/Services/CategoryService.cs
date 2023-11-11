@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Contract.Services;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(CategoryDtoInput categoryInput, CancellationToken cancellation)
+        public async Task<bool> Add(Category categoryInput, CancellationToken cancellation)
         {
             return await _repository.Add(categoryInput, cancellation);
         }
@@ -32,17 +33,17 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<CategoryDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Category>> GetAll(CancellationToken cancellation)
         {
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task<CategoryDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Category> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, CategoryDtoInput categoryInput, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Category categoryInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, categoryInput, cancellation);
         }

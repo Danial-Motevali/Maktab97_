@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Contract.Services;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(InventoryDtoInput addressInput, CancellationToken cancellation)
+        public async Task<bool> Add(Inventory addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }
@@ -32,17 +33,17 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<InventoryDtoOutput>> GetAll(CancellationToken cancellation)
+        public async Task<List<Inventory>> GetAll(CancellationToken cancellation)
         {
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task<InventoryDtoOutput> GetById(int Id, CancellationToken cancellation)
+        public async Task<Inventory> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, InventoryDtoInput addressInput, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, Inventory addressInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, addressInput, cancellation);
         }
