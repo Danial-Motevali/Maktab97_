@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICategoryRepository
     {
-        Task<bool> Add(CategoryDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Category input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CategoryDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Category input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CategoryDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Category> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CategoryDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Category>> GetAll(CancellationToken cancellation);
     }
 }

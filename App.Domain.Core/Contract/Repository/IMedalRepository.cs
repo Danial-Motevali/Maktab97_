@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IMedalRepository
     {
-        Task<bool> Add(MedalDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Medal input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, MedalDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Medal input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<MedalDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Medal> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<MedalDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Medal>> GetAll(CancellationToken cancellation);
     }
 }

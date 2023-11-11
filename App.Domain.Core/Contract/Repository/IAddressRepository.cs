@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IAddressRepository
     {
-        Task<bool> Add(AddressDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Address input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, AddressDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Address input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AddressDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Address> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AddressDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Address>> GetAll(CancellationToken cancellation);
     }
 }

@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICommentRepository
     {
-        Task<bool> Add(CommentDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Comment input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, CommentDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Comment input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<CommentDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Comment> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<CommentDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Comment>> GetAll(CancellationToken cancellation);
     }
 }

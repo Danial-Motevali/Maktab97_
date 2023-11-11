@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IAuctionRepository
     {
-        Task<bool> Add(AuctionDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Auction input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, AuctionDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Auction input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AuctionDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Auction> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AuctionDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Auction>> GetAll(CancellationToken cancellation);
     }
 }

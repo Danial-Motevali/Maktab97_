@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IAdminRepository
     {
-        Task<bool> Add(AdminMyDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(MyAdmin input, CancellationToken cancellation);
 
-        //Task<bool> Update(int Id, AdminMyDtoInput input, CancellationToken cancellation);
+        //Task<bool> Update(int Id, MyAdmin input, CancellationToken cancellation);
 
         //Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<AdminMyDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<MyAdmin> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<AdminMyDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<MyAdmin>> GetAll(CancellationToken cancellation);
     }
 }

@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IWageRepository
     {
-        Task<bool> Add(WageDtoInput input, CancellationToken cancellation);
+        Task<bool> Add(Wage input, CancellationToken cancellation);
 
-        Task<bool> Update(int Id, WageDtoInput input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Wage input, CancellationToken cancellation);
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<WageDtoOutput> GetById(int Id, CancellationToken cancellation);
+        Task<Wage> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<WageDtoOutput>> GetAll(CancellationToken cancellation);
+        Task<List<Wage>> GetAll(CancellationToken cancellation);
     }
 }
