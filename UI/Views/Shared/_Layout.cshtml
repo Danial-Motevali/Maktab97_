@@ -32,7 +32,12 @@
                         </li>
                         <li class="nav-item ml-auto">
                             <form asp-controller="Admin" asp-action="ShowTheSeller" method="post">
-                                <button type="submit" class="btn nav-link test-dark">Admin Dashbord</button>
+                                <button type="submit" class="btn nav-link test-dark">Shop Dashbord</button>
+                            </form>
+                        </li>
+                        <li class="nav-item ml-auto">
+                            <form asp-controller="Admin" asp-action="ShowTheBuyer" method="post">
+                                <button type="submit" class="btn nav-link test-dark">Comment Dashbord</button>
                             </form>
                         </li>
                         @if (_signInManager.IsSignedIn(User))
