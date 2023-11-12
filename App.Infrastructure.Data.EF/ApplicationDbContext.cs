@@ -48,6 +48,8 @@ namespace App.Infrastructure.Data.EF
 
         public DbSet<Seller> Sellers { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>(entity =>
