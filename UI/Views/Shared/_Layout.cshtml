@@ -30,6 +30,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item ml-auto">
+                            <form asp-controller="Admin" asp-action="ShowTheSeller" method="post">
+                                <button type="submit" class="btn nav-link test-dark">Admin Dashbord</button>
+                            </form>
+                        </li>
                         @if (_signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item ml-auto">
@@ -39,11 +44,7 @@
                             </li>
                             @* @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
                             { *@
-                                <li class="nav-item ml-auto">
-                                    <form asp-controller="Admin" asp-action="Index" method="post">
-                                        <button type="submit" class="btn nav-link test-dark">Admin Dashbord</button>
-                                    </form>
-                                </li>
+                                
                             @* } *@
                             @* @if (User.IsInRole("Buyer") || User.IsInRole("Owner") || User.IsInRole("Admin"))
                             { *@

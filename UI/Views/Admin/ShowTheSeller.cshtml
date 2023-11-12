@@ -1,0 +1,9 @@
+﻿@model List<App.Domain.Core.Models.Dto.UserDto>
+
+@foreach(var seller in Model)
+{
+    <div>
+        <p>Name : @seller.FirstName @seller.LastName</p>
+        <a asp-controller="Admin" asp-action="SellersProducts" asp-route-Id="@seller.Id">See The Products</a>
+    </div>
+}

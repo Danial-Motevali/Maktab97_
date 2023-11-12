@@ -1,6 +1,8 @@
-﻿using App.Domain.Core.Contract.Repository;
+﻿using App.Domain.Core.Contract.AppServices;
+using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
+using App.Domain.Services.AppServices;
 using App.Domain.Services.Services;
 using App.Infrastructure.DataAccess.Repository;
 using AutoMapper;
@@ -28,6 +30,7 @@ namespace UI
             services.AddScoped<ISellerRepository, SellerRepository>();
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IWageRepository, WageRepository>();
+            services.AddScoped<IUserRepsitory, UserRepsitory>();
 
 
             //configure services
@@ -47,7 +50,11 @@ namespace UI
             services.AddScoped<ISellerService, SellerService>();
             services.AddScoped<IShopService, ShopService>();
             services.AddScoped<IWageService, WageService>();
+            services.AddScoped<IUserServices, UserServices>();
 
+            //configure app services
+
+            services.AddScoped<IAdminAppServices, AdminAppServices>();
         }
     }
 }

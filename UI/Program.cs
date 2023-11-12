@@ -26,7 +26,7 @@ namespace UI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            builder.Services.AddAutoMapper(typeof(Program)/*.Assembly*/);
 
             //configure the services in dependency class
             builder.Services.Infstracture();

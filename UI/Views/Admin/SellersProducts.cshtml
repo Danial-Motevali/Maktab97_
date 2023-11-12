@@ -1,0 +1,11 @@
+﻿@model List<App.Domain.Core.Entities.Product>
+
+@foreach(var product in Model)
+{
+    <div>
+        <form asp-controller="Admin" asp-action="DeleteProduct" asp-route-Id="@product.Id" method="post">
+            <p>@product.Title</p>
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+}

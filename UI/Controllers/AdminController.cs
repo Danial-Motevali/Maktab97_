@@ -1,111 +1,61 @@
-﻿using App.Domain.Core.Contract.Repository;
+﻿using App.Domain.Core.Contract.AppServices;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Models.Dto;
-using App.Domain.Services.Services;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IShopService _shopService;
         private readonly IMapper _mapper;
-        public AdminController(IShopService shopServices, IMapper mapper)
+        private readonly ISellerService _sellerService;
+        private readonly IAdminAppServices _adminAppServices;
+        public AdminController(ISellerService sellerService, IMapper mapper, IAdminAppServices adminAppServices)
         {
-            _shopService = shopServices;
+            _sellerService = sellerService;
             _mapper = mapper;
+            _adminAppServices = adminAppServices;
         }
 
-        // GET: AdminController
-        public ActionResult Index()
+        public async Task<IActionResult> ShowTheSeller(CancellationToken cancellation)
         {
-            return View();
-        }
+            var sellerDto = new List<UserDto>();
+            var findSellerFromUser = _adminAppServices.FindAllSeller(cancellation);
 
-        public async Task<IActionResult> ShowTheShop(CancellationToken cancellation)
-        {
-            var shops = await _shopService.GetAll(cancellation);
-
-            List<ShopDtoOutput> result = new List<ShopDtoOutput>();
-
-            foreach (var shopDto in shops)
+            foreach (var seller in findSellerFromUser)
             {
-                result.Add(_mapper.Map<ShopDtoOutput>(shopDto));
+                var userToDto = new UserDto
+                {
+                    Id = seller.Id,
+                    FirstName = seller.FirstName,
+                    LastName = seller.LastName,
+                    IsDeleted = seller.IsDeleted
+                };
+
+                sellerDto.Add(userToDto);
             }
 
-            return View(shops);
+            return View(sellerDto);
         }
 
-        // GET: AdminController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult SellersProducts(int Id, CancellationToken cancellation)
         {
-            return View();
+            var findSellerFromUser = _adminAppServices.FindSeller(Id, cancellation);
+            var shopSId = _adminAppServices.FindSellerShop(findSellerFromUser, cancellation);
+            var sellerInventory = _adminAppServices.FindInventoryByShopId(shopSId ,cancellation);
+            var findProduct = _adminAppServices.FindProductByProductId(sellerInventory, cancellation);
+
+            return View(findProduct);
         }
 
-        // GET: AdminController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AdminController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult DeleteProduct(int Id, CancellationToken cancellation)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _adminAppServices.DeleteProduct(Id, cancellation);
+
+            return RedirectToAction("SellersProducts");
         }
 
-        // GET: AdminController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdminController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
