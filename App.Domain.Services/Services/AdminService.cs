@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Contract.Services;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
 using App.Domain.Core.Models.Identity.Entites;
 using System;
@@ -13,14 +14,21 @@ namespace App.Domain.Services.Services
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _repository;
-        public AdminService(IAdminRepository repository)
+        private readonly ISellerRepository _sellerRepository;
+        public AdminService(IAdminRepository repository, ISellerRepository sellerRepository)
         {
             _repository = repository;
+            _sellerRepository = sellerRepository;
         }
         public async Task<bool> Add(MyAdmin addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }
+
+        //public Task<List<Product>> FindProductsBySellerIs(int sellerId, CancellationToken cancellation)
+        //{
+        //     _sellerRepository.GetById(sellerId, cancellation);
+        //}
 
         //public async Task<bool> Delete(int Id, CancellationToken cancellation)
         //{
@@ -33,9 +41,9 @@ namespace App.Domain.Services.Services
         //    return false;
         //}
 
-        public async Task<List<MyAdmin>> GetAll(CancellationToken cancellation)
+        public List<MyAdmin> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll(cancellation);
+            return  _repository.GetAll(cancellation);
         }
 
         public async Task<MyAdmin> GetById(int Id, CancellationToken cancellation)

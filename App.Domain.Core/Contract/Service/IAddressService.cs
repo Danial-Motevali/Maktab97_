@@ -18,6 +18,6 @@ namespace App.Domain.Core.Contract.Services
 
         Task<Address> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<Address>> GetAll(CancellationToken cancellation);
+        List<Address> GetAll(CancellationToken cancellation);
     }
 }

@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto;
 using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace App.Domain.Core.Contract.Services
 
         Task<MyAdmin> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<MyAdmin>> GetAll(CancellationToken cancellation);
+        List<MyAdmin> GetAll(CancellationToken cancellation);
+
+        //Task<List<Product>> FindProductsBySellerIs(int Id, CancellationToken cancellation);
     }
 }

@@ -50,7 +50,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<Comment>> GetAll(CancellationToken cancellation)
+        public  List<Comment> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Comments.ToList();
 

@@ -33,9 +33,9 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<Cart>> GetAll(CancellationToken cancellation)
+        public  List<Cart> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll(cancellation);
+            return  _repository.GetAll(cancellation);
         }
 
         public async Task<Cart> GetById(int Id, CancellationToken cancellation)

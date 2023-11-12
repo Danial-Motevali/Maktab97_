@@ -18,6 +18,6 @@ namespace App.Domain.Core.Contract.Services
 
         Task<Wage> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<Wage>> GetAll(CancellationToken cancellation);
+        List<Wage> GetAll(CancellationToken cancellation);
     }
 }

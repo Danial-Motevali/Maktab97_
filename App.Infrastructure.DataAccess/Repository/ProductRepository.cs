@@ -50,14 +50,14 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<Product>> GetAll(CancellationToken cancellation)
+        public List<Product> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Products.ToList();
 
             return addresses;
         }
 
-        public async Task<Product> GetById(int Id, CancellationToken cancellation)
+        public async Task<Product> GetById(int? Id, CancellationToken cancellation)
         {
             var address = _db.Products.FirstOrDefault(x => x.Id == Id);
 

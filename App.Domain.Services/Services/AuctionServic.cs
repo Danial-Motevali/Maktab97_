@@ -33,9 +33,9 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<Auction>> GetAll(CancellationToken cancellation)
+        public  List<Auction> GetAll(CancellationToken cancellation)
         {
-            return await _repository.GetAll(cancellation);
+            return  _repository.GetAll(cancellation);
         }
 
         public async Task<Auction> GetById(int Id, CancellationToken cancellation)

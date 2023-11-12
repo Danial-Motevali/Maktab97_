@@ -1,7 +1,7 @@
 ﻿using App.Domain.Core.Contract.Repository;
-using App.Domain.Core.Contract.Services;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Entities;
-using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    public class CategoryService : ICategoryService
+    public class UserServices : IUserServices
     {
-        private readonly ICategoryRepository _repository;
-        public CategoryService(ICategoryRepository repository)
+        private readonly IUserRepsitory _repository;
+        public UserServices(IUserRepsitory repository)
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Category categoryInput, CancellationToken cancellation)
+        public async Task<bool> Add(User pictureInput, CancellationToken cancellation)
         {
-            return await _repository.Add(categoryInput, cancellation);
+            return await _repository.Add(pictureInput, cancellation);
         }
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)
@@ -33,19 +33,19 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public  List<Category> GetAll(CancellationToken cancellation)
+        public List<User> GetAll(CancellationToken cancellation)
         {
             return  _repository.GetAll(cancellation);
         }
 
-        public async Task<Category> GetById(int Id, CancellationToken cancellation)
+        public async Task<User> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<bool> Update(int Id, Category categoryInput, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, User pictureInput, CancellationToken cancellation)
         {
-            return await _repository.Update(Id, categoryInput, cancellation);
+            return await _repository.Update(Id, pictureInput, cancellation);
         }
     }
 }

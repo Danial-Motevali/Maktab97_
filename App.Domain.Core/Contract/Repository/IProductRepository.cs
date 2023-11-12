@@ -16,8 +16,8 @@ namespace App.Domain.Core.Contract.Repository
 
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
-        Task<Product> GetById(int Id, CancellationToken cancellation);
+        Task<Product> GetById(int? Id, CancellationToken cancellation);
 
-        Task<List<Product>> GetAll(CancellationToken cancellation);
+        List<Product> GetAll(CancellationToken cancellation);
     }
 }

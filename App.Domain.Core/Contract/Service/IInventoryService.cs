@@ -18,6 +18,6 @@ namespace App.Domain.Core.Contract.Services
 
         Task<Inventory> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<Inventory>> GetAll(CancellationToken cancellation);
+        List<Inventory> GetAll(CancellationToken cancellation);
     }
 }

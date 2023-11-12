@@ -18,6 +18,6 @@ namespace App.Domain.Core.Contract.Repository
 
         Task<Cart> GetById(int Id, CancellationToken cancellation);
 
-        Task<List<Cart>> GetAll(CancellationToken cancellation);
+        List<Cart> GetAll(CancellationToken cancellation);
     }
 }

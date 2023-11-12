@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Entities;
-using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -12,22 +12,22 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructure.DataAccess.Repository
 {
-    public class MedalRepository : IMedalRepository
+    public class UserRepsitory : IUserRepsitory
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        public MedalRepository(ApplicationDbContext db, IMapper mapper)
+        public UserRepsitory(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(Medal inputAddress, CancellationToken cancellation)
+        public async Task<bool> Add(User inputAddress, CancellationToken cancellation)
         {
-            var address = await _db.Medals.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var address = await _db.Users.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
             if (address != null)
             {
-                await _db.Medals.AddAsync(address, cancellation);
+                await _db.Users.AddAsync(address, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
@@ -37,11 +37,11 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var address = await _db.Medals.FirstOrDefaultAsync(x => x.Id == Id);
+            var address = await _db.Users.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (address != null)
             {
-                _db.Medals.Remove(address);
+                address.IsDeleted = true;
 
                 await _db.SaveChangesAsync(cancellation);
 
@@ -50,28 +50,26 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public  List<Medal> GetAll(CancellationToken cancellation)
+        public List<User> GetAll(CancellationToken cancellation)
         {
-            var addresses = _db.Medals.ToList();
+            var addresses = _db.Users.ToList();
 
             return addresses;
         }
 
-        public async Task<Medal> GetById(int Id, CancellationToken cancellation)
+        public async Task<User> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Medals.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Users.FirstOrDefault(x => x.Id == Id);
 
             return address;
         }
 
-        public async Task<bool> Update(int Id, Medal inputAddress, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, User inputAddress, CancellationToken cancellation)
         {
-            var address = _db.Medals.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Shops.FirstOrDefault(x => x.Id == Id);
 
             if (address != null)
             {
-                address.Id = inputAddress.Id;
-                address.Rank = inputAddress.Rank;
 
                 await _db.SaveChangesAsync(cancellation);
                 return true;

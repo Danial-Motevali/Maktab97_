@@ -50,7 +50,7 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<List<Cart>> GetAll(CancellationToken cancellation)
+        public  List<Cart> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Carts.ToList();
 
