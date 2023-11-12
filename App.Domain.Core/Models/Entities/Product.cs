@@ -2,13 +2,13 @@
 
 public class Product
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
-    public string Title { get; set; } = null!;
+    public string? Title { get; set; } = null!;
 
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 
     public Category? Category { get; set; }
 
