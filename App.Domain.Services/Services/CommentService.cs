@@ -2,6 +2,7 @@
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,34 @@ namespace App.Domain.Services.Services
         public  List<Comment> GetAll(CancellationToken cancellation)
         {
             return  _repository.GetAll(cancellation);
+        }
+
+        public List<Comment> GetAllByBuyerId(int BuyerId, CancellationToken cancellation)
+        {
+            var allcomments = _repository.GetAll(cancellation);
+            var markComments = new List<Comment>();
+
+            foreach(var comment in allcomments)
+            {
+                if(comment.BuyerId == BuyerId && comment.IsDeleted == false)
+                    markComments.Add(comment);
+            }
+
+            return markComments;
+        }
+
+        public List<Comment> GetAllByInventoryId(int InventoryId, CancellationToken cancellation)
+        {
+            var allcomments = _repository.GetAll(cancellation);
+            var markComments = new List<Comment>();
+
+            foreach (var comment in allcomments)
+            {
+                if (comment.InventoryId == InventoryId && comment.IsDeleted == false)
+                    markComments.Add(comment);
+            }
+
+            return markComments;
         }
 
         public async Task<Comment> GetById(int Id, CancellationToken cancellation)
