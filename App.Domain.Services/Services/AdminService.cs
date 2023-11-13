@@ -14,13 +14,31 @@ namespace App.Domain.Services.Services
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _repository;
-        public AdminService(IAdminRepository repository)
+        private readonly IUserRepsitory _userRepsitory;
+        public AdminService(IAdminRepository repository, IUserRepsitory userRepsitory)
         {
             _repository = repository;
+            _userRepsitory = userRepsitory;
         }
         public async Task<bool> Add(MyAdmin addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
+        }
+
+        public List<User> FindAdminInUser(CancellationToken cancellation)
+        {
+            var allUser = _userRepsitory.GetAll(cancellation);
+            var allAdmin = _repository.GetAll(cancellation);
+            var adminUser = new List<User>();
+
+            foreach(var user in allUser)
+            {
+                foreach(var admin in allAdmin) 
+                    if(user.Id == admin.UserId)
+                        adminUser.Add(user);
+            }
+
+            return adminUser;
         }
 
         //public Task<List<Product>> FindProductsBySellerIs(int sellerId, CancellationToken cancellation)

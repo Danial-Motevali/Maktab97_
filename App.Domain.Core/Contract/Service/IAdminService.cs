@@ -23,6 +23,8 @@ namespace App.Domain.Core.Contract.Services
 
         MyAdmin GetByUserId(int UserId, CancellationToken cancellation);
 
+        List<User> FindAdminInUser(CancellationToken cancellation);
+
         //Task<List<Product>> FindProductsBySellerIs(int Id, CancellationToken cancellation);
     }
 }

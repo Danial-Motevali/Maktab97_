@@ -13,9 +13,11 @@ namespace App.Domain.Services.Services
     public class SellerService : ISellerService
     {
         private readonly ISellerRepository _repository;
-        public SellerService(ISellerRepository repository)
+        private readonly IUserRepsitory _userRepsitory;
+        public SellerService(ISellerRepository repository, IUserRepsitory userRepsitory)
         {
             _repository = repository;
+            _userRepsitory = userRepsitory;
         }
         public async Task<bool> Add(Seller addressInput, CancellationToken cancellation)
         {
@@ -33,6 +35,22 @@ namespace App.Domain.Services.Services
             }
 
             return null;
+        }
+
+        public List<User> FindSellerInUser(CancellationToken cancellation)
+        {
+            var allUser = _userRepsitory.GetAll(cancellation);
+            var allAdmin = _repository.GetAll(cancellation);
+            var markUser = new List<User>();
+
+            foreach(var user in allUser)
+            {
+                foreach(var admin in allAdmin)
+                    if(user.Id == admin.UserId)
+                        markUser.Add(user);
+            }
+
+            return markUser;
         }
 
         //public async Task<bool> Delete(int Id, CancellationToken cancellation)

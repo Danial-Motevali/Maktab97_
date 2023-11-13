@@ -21,5 +21,7 @@ namespace App.Domain.Core.Contract.Services
         List<Seller> GetAll(CancellationToken cancellation);
 
         Seller ByUserId(int UserId, CancellationToken cancellation);
+
+        List<User> FindSellerInUser(CancellationToken cancellation);
     }
 }

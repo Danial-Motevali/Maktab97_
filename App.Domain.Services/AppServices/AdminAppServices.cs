@@ -78,23 +78,7 @@ namespace App.Domain.Services.AppServices
             return sellerUser;
         }
 
-        public List<User> FindAllSeller(CancellationToken cancellation)
-        {
-            var allUser = _userServices.GetAll(cancellation);
-            var allSeller = _sellerSercies.GetAll(cancellation);
-            var sellerUser = new List<User>();
 
-            foreach (var user in allUser)
-            {
-                foreach (var seller in allSeller)
-                {
-                    if (seller.UserId == user.Id && user.IsDeleted == false)
-                        sellerUser.Add(user);
-                }
-            }
-
-            return sellerUser;
-        }
 
 
         //Seller Dashbord
@@ -112,6 +96,21 @@ namespace App.Domain.Services.AppServices
 
         }
 
+        public List<User> FindAllSeller(CancellationToken cancellation)
+        {
+            var allSeller = _sellerSercies.GetAll(cancellation);
+
+            foreach (var user in allSeller)
+            {
+                foreach (var seller in allSeller)
+                {
+                    if (seller.UserId == user.Id && user.IsDeleted == false)
+                        sellerUser.Add(user);
+                }
+            }
+
+            return sellerUser;
+        }
         public List<Inventory> FindInventoryByShopId(int ShopSId, CancellationToken cancellation)
         {
             var allInventory = _inventoryService.GetAll(cancellation);
@@ -174,7 +173,7 @@ namespace App.Domain.Services.AppServices
             var allSellerWage = _wageService.GetAllBySellerId(SellerId, cancellation).Result;
             int sellerWage = 0;
 
-            foreach(var wage in allSellerWage)
+            foreach (var wage in allSellerWage)
             {
                 sellerWage = sellerWage + wage.HowMuch;
             }

@@ -13,9 +13,11 @@ namespace App.Domain.Services.Services
     public class BuyerService : IBuyerService
     {
         private readonly IBuyerRepository _repository;
-        public BuyerService(IBuyerRepository repository)
+        private readonly IUserRepsitory _userRepsitory;
+        public BuyerService(IBuyerRepository repository, IUserRepsitory userRepsitory)
         {
             _repository = repository;
+            _userRepsitory = userRepsitory;
         }
         public async Task<bool> Add(Buyer addressInput, CancellationToken cancellation)
         {
@@ -49,6 +51,22 @@ namespace App.Domain.Services.Services
         public  List<Buyer> GetAll(CancellationToken cancellation)
         {
             return  _repository.GetAll(cancellation);
+        }
+
+        public List<User> FindBuyerInUser(CancellationToken cancellation)
+        {
+            var allUser = _userRepsitory.GetAll(cancellation);
+            var allBuyer = _repository.GetAll(cancellation);
+            var buyerUser = new List<User>();
+
+            foreach (var user in allUser)
+            {
+                foreach (var buyer in allBuyer)
+                    if (user.Id == buyer.UserId)
+                        buyerUser.Add(user);
+            }
+
+            return buyerUser;
         }
 
         public async Task<Buyer> GetById(int Id, CancellationToken cancellation)
