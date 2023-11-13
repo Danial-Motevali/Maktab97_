@@ -35,9 +35,9 @@ namespace App.Infrastructure.DataAccess.Repository
             return false;
         }
 
-        public async Task<bool> Delete(int Id, CancellationToken cancellation)
+        public async Task<bool> Delete(int CommentId, CancellationToken cancellation)
         {
-            var address = await _db.Comments.FirstOrDefaultAsync(x => x.Id == Id);
+            var address = GetById(CommentId, cancellation).Result;
 
             if (address != null)
             {

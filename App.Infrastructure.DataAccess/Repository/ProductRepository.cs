@@ -37,7 +37,7 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)
         {
-            var address = await _db.Products.FirstOrDefaultAsync(x => x.Id == Id);
+            var address = GetById(Id, cancellation).Result;
 
             if (address != null)
             {
