@@ -7,12 +7,13 @@ namespace UI.Controllers
 {
     public class ManagerRoleController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public ManagerRoleController(RoleManager<IdentityRole> roleManager)
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        public ManagerRoleController(RoleManager<IdentityRole<int>> roleManager)
         {
             _roleManager = roleManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var role = _roleManager.Roles.ToList();
@@ -31,7 +32,7 @@ namespace UI.Controllers
         {
 
             if (string.IsNullOrEmpty(input.Name)) return NotFound();
-            var role = new IdentityRole(input.Name);
+            var role = new IdentityRole<int>(input.Name);
             var result = await _roleManager.CreateAsync(role);
             if (result.Succeeded) return RedirectToAction("Index");
 

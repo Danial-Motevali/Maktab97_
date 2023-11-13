@@ -9,8 +9,8 @@ namespace UI.Controllers
     public class ManagerUserController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public ManagerUserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        public ManagerUserController(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -22,6 +22,7 @@ namespace UI.Controllers
             var model = _userManager.Users
                 .Select(x => new IndexDto()
                 {
+                    Id = x.Id.ToString(),
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Email = x.Email,
@@ -56,6 +57,7 @@ namespace UI.Controllers
             user.UserName = userName;
             user.FirstName = firstName;
             user.LastName = lastName;
+            user.SecurityStamp = Guid.NewGuid().ToString();
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -72,6 +74,7 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> AddUserRole(string id)
         {
+            //var id = Id.ToString();
             if(string.IsNullOrEmpty(id))
                 return NotFound();
 
@@ -107,8 +110,9 @@ namespace UI.Controllers
                     NotFound();
 
             var user = await _userManager.FindByIdAsync(input.Id);
+            user.SecurityStamp = Guid.NewGuid().ToString();
 
-            if(user == null)
+            if (user == null)
                 return NotFound();
 
             var requestRoles = input.UserRole.Where(x => x.IsSelected)
