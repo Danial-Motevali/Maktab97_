@@ -3,7 +3,6 @@ using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Identity.Entites;
-using App.Domain.Services.Services;
 
 namespace App.Domain.Services.AppServices
 {
@@ -16,7 +15,8 @@ namespace App.Domain.Services.AppServices
         private readonly ICommentService _commentService;
         private readonly IInventoryService _inventoryService;
         private readonly IProductService _productService;
-        public AdminAppServices(IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService)
+        private readonly IWageService _wageService;
+        public AdminAppServices(IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService, IWageService wageService)
         {
             _userServices = userServices;
             _sellerSercies = sellerService;
@@ -26,42 +26,38 @@ namespace App.Domain.Services.AppServices
             _productService = productService;
             _buyerService = buyerService;
             _commentService = commentService;
+            _wageService = wageService;
+        }
 
+        //Buyer Dashbord
+        public int FindBuyer(int UserId, CancellationToken cancellation)
+        {
+            var allBuyers = _buyerService.GetAll(cancellation);
+
+            foreach (var buyer in allBuyers)
+            {
+                if (buyer.UserId == UserId)
+                    return buyer.Id;
+            }
+
+            return 0;
         }
 
         public bool DeleteComment(int CommenttId, CancellationToken cancellation)
         {
-            var allComment = _commentService.GetAll(cancellation);
+            var rsult = _commentService.Delete(CommenttId, cancellation);
 
-            foreach (var comment in allComment)
+            if (rsult.IsCompleted)
             {
-                if (comment.Id == CommenttId && comment.IsDeleted == false)
-                {
-                    comment.IsDeleted = true;
-
-                    return true;
-                }
-
+                return true;
             }
+
             return false;
         }
 
-        public bool DeleteProduct(int ProductId, CancellationToken cancellation)
+        public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation)
         {
-            var allProduct = _productService.GetAll(cancellation);
-
-            foreach (var product in allProduct)
-            {
-                if(product.Id == ProductId && product.IsDeleted == false)
-                {
-                    product.IsDeleted = true;
-
-                    return true;
-                }
-
-            }
-            return false;
-
+            return _commentService.GetAllByBuyerId(BuyerId, cancellation);
         }
 
         public List<User> FindAlBuyer(CancellationToken cancellation)
@@ -90,9 +86,9 @@ namespace App.Domain.Services.AppServices
 
             foreach (var user in allUser)
             {
-                foreach(var seller in allSeller)
+                foreach (var seller in allSeller)
                 {
-                    if(seller.UserId == user.Id && user.IsDeleted == false)
+                    if (seller.UserId == user.Id && user.IsDeleted == false)
                         sellerUser.Add(user);
                 }
             }
@@ -100,22 +96,20 @@ namespace App.Domain.Services.AppServices
             return sellerUser;
         }
 
-        public int FindBuyer(int UserId, CancellationToken cancellation)
-        {
-            var allBuyers = _buyerService.GetAll(cancellation);
 
-            foreach (var buyer in allBuyers)
+        //Seller Dashbord
+
+        public bool DeleteProduct(int ProductId, CancellationToken cancellation)
+        {
+            var rsult = _productService.Delete(ProductId, cancellation);
+
+            if (rsult.IsCompleted)
             {
-                if (buyer.UserId == UserId)
-                    return buyer.Id;
+                return true;
             }
 
-            return 0;
-        }
+            return false;
 
-        public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation)
-        {
-            return _commentService.GetAllByBuyerId(BuyerId, cancellation);
         }
 
         public List<Inventory> FindInventoryByShopId(int ShopSId, CancellationToken cancellation)
@@ -125,7 +119,7 @@ namespace App.Domain.Services.AppServices
 
             foreach (var inventory in allInventory)
             {
-                if(inventory.ShopId == ShopSId && inventory.IsDeleted == false)
+                if (inventory.ShopId == ShopSId && inventory.IsDeleted == false)
                     myShopInventory.Add(inventory);
             }
 
@@ -135,13 +129,13 @@ namespace App.Domain.Services.AppServices
         public List<Product> FindProductByProductId(List<Inventory> SellerInventory, CancellationToken cancellation)
         {
             var allProduct = _productService.GetAll(cancellation);
-            var myProduct = new List<Product>();    
+            var myProduct = new List<Product>();
 
-            foreach(var invenoty in SellerInventory)
+            foreach (var invenoty in SellerInventory)
             {
                 foreach (var product in allProduct)
                 {
-                    if(invenoty.ProductId == product.Id && invenoty.IsDeleted == false)
+                    if (invenoty.ProductId == product.Id && invenoty.IsDeleted == false)
                         myProduct.Add(product);
                 }
             }
@@ -153,7 +147,7 @@ namespace App.Domain.Services.AppServices
         {
             var allSeller = _sellerSercies.GetAll(cancellation);
 
-            foreach(var seller in allSeller)
+            foreach (var seller in allSeller)
             {
                 if (seller.UserId == UserId)
                     return seller.Id;
@@ -173,6 +167,19 @@ namespace App.Domain.Services.AppServices
             }
 
             return 0;
+        }
+
+        public int ShowSellerWage(int SellerId, CancellationToken cancellation)
+        {
+            var allSellerWage = _wageService.GetAllBySellerId(SellerId, cancellation).Result;
+            int sellerWage = 0;
+
+            foreach(var wage in allSellerWage)
+            {
+                sellerWage = sellerWage + wage.HowMuch;
+            }
+
+            return sellerWage;
         }
     }
 }

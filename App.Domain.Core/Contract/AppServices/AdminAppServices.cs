@@ -21,5 +21,6 @@ namespace App.Domain.Core.Contract.AppServices
         List<Product> FindProductByProductId(List<Inventory> SellerInventory, CancellationToken cancellation);
         bool DeleteProduct(int ProductId, CancellationToken cancellation);
         bool DeleteComment(int CommenttId, CancellationToken cancellation);
+        int ShowSellerWage(int SellerId, CancellationToken cancellation);
     }
 }
