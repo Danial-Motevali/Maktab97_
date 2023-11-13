@@ -43,6 +43,20 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
+        public async Task<List<Wage>> GetAllBySellerId(int SellerId, CancellationToken cancellation)
+        {
+            var allWage =  _repository.GetAll(cancellation);
+            var sellerWage = new List<Wage>();
+
+            foreach(var wage in allWage)
+            {
+                if(wage.SellerId == SellerId && wage.IsDeleted == false)
+                    sellerWage.Add(wage);
+            }
+
+            return sellerWage;
+        }
+
         public async Task<bool> Update(int Id, Wage wageInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, wageInput, cancellation);
