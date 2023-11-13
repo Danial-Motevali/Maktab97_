@@ -72,7 +72,7 @@ namespace UI.Controllers
         {
             var findSellerFromUser = _adminAppServices.FindSeller(Id, cancellation);
             var shopSId = _adminAppServices.FindSellerShop(findSellerFromUser, cancellation);
-            var sellerInventory = _adminAppServices.FindInventoryByShopId(shopSId ,cancellation);
+            var sellerInventory = _adminAppServices.FindInventoryByShopId(shopSId, cancellation);
             var findProduct = _adminAppServices.FindProductByProductId(sellerInventory, cancellation);
 
             return View(findProduct);
@@ -87,11 +87,24 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteComment(int Id, CancellationToken cancellation)
+        public IActionResult DeleteComment(int Id /*CommentId*/, CancellationToken cancellation)
         {
             _adminAppServices.DeleteComment(Id, cancellation);
 
-            return RedirectToAction("BuyerComments");
+            return RedirectToAction("ShowTheBuyer");
+        }
+
+        public IActionResult SellersWage(int Id, CancellationToken cancellation)
+        {
+            var sellerId = _adminAppServices.FindSeller(Id, cancellation);
+            var result = _adminAppServices.ShowSellerWage(sellerId, cancellation);
+            var WageDto = new WageDtoOutput
+            {
+                HowMuch = result
+            };
+
+
+            return View(WageDto);
         }
 
     }
