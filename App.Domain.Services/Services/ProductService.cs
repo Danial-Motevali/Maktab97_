@@ -43,6 +43,20 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
+        public async Task<List<Product>> GetCategoryId(int CategoryId, CancellationToken cancellation)
+        {
+            var allProduct = _repository.GetAll(cancellation);
+            var markProduct = new List<Product>();
+
+            foreach (var product in allProduct)
+            {
+                if(product.CategoryId == CategoryId)
+                    markProduct.Add(product);
+            }
+
+            return markProduct;
+        }
+
         public async Task<bool> Update(int Id, Product productInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, productInput, cancellation);

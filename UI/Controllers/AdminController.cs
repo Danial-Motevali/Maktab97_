@@ -63,9 +63,9 @@ namespace UI.Controllers
         public IActionResult BuyerComments(int Id, CancellationToken cancellation)
         {
             var findBuyerFromUser = _adminAppServices.FindBuyer(Id, cancellation);
-            var findCommetnByUserId = _adminAppServices.FindCommentByUserId(findBuyerFromUser, cancellation);
+            //var findCommetnByUserId = _adminAppServices.FindCommentByUserId(findBuyerFromUser, cancellation);
 
-            return View(findCommetnByUserId);
+            return View(/*findCommetnByUserId*/);
         }
 
         public IActionResult SellersProducts(int Id, CancellationToken cancellation)

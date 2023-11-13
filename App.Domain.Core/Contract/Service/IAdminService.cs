@@ -21,6 +21,8 @@ namespace App.Domain.Core.Contract.Services
 
         List<MyAdmin> GetAll(CancellationToken cancellation);
 
+        MyAdmin GetByUserId(int UserId, CancellationToken cancellation);
+
         //Task<List<Product>> FindProductsBySellerIs(int Id, CancellationToken cancellation);
     }
 }

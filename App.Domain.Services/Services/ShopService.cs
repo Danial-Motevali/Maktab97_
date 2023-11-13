@@ -45,6 +45,19 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
+        public Shop GetBySellerId(int SellerId, CancellationToken cancellation)
+        {
+            var allShops = _repository.GetAll(cancellation);
+
+            foreach (var shop in allShops)
+            {
+                if(shop.SellerId == SellerId)
+                    return shop;
+            }
+
+            return null;
+        }
+
         public async Task<bool> Update(int Id, Shop shopInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, shopInput, cancellation);

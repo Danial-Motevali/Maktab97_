@@ -55,10 +55,10 @@ namespace App.Domain.Services.AppServices
             return false;
         }
 
-        public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation)
-        {
-            return _commentService.GetAllByBuyerId(BuyerId, cancellation);
-        }
+        //public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation)
+        //{
+        //    return _commentService.GetAllByBuyerId(BuyerId, cancellation);
+        //}
 
         public List<User> FindAlBuyer(CancellationToken cancellation)
         {

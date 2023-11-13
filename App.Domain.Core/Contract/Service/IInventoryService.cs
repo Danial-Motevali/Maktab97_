@@ -19,5 +19,13 @@ namespace App.Domain.Core.Contract.Services
         Task<Inventory> GetById(int Id, CancellationToken cancellation);
 
         List<Inventory> GetAll(CancellationToken cancellation);
+
+        Task<List<Inventory>> GetByPriceId(int PriceId, CancellationToken cancellation);
+
+        Task<List<Inventory>> GetByProductId(int ProductId, CancellationToken cancellation);
+
+        List<Inventory> GetByShopId(int ShopId, CancellationToken cancellation);
+
+        Inventory GetByAuctionId(int AuctionId, CancellationToken cancellation);
     }
 }

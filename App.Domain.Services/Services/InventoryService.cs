@@ -38,9 +38,64 @@ namespace App.Domain.Services.Services
             return  _repository.GetAll(cancellation);
         }
 
+        public Inventory GetByAuctionId(int AuctionId, CancellationToken cancellation)
+        {
+            var allInventory = _repository.GetAll(cancellation);
+
+            foreach (var inventory in allInventory)
+            {
+                if(inventory.AuctionId == AuctionId)
+                    return inventory;
+            }
+
+            return null;
+        }
+
         public async Task<Inventory> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
+        }
+
+        public async Task<List<Inventory>> GetByPriceId(int PriceId, CancellationToken cancellation)
+        {
+            var allInventory = _repository.GetAll(cancellation);
+            var markInventory = new List<Inventory>();
+
+            foreach(var inventory in allInventory)
+            {
+                if(inventory.PriceId == PriceId)
+                    markInventory.Add(inventory);
+            }
+
+            return markInventory;
+        }
+
+        public async Task<List<Inventory>> GetByProductId(int ProductId, CancellationToken cancellation)
+        {
+            var allInventory = _repository.GetAll(cancellation);
+            var markInventory = new List<Inventory>();
+
+            foreach (var inventory in allInventory)
+            {
+                if (inventory.ProductId == ProductId)
+                    markInventory.Add(inventory);
+            }
+
+            return markInventory;
+        }
+
+        public List<Inventory> GetByShopId(int ShopId, CancellationToken cancellation)
+        {
+            var allInventory = _repository.GetAll(cancellation);
+            var markInventory = new List<Inventory>();
+
+            foreach (var inventory in allInventory)
+            {
+                if (inventory.ShopId == ShopId)
+                    markInventory.Add(inventory);
+            }
+
+            return markInventory;
         }
 
         public async Task<bool> Update(int Id, Inventory addressInput, CancellationToken cancellation)

@@ -20,8 +20,8 @@ namespace App.Domain.Core.Contract.Services
 
         List<Comment> GetAll(CancellationToken cancellation);
 
-        List<Comment> GetAllByBuyerId(int BuyerId, CancellationToken cancellation);
+        List<Comment> GetByBuyerId(int BuyerId, CancellationToken cancellation);
 
-        List<Comment> GetAllByInventoryId(int InventoryId, CancellationToken cancellation);
+        List<Comment> GetByInventoryId(int InventoryId, CancellationToken cancellation);
     }
 }

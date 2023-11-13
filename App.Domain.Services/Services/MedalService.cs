@@ -17,6 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
+
         public async Task<bool> Add(Medal addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
@@ -41,6 +42,20 @@ namespace App.Domain.Services.Services
         public async Task<Medal> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
+        }
+
+        public List<Medal> GetBySellerId(int sellerId, CancellationToken cancellation)
+        {
+            var allMedal = _repository.GetAll(cancellation);
+            var markMedal = new List<Medal>();
+
+            foreach (var medal in allMedal) 
+            {
+                if(medal.SellerId == sellerId)
+                    markMedal.Add(medal);
+            }
+
+            return markMedal;
         }
 
         public async Task<bool> Update(int Id, Medal addressInput, CancellationToken cancellation)

@@ -14,11 +14,9 @@ namespace App.Domain.Services.Services
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _repository;
-        private readonly ISellerRepository _sellerRepository;
-        public AdminService(IAdminRepository repository, ISellerRepository sellerRepository)
+        public AdminService(IAdminRepository repository)
         {
             _repository = repository;
-            _sellerRepository = sellerRepository;
         }
         public async Task<bool> Add(MyAdmin addressInput, CancellationToken cancellation)
         {
@@ -49,6 +47,19 @@ namespace App.Domain.Services.Services
         public async Task<MyAdmin> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
+        }
+
+        public MyAdmin GetByUserId(int UserId, CancellationToken cancellation)
+        {
+            var allAdmin = _repository.GetAll(cancellation);
+            
+            foreach(var admin in allAdmin)
+            {
+                if(admin.UserId == UserId)
+                    return admin;
+            }
+
+            return null;
         }
 
         //public async Task<bool> Update(int Id, MyAdmin addressInput, CancellationToken cancellation)

@@ -46,7 +46,7 @@ namespace App.Domain.Services.Services
 
             foreach(var comment in allcomments)
             {
-                if(comment.BuyerId == BuyerId && comment.IsDeleted == false)
+                if(comment.BuyerId == BuyerId)
                     markComments.Add(comment);
             }
 
@@ -60,7 +60,21 @@ namespace App.Domain.Services.Services
 
             foreach (var comment in allcomments)
             {
-                if (comment.InventoryId == InventoryId && comment.IsDeleted == false)
+                if (comment.InventoryId == InventoryId)
+                    markComments.Add(comment);
+            }
+
+            return markComments;
+        }
+
+        public List<Comment> GetByBuyerId(int BuyerId, CancellationToken cancellation)
+        {
+            var allComment = _repository.GetAll(cancellation);
+            var markComments = new List<Comment>();
+
+            foreach(var comment in allComment)
+            {
+                if(comment.BuyerId == BuyerId)
                     markComments.Add(comment);
             }
 
@@ -70,6 +84,20 @@ namespace App.Domain.Services.Services
         public async Task<Comment> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
+        }
+
+        public List<Comment> GetByInventoryId(int InventoryId, CancellationToken cancellation)
+        {
+            var allComment = _repository.GetAll(cancellation);
+            var markComments = new List<Comment>();
+
+            foreach (var comment in allComment)
+            {
+                if (comment.InventoryId == InventoryId)
+                    markComments.Add(comment);
+            }
+
+            return markComments;
         }
 
         public async Task<bool> Update(int Id, Comment commentInput, CancellationToken cancellation)

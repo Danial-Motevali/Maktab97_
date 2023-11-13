@@ -19,5 +19,7 @@ namespace App.Domain.Core.Contract.Services
         Task<Category> GetById(int Id, CancellationToken cancellation);
 
         List<Category> GetAll(CancellationToken cancellation);
+
+        List<Category> GetByPatentId(int ParentId, CancellationToken cancellation);
     }
 }

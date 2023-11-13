@@ -22,6 +22,19 @@ namespace App.Domain.Services.Services
             return await _repository.Add(addressInput, cancellation);
         }
 
+        public Buyer ByUserId(int UserId, CancellationToken cancellation)
+        {
+            var allBuyer = _repository.GetAll(cancellation);
+
+            foreach (var buyer in allBuyer)
+            {
+                if (buyer.UserId == UserId)
+                    return buyer;
+            }
+
+            return null;
+        }
+
         //public async Task<bool> Delete(int Id, CancellationToken cancellation)
         //{
         //    var category = await _repository.GetById(Id, cancellation);

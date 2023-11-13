@@ -43,6 +43,20 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
+        public List<Category> GetByPatentId(int ParentId, CancellationToken cancellation)
+        {
+            var allCategory = _repository.GetAll(cancellation);
+            var parentCategory = new List<Category>();
+
+            foreach (var category in allCategory)
+            {
+                if(category.ParentId == ParentId)
+                    parentCategory.Add(category);
+            }
+
+            return parentCategory;
+        }
+
         public async Task<bool> Update(int Id, Category categoryInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, categoryInput, cancellation);

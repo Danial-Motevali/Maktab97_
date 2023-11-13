@@ -13,7 +13,7 @@ namespace App.Domain.Core.Contract.AppServices
     {
         int FindSeller(int UserId ,CancellationToken cancellation);
         int FindBuyer(int UserId ,CancellationToken cancellation);
-        List<Comment> FindCommentByUserId(int BuyerId ,CancellationToken cancellation);
+        //List<Comment> FindCommentByUserId(int BuyerId ,CancellationToken cancellation);
         int FindSellerShop(int SellerSId,CancellationToken cancellation);
         List<User> FindAllSeller(CancellationToken cancellation);
         List<User> FindAlBuyer(CancellationToken cancellation);
