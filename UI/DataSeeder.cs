@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

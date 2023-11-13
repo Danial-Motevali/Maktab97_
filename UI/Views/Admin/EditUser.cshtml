@@ -1,0 +1,29 @@
+﻿@* @model Microsoft.AspNetCore.Identity.IdentityUser *@
+@model App.Domain.Core.Models.Identity.Entites.User
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<h1>EditUser</h1>
+
+<form asp-controller="Admin" asp-action="EditUser" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="from-group">
+        <lable class="control-label" asp-for="UserName"></lable>
+        <input class="from-control" asp-for="UserName" />
+    </div>
+    <div class="from-group">
+        <lable class="control-label" asp-for="FirstName"></lable>
+        <input class="from-control" asp-for="FirstName" />
+    </div>
+    <div class="from-group">
+        <lable class="control-label" asp-for="LastName"></lable>
+        <input class="from-control" asp-for="LastName" />
+    </div>
+
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-Primary">Submit</button>
+</form>
