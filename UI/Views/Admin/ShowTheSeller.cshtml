@@ -5,5 +5,6 @@
     <div>
         <p>Name : @seller.FirstName @seller.LastName</p>
         <a asp-controller="Admin" asp-action="SellersProducts" asp-route-Id="@seller.Id">See The Products</a>
+        <a asp-controller="Admin" asp-action="SellersWage" asp-route-Id="@seller.Id">See The Wage</a>
     </div>
 }
