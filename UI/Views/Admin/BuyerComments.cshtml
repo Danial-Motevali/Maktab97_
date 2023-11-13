@@ -1,0 +1,12 @@
+﻿@model List<App.Domain.Core.Entities.Comment>
+
+@foreach (var comment in Model)
+{
+    <div>
+        <form asp-controller="Admin" asp-action="DeleteComment" asp-route-Id="@comment.Id" method="post">
+            <p>@comment.Title</p>
+            <p>@comment.Description</p>
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+}

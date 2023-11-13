@@ -3,6 +3,7 @@ using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Identity.Entites;
+using App.Domain.Services.Services;
 
 namespace App.Domain.Services.AppServices
 {
@@ -10,10 +11,12 @@ namespace App.Domain.Services.AppServices
     {
         private readonly IUserServices _userServices;
         private readonly ISellerService _sellerSercies;
+        private readonly IBuyerService _buyerService;
         private readonly IShopService _shopServices;
+        private readonly ICommentService _commentService;
         private readonly IInventoryService _inventoryService;
         private readonly IProductService _productService;
-        public AdminAppServices(IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService)
+        public AdminAppServices(IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService)
         {
             _userServices = userServices;
             _sellerSercies = sellerService;
@@ -21,6 +24,26 @@ namespace App.Domain.Services.AppServices
             _inventoryService = inventoryService;
             _inventoryService = inventoryService;
             _productService = productService;
+            _buyerService = buyerService;
+            _commentService = commentService;
+
+        }
+
+        public bool DeleteComment(int CommenttId, CancellationToken cancellation)
+        {
+            var allComment = _commentService.GetAll(cancellation);
+
+            foreach (var comment in allComment)
+            {
+                if (comment.Id == CommenttId && comment.IsDeleted == false)
+                {
+                    comment.IsDeleted = true;
+
+                    return true;
+                }
+
+            }
+            return false;
         }
 
         public bool DeleteProduct(int ProductId, CancellationToken cancellation)
@@ -41,6 +64,24 @@ namespace App.Domain.Services.AppServices
 
         }
 
+        public List<User> FindAlBuyer(CancellationToken cancellation)
+        {
+            var allUser = _userServices.GetAll(cancellation);
+            var allSeller = _buyerService.GetAll(cancellation);
+            var sellerUser = new List<User>();
+
+            foreach (var user in allUser)
+            {
+                foreach (var seller in allSeller)
+                {
+                    if (seller.UserId == user.Id && user.IsDeleted == false)
+                        sellerUser.Add(user);
+                }
+            }
+
+            return sellerUser;
+        }
+
         public List<User> FindAllSeller(CancellationToken cancellation)
         {
             var allUser = _userServices.GetAll(cancellation);
@@ -57,6 +98,24 @@ namespace App.Domain.Services.AppServices
             }
 
             return sellerUser;
+        }
+
+        public int FindBuyer(int UserId, CancellationToken cancellation)
+        {
+            var allBuyers = _buyerService.GetAll(cancellation);
+
+            foreach (var buyer in allBuyers)
+            {
+                if (buyer.UserId == UserId)
+                    return buyer.Id;
+            }
+
+            return 0;
+        }
+
+        public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation)
+        {
+            return _commentService.GetAllByBuyerId(BuyerId, cancellation);
         }
 
         public List<Inventory> FindInventoryByShopId(int ShopSId, CancellationToken cancellation)

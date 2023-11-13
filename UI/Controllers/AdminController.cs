@@ -39,6 +39,35 @@ namespace UI.Controllers
             return View(sellerDto);
         }
 
+        public async Task<IActionResult> ShowTheBuyer(CancellationToken cancellation)
+        {
+            var buyerDto = new List<UserDto>();
+            var findBuyerFromUser = _adminAppServices.FindAlBuyer(cancellation);
+
+            foreach (var buyer in findBuyerFromUser)
+            {
+                var userToDto = new UserDto
+                {
+                    Id = buyer.Id,
+                    FirstName = buyer.FirstName,
+                    LastName = buyer.LastName,
+                    IsDeleted = buyer.IsDeleted
+                };
+
+                buyerDto.Add(userToDto);
+            }
+
+            return View(buyerDto);
+        }
+
+        public IActionResult BuyerComments(int Id, CancellationToken cancellation)
+        {
+            var findBuyerFromUser = _adminAppServices.FindBuyer(Id, cancellation);
+            var findCommetnByUserId = _adminAppServices.FindCommentByUserId(findBuyerFromUser, cancellation);
+
+            return View(findCommetnByUserId);
+        }
+
         public IActionResult SellersProducts(int Id, CancellationToken cancellation)
         {
             var findSellerFromUser = _adminAppServices.FindSeller(Id, cancellation);
@@ -55,6 +84,14 @@ namespace UI.Controllers
             _adminAppServices.DeleteProduct(Id, cancellation);
 
             return RedirectToAction("SellersProducts");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteComment(int Id, CancellationToken cancellation)
+        {
+            _adminAppServices.DeleteComment(Id, cancellation);
+
+            return RedirectToAction("BuyerComments");
         }
 
     }

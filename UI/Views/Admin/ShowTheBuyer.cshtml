@@ -1,0 +1,9 @@
+﻿@model List<App.Domain.Core.Models.Dto.UserDto>
+
+@foreach (var buyer in Model)
+{
+    <div>
+        <p>Name : @buyer.FirstName @buyer.LastName</p>
+        <a asp-controller="Admin" asp-action="BuyerComments" asp-route-Id="@buyer.Id">See all The Comments</a>
+    </div>
+}
