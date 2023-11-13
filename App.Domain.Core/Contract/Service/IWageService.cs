@@ -17,6 +17,7 @@ namespace App.Domain.Core.Contract.Services
         Task<bool> Delete(int Id, CancellationToken cancellation);
 
         Task<Wage> GetById(int Id, CancellationToken cancellation);
+        Task<List<Wage>> GetAllBySellerId(int SellerId, CancellationToken cancellation);
 
         List<Wage> GetAll(CancellationToken cancellation);
     }
