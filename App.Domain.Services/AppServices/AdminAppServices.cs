@@ -41,7 +41,7 @@ namespace App.Domain.Services.AppServices
             }
 
             return 0;
-        }
+        } // from Interface
 
         public bool DeleteComment(int CommenttId, CancellationToken cancellation)
         {
@@ -53,14 +53,23 @@ namespace App.Domain.Services.AppServices
             }
 
             return false;
-        }
+        } // from Interface
 
-        //public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation)
-        //{
-        //    return _commentService.GetAllByBuyerId(BuyerId, cancellation);
-        //}
+        public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation) // from Interface
+        {
+            var allComment = _commentService.GetByBuyerId(BuyerId, cancellation);
+            var activeCommetn = new List<Comment>();
 
-        public List<User> FindAlBuyer(CancellationToken cancellation)
+            foreach (var comment in allComment)
+            {
+                if(comment.IsDeleted == false)
+                    activeCommetn.Add(comment);
+            }
+
+            return activeCommetn;
+        } 
+
+        public List<User> FindAllBuyer(CancellationToken cancellation)
         {
             var allUser = _userServices.GetAll(cancellation);
             var allSeller = _buyerService.GetAll(cancellation);
@@ -76,8 +85,7 @@ namespace App.Domain.Services.AppServices
             }
 
             return sellerUser;
-        }
-
+        } // from Interface
 
 
 
@@ -94,23 +102,24 @@ namespace App.Domain.Services.AppServices
 
             return false;
 
-        }
+        } // from Interface
 
         public List<User> FindAllSeller(CancellationToken cancellation)
         {
-            var allSeller = _sellerSercies.GetAll(cancellation);
+            var allSeller = _sellerSercies.FindSellerInUser(cancellation);
+            var activeUser = new List<User>();
 
             foreach (var user in allSeller)
             {
                 foreach (var seller in allSeller)
                 {
-                    if (seller.UserId == user.Id && user.IsDeleted == false)
-                        sellerUser.Add(user);
+                    if (user.IsDeleted == false)
+                        activeUser.Add(user);
                 }
             }
 
-            return sellerUser;
-        }
+            return activeUser;
+        } // from Interface
         public List<Inventory> FindInventoryByShopId(int ShopSId, CancellationToken cancellation)
         {
             var allInventory = _inventoryService.GetAll(cancellation);
@@ -179,6 +188,25 @@ namespace App.Domain.Services.AppServices
             }
 
             return sellerWage;
-        }
+        } // from Interface
+
+        public List<Product> SellersProduct(int SellerId, CancellationToken cancellation)
+        {
+            var sellerShop = _shopServices.GetBySellerId(SellerId ,cancellation);
+            var sellerInventory = _inventoryService.GetByShopId(sellerShop.Id, cancellation);
+            var allProduct = _productService.GetAll(cancellation);
+            var markProduct = new List<Product>();
+
+            foreach(var inventory in sellerInventory)
+            {
+                foreach (var product in allProduct)
+                    if (inventory.ProductId == product.Id && product.IsDeleted == false && inventory.IsDeleted == false)
+                        markProduct.Add(product);
+            }
+
+            return markProduct;
+        } // from Inteface
+
+        
     }
 }
