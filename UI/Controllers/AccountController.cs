@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.Models.Dto;
+﻿using App.Domain.Core.Contract.AppServices;
 using App.Domain.Core.Models.Identity.AccountDto;
 using App.Domain.Core.Models.Identity.Entites;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +10,12 @@ namespace UI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly IAccountAppService _accountAppService;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IAccountAppService accountAppService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _accountAppService = accountAppService;
         }
 
         [HttpGet]
@@ -23,8 +25,10 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto input)
+        public async Task<IActionResult> Register(RegisterDto input, CancellationToken cancellation)
         {
+
+
             if (ModelState.IsValid)
             {
                 var newUser = new User()
@@ -38,6 +42,18 @@ namespace UI.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(newUser, input.PassWord);
+
+                if (result.Succeeded)
+                {
+                    if (input.potion == Potion.Seller)
+                    {
+                        _accountAppService.CreateSeller(newUser, cancellation);
+                    }
+                    else if (input.potion == Potion.Buyer)
+                    {
+                        _accountAppService.CreateBuyer(newUser, cancellation);
+                    }
+                }
 
                 if (result.Succeeded)
                 {
@@ -69,7 +85,7 @@ namespace UI.Controllers
 
             if (ModelState.IsValid)
             {
-               var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
+                var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
 
                 if (result.Succeeded)
                 {
