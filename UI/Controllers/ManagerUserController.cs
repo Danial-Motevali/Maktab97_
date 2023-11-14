@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
+    [Authorize(Roles = "Owner")]
     public class ManagerUserController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -57,7 +58,6 @@ namespace UI.Controllers
             user.UserName = userName;
             user.FirstName = firstName;
             user.LastName = lastName;
-            user.SecurityStamp = Guid.NewGuid().ToString();
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -110,7 +110,6 @@ namespace UI.Controllers
                     NotFound();
 
             var user = await _userManager.FindByIdAsync(input.Id);
-            user.SecurityStamp = Guid.NewGuid().ToString();
 
             if (user == null)
                 return NotFound();

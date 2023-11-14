@@ -69,7 +69,7 @@ namespace UI.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
+               var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
 
                 if (result.Succeeded)
                 {

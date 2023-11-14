@@ -35,6 +35,7 @@ namespace UI
 
             var app = builder.Build();
 
+            //data seeder
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
-    //[Authorize(Roles ="Admin")]
-    //[Authorize(Roles ="Owner")]
+    [Authorize(Roles = "Admin, Owner")]
+    //[Authorize(Roles = "Owner")]
     public class AdminController : Controller
     {
         private readonly IMapper _mapper;
@@ -168,7 +168,6 @@ namespace UI.Controllers
             user.FirstName = firstName;
             user.LastName = lastName;
             user.IsDeleted = isDeleted;
-            user.SecurityStamp = Guid.NewGuid().ToString();
 
             var result = await _userManager.UpdateAsync(user);
 

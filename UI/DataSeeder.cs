@@ -23,19 +23,19 @@ namespace UI
                 dbContext.SaveChanges();
             } //0
 
-            if (!dbContext.Users.Any()) //0
-            {
-                var Address = new List<User>
-                {
-                    new User {FirstName = "Danial", LastName = "Motevali", UserName = "Danial", Email = "danial.motevali.82@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEAxF0lm77eePrrkF2wqzykDMbJui2GPnCRdnjDorD9ZXPaMWsCJC2qgukExXQgDdvQ=="},
-                    new User { FirstName = "First", LastName = "Admin", UserName = "Admin1", Email = "admin1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEAxF0lm77eePrrkF2wqzykDMbJui2GPnCRdnjDorD9ZXPaMWsCJC2qgukExXQgDdvQ=="},
-                    new User { FirstName = "First", LastName = "Buyer", UserName = "Buyer1", Email = "buyer1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEAxF0lm77eePrrkF2wqzykDMbJui2GPnCRdnjDorD9ZXPaMWsCJC2qgukExXQgDdvQ=="},
-                    new User { FirstName = "First", LastName = "Seller", UserName = "Seller1", Email = "seller1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEAxF0lm77eePrrkF2wqzykDMbJui2GPnCRdnjDorD9ZXPaMWsCJC2qgukExXQgDdvQ=="}
-                };
+            //if (!dbContext.Users.Any()) //0
+            //{
+            //    var Address = new List<User>
+            //    {
+            //        new User {FirstName = "Danial", LastName = "Motevali", UserName = "Danial", Email = "danial.motevali.82@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
+            //        new User { FirstName = "First", LastName = "Admin", UserName = "Admin1", Email = "admin1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
+            //        new User { FirstName = "First", LastName = "Buyer", UserName = "Buyer1", Email = "buyer1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
+            //        new User { FirstName = "First", LastName = "Seller", UserName = "Seller1", Email = "seller1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="}
+            //    };
 
-                dbContext.AddRange(Address);
-                dbContext.SaveChanges();
-            } //0
+            //    dbContext.AddRange(Address);
+            //    dbContext.SaveChanges();
+            //} //0
 
             if (!dbContext.Carts.Any()) //0
             {

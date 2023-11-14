@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
+    [Authorize(Roles = "Owner")]
     public class ManagerRoleController : Controller
     {
         private readonly RoleManager<IdentityRole<int>> _roleManager;
