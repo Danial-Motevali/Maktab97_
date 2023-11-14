@@ -1,6 +1,6 @@
-﻿@using App.Domain.Core.Models.Dto
+﻿@using App.Domain.Core.Models.Identity.AccountDto
 
-@model AdminMyDtoInput;
+@model RegisterDto;
 
 @{
     ViewData["Title"] = "Register";
@@ -8,8 +8,8 @@
 
 <form asp-controller="Account" asp-action="Register" method="post">
     <div class="mb-3">
-        <label asp-for="FirsName" class="form-label">FirstName </label>
-        <input asp-for="FirsName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <label asp-for="FirstName" class="form-label">FirstName </label>
+        <input asp-for="FirstName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">We'll never share your FirstName with anyone else.</div>
     </div>
     <div class="mb-3">

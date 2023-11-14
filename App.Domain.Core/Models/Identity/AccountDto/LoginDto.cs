@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Models.IdentityDto.Account
+namespace App.Domain.Core.Models.Identity.AccountDto
 {
     public class LoginDto
     {

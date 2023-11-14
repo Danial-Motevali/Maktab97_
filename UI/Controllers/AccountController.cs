@@ -1,6 +1,6 @@
 ﻿using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.AccountDto;
 using App.Domain.Core.Models.Identity.Entites;
-using App.Domain.Core.Models.IdentityDto.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

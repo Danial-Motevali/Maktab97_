@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231112162444_v1")]
+    [Migration("20231114062725_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -284,20 +284,19 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -757,9 +756,7 @@ namespace App.Infrastructure.Data.EF.Migrations
                 {
                     b.HasOne("App.Domain.Core.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
