@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.AppServices
 {
     public interface IAccountAppService
     {
-        bool CreateBuyer(User User, CancellationToken cancellation);
-        bool CreateSeller(User User, CancellationToken cancellation);
+        Task<bool> CreateBuyer(User User, CancellationToken cancellation);
+        Task<bool> CreateSeller(User User, CancellationToken cancellation);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using App.Domain.Core.Contract.AppServices;
 using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
+using App.Domain.Core.Models.Identity;
 using App.Domain.Core.Models.Identity.Entites;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +17,16 @@ namespace App.Domain.Services.AppServices
         private readonly IBuyerService _buyerService;
         private readonly ISellerService _sellerService;
         private readonly IUserServices _userServices;
-        public AccountAppService(IBuyerService buyerService, ISellerService sellerService, IUserServices userServices)
+        private readonly UserManager<User> _userManager;
+        public AccountAppService(IBuyerService buyerService, ISellerService sellerService, IUserServices userServices, UserManager<User> userManager)
         {
             _buyerService = buyerService;
             _sellerService = sellerService;
             _userServices = userServices;
+            _userManager = userManager;
         }
 
-        public bool CreateBuyer(User User, CancellationToken cancellation)
+        public async Task<bool> CreateBuyer(User User, CancellationToken cancellation)
         {
             var allUser = _userServices.GetAll(cancellation);
 
@@ -34,8 +38,11 @@ namespace App.Domain.Services.AppServices
                     {
                         UserId = user.Id,
                     };
+                    
 
-                    _buyerService.Add(newBuyer, cancellation);
+                    await _buyerService.Add(newBuyer, cancellation);
+                    await _userManager.AddToRoleAsync(user, "Buyer");
+
                     return true;
                 }
             }
@@ -43,7 +50,7 @@ namespace App.Domain.Services.AppServices
             return false;
         }
 
-        public bool CreateSeller(User User, CancellationToken cancellation)
+        public async Task<bool> CreateSeller(User User, CancellationToken cancellation)
         {
             var allUser = _userServices.GetAll(cancellation);
 
@@ -56,7 +63,9 @@ namespace App.Domain.Services.AppServices
                         UserId = user.Id,
                     };
 
-                    _sellerService.Add(newSeller, cancellation);
+                    await _sellerService.Add(newSeller, cancellation);
+                    await _userManager.AddToRoleAsync(user, "Seller");
+
                     return true;
                 }
             }
