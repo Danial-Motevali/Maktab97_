@@ -50,6 +50,10 @@ namespace App.Infrastructure.Data.EF
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<IdentityRole<int>> IdRoles { get; set; }
+
+        public DbSet<IdentityUserRole<int>> UserRoles { get;set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>(entity =>

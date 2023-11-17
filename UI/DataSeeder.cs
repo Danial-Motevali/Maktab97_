@@ -23,21 +23,47 @@ namespace UI
                 dbContext.SaveChanges();
             } //0
 
-            //if (!dbContext.Users.Any()) //0
-            //{
-            //    var Address = new List<User>
-            //    {
-            //        new User {FirstName = "Danial", LastName = "Motevali", UserName = "Danial", Email = "danial.motevali.82@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
-            //        new User { FirstName = "First", LastName = "Admin", UserName = "Admin1", Email = "admin1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
-            //        new User { FirstName = "First", LastName = "Buyer", UserName = "Buyer1", Email = "buyer1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
-            //        new User { FirstName = "First", LastName = "Seller", UserName = "Seller1", Email = "seller1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="}
-            //    };
+            if (!dbContext.Users.Any()) //0
+            {
+                var Address = new List<User>
+                {
+                    new User {FirstName = "Danial", LastName = "Motevali", UserName = "Danial", Email = "danial.motevali.82@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
+                    new User { FirstName = "First", LastName = "Admin", UserName = "Admin1", Email = "admin1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
+                    new User { FirstName = "First", LastName = "Buyer", UserName = "Buyer1", Email = "buyer1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="},
+                    new User { FirstName = "First", LastName = "Seller", UserName = "Seller1", Email = "seller1@gmail.com", IsDeleted = false, PasswordHash = "AQAAAAIAAYagAAAAEJgL3NT21uZb72NE7HpS3Y4Tk1QN3OnrzidYKp53nxeHw/ThvSSV+5rUygVnuFMQJw=="}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //} //0
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            } //0
 
+            if (!dbContext.IdRoles.Any()) //0
+            {
+                var Address = new List<IdentityRole<int>>
+                {
+                    new IdentityRole<int> { Name="Owner", NormalizedName = "OWNER"},
+                    new IdentityRole<int> { Name="Admin", NormalizedName = "ADMIN"},
+                    new IdentityRole<int> { Name="Seller", NormalizedName = "SELLER"},
+                    new IdentityRole<int> { Name="Buyer", NormalizedName = "BUYER"}
+                };
 
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            } //0
+
+            if (!dbContext.UserRoles.Any()) 
+            {
+                var Address = new List<IdentityUserRole<int>>
+                {
+                    new IdentityUserRole<int> { UserId = 1, RoleId = 1},
+                    new IdentityUserRole<int> { UserId = 2, RoleId = 2},
+                    new IdentityUserRole<int> { UserId = 3, RoleId = 4},
+                    new IdentityUserRole<int> { UserId = 4, RoleId = 3}
+                };
+
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            } 
 
             if (!dbContext.Carts.Any()) //0
             {
