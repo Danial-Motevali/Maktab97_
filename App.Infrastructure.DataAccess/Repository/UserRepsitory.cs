@@ -25,9 +25,9 @@ namespace App.Infrastructure.DataAccess.Repository
         {
             var address = await _db.Users.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
-            if (address != null)
+            if (address == null)
             {
-                await _db.Users.AddAsync(address, cancellation);
+                await _db.Users.AddAsync(inputAddress, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;

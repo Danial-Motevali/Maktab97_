@@ -25,9 +25,9 @@ namespace App.Infrastructure.DataAccess.Repository
         {
             var address = await _db.Comments.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
-            if (address != null)
+            if (address == null)
             {
-                await _db.Comments.AddAsync(address, cancellation);
+                await _db.Comments.AddAsync(inputAddress, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return true;
