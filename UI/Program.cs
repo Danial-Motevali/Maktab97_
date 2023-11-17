@@ -1,5 +1,9 @@
+using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Identity;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
+using App.Infrastructure.DataAccess.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
