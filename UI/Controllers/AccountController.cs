@@ -51,11 +51,11 @@ namespace UI.Controllers
                     }
                     else if (input.potion == Potion.Buyer)
                     {
-                        _accountAppService.CreateBuyer(newUser, cancellation);
+                        await _accountAppService.CreateBuyer(newUser, cancellation);
                     }
                 }
 
-                if (result.Succeeded)
+                if (result.Succeeded )
                 {
                     return RedirectToAction("Index", "Home");
                 }
