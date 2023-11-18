@@ -40,12 +40,12 @@ namespace App.Domain.Services.Services
         public List<User> FindSellerInUser(CancellationToken cancellation)
         {
             var allUser = _userRepsitory.GetAll(cancellation);
-            var allAdmin = _repository.GetAll(cancellation);
+            var allSeller = _repository.GetAll(cancellation);
             var markUser = new List<User>();
 
             foreach(var user in allUser)
             {
-                foreach(var admin in allAdmin)
+                foreach(var admin in allSeller)
                     if(user.Id == admin.UserId)
                         markUser.Add(user);
             }

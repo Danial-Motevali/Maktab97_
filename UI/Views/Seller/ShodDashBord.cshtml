@@ -1,0 +1,23 @@
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.ShopDashBordDto>
+
+<div>
+    <div>
+        <h1></h1>
+    </div>
+</div>
+
+@foreach(var itme in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="@itme.PictureUrl" class="card-img-top" alt="ther is a problem with this">
+        <div class="card-body">
+            <h5 class="card-title">@itme.ProductTitle</h5>
+            <p class="card-text">Category of : @itme.ProductCategory</p>
+            <p class="card-text">Qnt of Product : @itme.InventoryQnt</p>
+            <p class="card-text">Price of Product : @itme.ProdductPrice</p>
+            <p class="card-text">wage of Product : @itme.wage</p>
+            <a href="#" class="btn btn-primary">Delete the product</a>
+        </div>
+    </div>
+}
+

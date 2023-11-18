@@ -15,6 +15,9 @@ namespace UI
     {
         public static void Main(string[] args)
         {
+           // Test(cancellation); // this need to go with cancellation in Main
+
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -68,6 +71,11 @@ namespace UI
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+        }
+
+        public static void Test(CancellationToken cancellation)
+        {
+
         }
     }
 }

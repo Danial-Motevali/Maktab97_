@@ -31,6 +31,7 @@ namespace UI
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IWageRepository, WageRepository>();
             services.AddScoped<IUserRepsitory, UserRepsitory>();
+            services.AddScoped<IProductPicture, ProductPictureRepository>();
 
 
             //configure services
@@ -51,6 +52,7 @@ namespace UI
             services.AddScoped<IShopService, ShopService>();
             services.AddScoped<IWageService, WageService>();
             services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IProductPictureService, ProductPictureService>();
 
             //configure app services
 
