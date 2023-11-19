@@ -52,22 +52,36 @@ namespace App.Domain.Services.AppServices
             return null;
         }
 
-        public Shop CreateAShop(ShopDtoOutput shop, CancellationToken cancellation)
+        public async Task<List<ShopDashBordDto>> CreateAShop(ShopDashBordDto shop, CancellationToken cancellation)
         {
-            var aShop = new Shop
+            var shopDto = new List<ShopDashBordDto>();
+            var newShopList = new ShopDashBordDto
             {
-                Id = shop.Id,
-                Name = shop.Name,
-                SellerId = shop.SellerId
+                SellerId = shop.SellerId,
+                ShopName = shop.ShopName
             };
 
-            return aShop;
+            shopDto.Add(newShopList);
+
+            var newShop = new Shop()
+            {
+                Name = shop.ShopName,
+                Inventories = null,
+                Seller = null,
+                SellerId = shop.SellerId,
+                TimeOfCreate = DateTime.Now,
+                IsDeleted = false,
+            };
+
+            await _shopService.Add(newShop, cancellation);
+
+            return shopDto;
         }
 
         public List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation) // call -> PictureUrl, ProductTitle, ProductCategory
         {
             var SellerShop = new List<ShopDashBordDto>();
-            var allInventorys = _inventoryService.GetByShopId(shop.Id ,cancellation);
+            var allInventorys = _inventoryService.GetByShopId(shop.Id ?? default(int) ,cancellation);
 
             foreach(var inventory in allInventorys)
             {

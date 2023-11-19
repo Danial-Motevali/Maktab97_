@@ -1,10 +1,10 @@
-﻿@model App.Domain.Core.Models.Dto.ShopDtoOutput
+﻿@model App.Domain.Core.Models.Dto.ControllerDto.ShopDashBordDto
 
 <div>
     <form asp-controller="Seller" asp-action="CreateANewShop" method="post">
         <div class="mb-3">
-            <label asp-for="Name" class="form-label">ShopName  </label>
-            <input asp-for="Name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label asp-for="ShopName" class="form-label">ShopName  </label>
+            <input asp-for="ShopName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             <input asp-for="SellerId" type="hidden" value="@Model.SellerId"/>
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>

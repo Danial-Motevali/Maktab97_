@@ -1,14 +1,8 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Entities;
-using App.Domain.Core.Models.Dto;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace App.Infrastructure.DataAccess.Repository
 {
@@ -27,8 +21,8 @@ namespace App.Infrastructure.DataAccess.Repository
 
             if (address == null)
             {
-                await _db.Shops.AddAsync(inputAddress, cancellation);
-                await _db.SaveChangesAsync(cancellation);
+                await _db.Shops.AddAsync(inputAddress);
+                await _db.SaveChangesAsync();
 
                 return true;
             }
@@ -52,14 +46,14 @@ namespace App.Infrastructure.DataAccess.Repository
 
         public List<Shop> GetAll(CancellationToken cancellation)
         {
-            var addresses =  _db.Shops.ToList();
+            var addresses = _db.Shops.ToList();
 
             return addresses;
         }
 
         public async Task<Shop> GetById(int Id, CancellationToken cancellation)
         {
-            var address =  _db.Shops.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Shops.FirstOrDefault(x => x.Id == Id);
 
             return address;
         }

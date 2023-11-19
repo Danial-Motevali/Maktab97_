@@ -25,6 +25,7 @@ namespace App.Domain.Core.Models.Identity.AccountDto
     public enum Potion
     {
         Buyer,
-        Seller
+        Seller,
+        Admin
     }
 }

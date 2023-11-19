@@ -11,6 +11,8 @@ namespace App.Domain.Core.Models.Dto.ControllerDto
     {
         public int SellerId { get; set; }
         //public Shop Shop { get; set; } = new Shop();
+        public string ShopName { get; set; } 
+
         public string PictureUrl { get; set; } //Picture Entity
 
         public string ProductTitle { get; set; } // Product

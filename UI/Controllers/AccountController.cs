@@ -47,9 +47,13 @@ namespace UI.Controllers
                 {
                     if (input.potion == Potion.Seller)
                     {
-                        _accountAppService.CreateSeller(newUser, cancellation);
+                        await _accountAppService.CreateSeller(newUser, cancellation);
                     }
                     else if (input.potion == Potion.Buyer)
+                    {
+                        await _accountAppService.CreateBuyer(newUser, cancellation);
+                    }
+                    else if (input.potion == Potion.Admin)
                     {
                         await _accountAppService.CreateBuyer(newUser, cancellation);
                     }

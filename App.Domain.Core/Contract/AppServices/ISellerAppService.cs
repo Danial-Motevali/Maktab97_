@@ -16,7 +16,7 @@ namespace App.Domain.Core.Contract.AppServices
 
         Shop FindShop(int SellerId, CancellationToken cancellation);
 
-        Shop CreateAShop(ShopDtoOutput shop, CancellationToken cancellation);
+        Task<List<ShopDashBordDto>> CreateAShop(ShopDashBordDto shop, CancellationToken cancellation);
 
         List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation);
     }
