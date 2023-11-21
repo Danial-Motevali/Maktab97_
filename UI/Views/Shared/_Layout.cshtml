@@ -68,17 +68,17 @@
                                     </form>
                                 </li>
                             }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Seller" asp-action="ShodDashBord" >ShopDashbord</a>
-                            </li>
-                            <li class="nav-item ml-auto">
-                                <form asp-controller="Seller" asp-action="EditProfile" method="get">
-                                    <button type="submit" class="btn nav-link test-dark">Edit User</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Seller" asp-action="AuctionDashBord">AuctionDashBord</a>
-                            </li>
+                            @if (User.IsInRole("Seller"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Seller" asp-action="ShodDashBord">ShopDashbord</a>
+                                </li>
+                                <li class="nav-item ml-auto">
+                                    <form asp-controller="Seller" asp-action="EditProfile" method="get">
+                                        <button type="submit" class="btn nav-link test-dark">Edit User</button>
+                                    </form>
+                                </li>
+                            }
                         }
                         else
                         {
