@@ -4,6 +4,7 @@ using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Identity.Entites;
+using Hangfire;
 
 namespace App.Domain.Services.AppServices
 {
@@ -296,7 +297,29 @@ namespace App.Domain.Services.AppServices
 
             await _auctionService.Add(newAuction, cancellation);
 
+            var scedul = DateTime.Now.AddHours(24);
+            var dateTimeOfSet = new DateTimeOffset(scedul);
+
+            BackgroundJob.Schedule(() => EndAuction(SellerId, cancellation), dateTimeOfSet);
+
             return true;
+        }
+
+        public async void EndAuction(int sellerId, CancellationToken cancellation)
+        {
+            var allAuction = _auctionService.GetAll(cancellation);
+            var specficAuction = new Auction();
+
+            foreach(var auction in allAuction)
+            {
+                if(auction.SellerId == sellerId)
+                    specficAuction = auction;
+            };
+
+            specficAuction.TimeOfEnd = DateTime.Now;
+            specficAuction.IsActive = true;
+
+            await _auctionService.Update(specficAuction.Id ,specficAuction, cancellation);
         }
     }
 }

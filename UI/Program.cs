@@ -4,6 +4,7 @@ using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
 using App.Infrastructure.DataAccess.Repository;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +39,12 @@ namespace UI
             //configure the services in dependency class
             builder.Services.Infstracture();
 
-            
+            builder.Services.AddHangfire((sp, config) =>
+            {
+                var connection = sp.GetRequiredService<IConfiguration>().GetConnectionString("DefultConnection");
+                config.UseSqlServerStorage(connection);
+            });
+            builder.Services.AddHangfireServer();
 
             var app = builder.Build();
 
