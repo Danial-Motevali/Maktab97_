@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Entities;
 using App.Infrastructure.Data.EF;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,21 @@ namespace App.Infrastructure.DataAccess.Repository
         {
             _db = db;
         }
+
+        public async Task<bool> Add(ProductPicture inpur, CancellationToken cancellation)
+        {
+            var address = await _db.ProductPictures.FirstOrDefaultAsync(x => x.Id == inpur.Id);
+
+            if (address == null)
+            {
+                await _db.ProductPictures.AddAsync(inpur, cancellation);
+                await _db.SaveChangesAsync(cancellation);
+
+                return true;
+            }
+            return false;
+        }
+
         public List<ProductPicture> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.ProductPictures.ToList();

@@ -23,7 +23,7 @@ namespace App.Infrastructure.DataAccess.Repository
         }
         public async Task<bool> Add(Price inputAddress, CancellationToken cancellation)
         {
-            var address = await _db.Prices.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var address = await _db.Prices.FirstOrDefaultAsync(x => x.ProdutPrice == inputAddress.ProdutPrice);
 
             if (address == null)
             {

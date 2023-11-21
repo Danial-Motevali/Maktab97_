@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace App.Domain.Core.Models.Dto
     {
         public int Id { get; set; }
 
-        public string Url { get; set; } = null!;
+        public IFormFile Url { get; set; }
 
         public bool IsDeleted { get; set; }
     }

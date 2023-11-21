@@ -61,6 +61,10 @@ namespace App.Domain.Services.AppServices
                     var newSeller = new Seller
                     {
                         UserId = user.Id,
+                        User = null,
+                        Addresses = null,
+                        Medals = null,
+                        Wages = null
                     };
 
                     await _sellerService.Add(newSeller, cancellation);

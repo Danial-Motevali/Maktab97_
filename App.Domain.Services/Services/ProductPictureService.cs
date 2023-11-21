@@ -44,5 +44,15 @@ namespace App.Domain.Services.Services
 
             return markProduct;
         }
+
+        public List<ProductPicture> GetAll(CancellationToken cancellation)
+        {
+            return _picturePictureRepository.GetAll(cancellation);
+        }
+
+        public async Task<bool> Add(ProductPicture input, CancellationToken cancellation)
+        {
+            return await _picturePictureRepository.Add(input, cancellation);
+        }
     }
 }

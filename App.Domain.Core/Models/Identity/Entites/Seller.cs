@@ -9,9 +9,6 @@ public class Seller
 
     public ICollection<Address> Addresses { get; set; } = new List<Address>();
 
-    public int? AuctionId { get; set; }
-    public Auction? Auction { get; set; } 
-
     public ICollection<Medal> Medals { get; set; } = new List<Medal>();
 
     public ICollection<Wage> Wages { get; set; } = new List<Wage>();

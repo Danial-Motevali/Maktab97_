@@ -29,4 +29,8 @@
     <ProjectReference Include="..\App.Infrastructure.DataAccess\App.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

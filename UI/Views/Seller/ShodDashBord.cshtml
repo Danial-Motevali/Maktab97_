@@ -6,18 +6,27 @@
     </div>
 </div>
 
+<div>
+    <a asp-controller="Seller" asp-action="AppProduct" class="btn btn-primary">Add Product</a>
+
+    <a asp-controller="Seller" asp-action="AddUserRole" class="btn btn-primary">Delete Product</a>
+</div>
+
 @foreach(var itme in Model)
 {
     <div class="card" style="width: 18rem;">
-        <img src="@itme.PictureUrl" class="card-img-top" alt="ther is a problem with this">
-        <div class="card-body">
-            <h5 class="card-title">@itme.ProductTitle</h5>
-            <p class="card-text">Category of : @itme.ProductCategory</p>
-            <p class="card-text">Qnt of Product : @itme.InventoryQnt</p>
-            <p class="card-text">Price of Product : @itme.ProdductPrice</p>
-            <p class="card-text">wage of Product : @itme.wage</p>
-            <a href="#" class="btn btn-primary">Delete the product</a>
-        </div>
+        <form asp-controller="Seller" asp-action="AddToAcuion" asp-route-ProductId="@itme.ProductId" asp-route-SellerId="@itme.SellerId" method="post">
+            <img src="~/Images/@itme.PictureUrl" class="card-img-top" alt="ther is a problem with this">
+            <div class="card-body">
+                <h5 class="card-title">@itme.ProductTitle</h5>
+                <p class="card-text">Category of : @itme.ProductCategory</p>
+                <p class="card-text">Qnt of Product : @itme.InventoryQnt</p>
+                <p class="card-text">Price of Product : @itme.ProdductPrice</p>
+                <p class="card-text">wage of Product : c.wage</p>
+                <button type="submit" class="btn btn-primary">Add To Auction</button>
+            </div>
+        </form>
+        
     </div>
 }
 

@@ -10,6 +10,9 @@ public class Auction
 
     public bool IsActive { get; set; }
 
+    public int? SellerId { get; set; }
+    public Seller Seller { get; set; } = new Seller();
+
     public DateTime TimeOfStart { get; set; }
 
     public DateTime TimeOfEnd { get; set; }

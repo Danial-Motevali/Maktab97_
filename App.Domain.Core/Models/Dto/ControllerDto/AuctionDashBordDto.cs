@@ -1,5 +1,4 @@
-﻿using App.Domain.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Dto.ControllerDto
 {
-    public class ShopDashBordDto
+    public class AuctionDashBordDto
     {
         public int SellerId { get; set; }
-        //public Shop Shop { get; set; } = new Shop();
+
         public int ProductId { get; set; }
-        public string ShopName { get; set; } 
+        public string ShopName { get; set; }
 
         public string PictureUrl { get; set; } //Picture Entity
 
@@ -25,10 +24,5 @@ namespace App.Domain.Core.Models.Dto.ControllerDto
         public int ProdductPrice { get; set; } // Price
 
         public int wage { get; set; } // Wage
-    }
-
-    public class ShopProduct
-    {
-        
     }
 }

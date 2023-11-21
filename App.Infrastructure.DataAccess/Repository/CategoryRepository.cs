@@ -23,7 +23,7 @@ namespace App.Infrastructure.DataAccess.Repository
         }
         public async Task<bool> Add(Category inputAddress, CancellationToken cancellation)
         {
-            var address = await _db.Categories.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            var address = await _db.Categories.FirstOrDefaultAsync(x => x.Title == inputAddress.Title);
 
             if (address == null)
             {

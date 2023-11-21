@@ -1,4 +1,6 @@
 ﻿using App.Domain.Core.Contract.AppServices;
+using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Identity.Entites;
 using Microsoft.AspNetCore.Identity;
@@ -11,10 +13,14 @@ namespace UI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly ISellerAppService _sellerAppService;
-        public SellerController(ISellerAppService sellerAppService, UserManager<User> userManager)
+        private readonly ICategoryService _categoryService;
+        private readonly IWebHostEnvironment _env;
+        public SellerController(IWebHostEnvironment env ,ICategoryService categoryService ,ISellerAppService sellerAppService, UserManager<User> userManager)
         {
             _sellerAppService = sellerAppService;
             _userManager = userManager;
+            _categoryService = categoryService;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -30,14 +36,14 @@ namespace UI.Controllers
 
             var shopDto = new ShopDashBordDto
             {
-                SellerId = seller.Id
+                SellerId = seller.Id,
             };
 
             var hasAShop = _sellerAppService.FindShop(seller.Id, cancellation);
 
-            if (hasAShop == null) // is off
+            if (hasAShop == null) 
             {
-                return View("~/Views/Seller/CreateAShop.cshtml", shopDto); // -> star here
+                return View("~/Views/Seller/CreateAShop.cshtml", shopDto); 
             }
 
             var shopDasBordDto = _sellerAppService.FillTheDto(hasAShop, cancellation);
@@ -46,7 +52,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public  IActionResult CreateANewShop(ShopDashBordDto shop, CancellationToken cancellation) // need repair
+        public  IActionResult CreateANewShop(ShopDashBordDto shop, CancellationToken cancellation) 
         {
             var newShop = _sellerAppService.CreateAShop(shop, cancellation).Result;
 
@@ -100,6 +106,57 @@ namespace UI.Controllers
             }
 
             return View(result);
+        }
+        [HttpGet]
+        public IActionResult AppProduct(CancellationToken cancellation)
+        {
+            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var seller = _sellerAppService.FindSeller(userId, cancellation);
+
+            var newProduct = new AddProductDto
+            {
+                ShopId = seller.Id,
+                category = _categoryService.GetAll(cancellation)
+            };
+
+            return View(newProduct);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AppProduct(AddProductDto productDto ,CancellationToken cancellation)
+        {
+            string filename = UploadFile(productDto);
+            productDto.PictureUrl = filename;
+
+            await _sellerAppService.AddProduct(productDto, cancellation);
+
+            return RedirectToAction("Index");
+        }
+
+        public string UploadFile(AddProductDto input)
+        {
+            string fileName = null;
+
+            if (input.PictureUrlFile != null)
+            {
+                string uploadDir = Path.Combine(_env.WebRootPath, "Images");
+                fileName = Guid.NewGuid() + "_" + input.PictureUrlFile.FileName;
+                string filePath = Path.Combine(uploadDir, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    input.PictureUrlFile.CopyTo(fileStream);
+                }
+            }
+
+            return fileName;
+        }
+
+        public IActionResult AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation)
+        {
+            _sellerAppService.AddToAcuion(ProductId, SellerId, cancellation);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,47 @@
+﻿@model App.Domain.Core.Models.Dto.ControllerDto.AddProductDto
+
+<div>
+    <p>Create a new Product</p>
+</div>
+<div>
+    <form asp-controller="Seller" asp-action="AppProduct" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="from-group">
+            <lable class="control-label" asp-for="ProductTitle">title </lable>
+            <input class="from-control" asp-for="ProductTitle" />
+        </div>
+        <div class="from-group">
+            <lable class="control-label" asp-for="ProductCategory">Category </lable>
+            <input class="from-control" asp-for="ProductCategory" />
+        </div>
+        <div class="from-group">
+            <lable class="control-label" asp-for="ProductPrice">Price </lable>
+            <input class="from-control" type="number" asp-for="ProductPrice" />
+        </div>
+        <div class="from-group">
+            <lable class="control-label" asp-for="Qnt">Qnt </lable>
+            <input class="from-control" type="number" asp-for="Qnt" />
+        </div>
+        <div class="from-control">
+            <label asp-for="PictureUrlFile" class="control-label"></label>
+            <input asp-for="PictureUrlFile" class="form-control" />
+            <span asp-validation-for="PictureUrlFile" class="text-danger"></span>
+        </div>
+
+
+        <input type="hidden" asp-for="ShopId" />
+
+        <button type="submit" class="btn btn-Primary">Submit</button>
+    </form>
+
+    <p1>If you want to add you product to Auction dont give it price</p1>
+
+    <div class="mt-2">
+        <p>Evelbel category</p>
+        @foreach (var category in Model.category)
+        {
+            <p>@category.Title</p>
+        }
+    </div>
+</div>

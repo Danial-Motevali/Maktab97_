@@ -19,5 +19,9 @@ namespace App.Domain.Core.Contract.AppServices
         Task<List<ShopDashBordDto>> CreateAShop(ShopDashBordDto shop, CancellationToken cancellation);
 
         List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation);
+
+        Task<bool> AddProduct(AddProductDto input, CancellationToken cancellation);
+        Task<bool> AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation);
+
     }
 }

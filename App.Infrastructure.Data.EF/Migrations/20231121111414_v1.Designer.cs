@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231118175033_v2")]
-    partial class v2
+    [Migration("20231121111414_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,9 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("LastPrice")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TimeOfEnd")
                         .HasColumnType("datetime2");
 
@@ -85,6 +88,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Auctions");
                 });
@@ -172,35 +177,31 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Inventory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
                     b.Property<int?>("AuctionId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CartId")
-                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int?>("PriceId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("ProductId")
-                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("Qnt")
+                    b.Property<int?>("Qnt")
                         .HasColumnType("int");
 
                     b.Property<int?>("ShopId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -255,7 +256,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -430,15 +430,10 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AuctionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuctionId");
 
                     b.HasIndex("UserId");
 
@@ -678,6 +673,15 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Navigation("Seller");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Entities.Auction", b =>
+                {
+                    b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId");
+
+                    b.Navigation("Seller");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Entities.Category", b =>
                 {
                     b.HasOne("App.Domain.Core.Entities.Category", "Parent")
@@ -712,23 +716,19 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     b.HasOne("App.Domain.Core.Entities.Cart", "Cart")
                         .WithMany("Inventories")
-                        .HasForeignKey("CartId")
-                        .IsRequired();
+                        .HasForeignKey("CartId");
 
                     b.HasOne("App.Domain.Core.Entities.Price", "Price")
                         .WithMany("Inventories")
-                        .HasForeignKey("PriceId")
-                        .IsRequired();
+                        .HasForeignKey("PriceId");
 
                     b.HasOne("App.Domain.Core.Entities.Product", "Product")
                         .WithMany("Inventories")
-                        .HasForeignKey("ProductId")
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("App.Domain.Core.Entities.Shop", "Shop")
                         .WithMany("Inventories")
-                        .HasForeignKey("ShopId")
-                        .IsRequired();
+                        .HasForeignKey("ShopId");
 
                     b.Navigation("Auction");
 
@@ -829,17 +829,11 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Models.Identity.Entites.Seller", b =>
                 {
-                    b.HasOne("App.Domain.Core.Entities.Auction", "Auction")
-                        .WithMany()
-                        .HasForeignKey("AuctionId");
-
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Auction");
 
                     b.Navigation("User");
                 });
