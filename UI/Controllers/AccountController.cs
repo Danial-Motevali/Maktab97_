@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contract.AppServices;
+using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Models.Identity.AccountDto;
 using App.Domain.Core.Models.Identity.Entites;
 using Microsoft.AspNetCore.Identity;
@@ -11,11 +12,13 @@ namespace UI.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IAccountAppService _accountAppService;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IAccountAppService accountAppService)
+        private readonly IUserServices _userServices;
+        public AccountController(IUserServices userServices ,UserManager<User> userManager, SignInManager<User> signInManager, IAccountAppService accountAppService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _accountAppService = accountAppService;
+            _userServices = userServices;
         }
 
         [HttpGet]
@@ -45,15 +48,15 @@ namespace UI.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (input.potion == Potion.Seller)
+                    if (input.potion == PotionDto.Seller)
                     {
                         await _accountAppService.CreateSeller(newUser, cancellation);
                     }
-                    else if (input.potion == Potion.Buyer)
+                    else if (input.potion == PotionDto.Buyer)
                     {
                         await _accountAppService.CreateBuyer(newUser, cancellation);
                     }
-                    else if (input.potion == Potion.Admin)
+                    else if (input.potion == PotionDto.Admin)
                     {
                         await _accountAppService.CreateBuyer(newUser, cancellation);
                     }
@@ -61,7 +64,7 @@ namespace UI.Controllers
 
                 if (result.Succeeded )
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login");
                 }
 
                 foreach (var errore in result.Errors)
@@ -82,18 +85,38 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDto input)
+        public async Task<IActionResult> Login(LoginDto input, CancellationToken cancellation)
         {
+            var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
+            var allUser = _userServices.GetAll(cancellation);
+            var inputUser = new User();
+
+            if (ModelState.IsValid)
+            {
+                foreach(var user in allUser)
+                {
+                    if(user.UserName == input.UserName)
+                    {
+                        inputUser = user;
+                    }
+                }
+            }
+
             if (_signInManager.IsSignedIn(User))
                 return RedirectToAction("Index", "Home");
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
-
                 if (result.Succeeded)
                 {
+                    if(inputUser.Potion == Potion.Buyer)
                     return RedirectToAction("Index", "Home");
+
+                    if (inputUser.Potion == Potion.Seller)
+                        return RedirectToAction("Index", "Home");
+
+                    if (inputUser.Potion == Potion.Admin)
+                        return RedirectToAction("Index", "Home");
                 }
             }
             return View(input);
