@@ -14,5 +14,14 @@ namespace App.Domain.Core.Models.Identity.Entites
         public string LastName { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
+
+        public Potion Potion { get; set; }
+    }
+
+    public enum Potion
+    {
+        Buyer,
+        Seller,
+        Admin
     }
 }

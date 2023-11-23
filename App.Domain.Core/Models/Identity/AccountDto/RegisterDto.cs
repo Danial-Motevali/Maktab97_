@@ -19,10 +19,10 @@ namespace App.Domain.Core.Models.Identity.AccountDto
 
         public string Email { get; set; }
 
-        public Potion potion { get; set; }
+        public PotionDto potion { get; set; }
     }
 
-    public enum Potion
+    public enum PotionDto
     {
         Buyer,
         Seller,
