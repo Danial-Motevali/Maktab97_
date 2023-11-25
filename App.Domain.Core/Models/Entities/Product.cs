@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Models.Entities;
+
+namespace App.Domain.Core.Entities;
 
 public class Product
 {
@@ -15,4 +17,6 @@ public class Product
     public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
 
     public ICollection<ProductPicture> ProductPictures { get; set; } = new List<ProductPicture>();
+
+    public ICollection<ProductOreder> productOreders { get; set; } = new List<ProductOreder>();
 }

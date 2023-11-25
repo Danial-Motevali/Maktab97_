@@ -1,6 +1,4 @@
-﻿using App.Domain.Core.Entities;
-using App.Domain.Core.Models.Dto;
-using App.Domain.Core.Models.Identity.Entites;
+﻿using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
