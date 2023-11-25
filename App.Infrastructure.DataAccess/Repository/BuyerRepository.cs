@@ -73,6 +73,7 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 address.Id = inputAddress.Id;
                 address.CartId = inputAddress.CartId;
+                address.Cart = inputAddress.Cart;
                 await _db.SaveChangesAsync(cancellation);
                 return true;
             }
