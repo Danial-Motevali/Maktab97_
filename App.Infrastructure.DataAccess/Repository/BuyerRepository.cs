@@ -65,20 +65,19 @@ namespace App.Infrastructure.DataAccess.Repository
             return address;
         }
 
-        //public async Task<bool> Update(int Id, Buyer inputAddress, CancellationToken cancellation)
-        //{
-        //    var address = _db.Buyers.FirstOrDefault(x => x.Id == Id);
+        public async Task<bool> Update(int Id, Buyer inputAddress, CancellationToken cancellation)
+        {
+            var address = _db.Buyers.FirstOrDefault(x => x.Id == Id);
 
-        //    if (address != null)
-        //    {
-        //        address.Id = inputAddress.Id;
-        //        address.FirstName = inputAddress.FirstName;
-        //        address.LastName = inputAddress.LastName;
-        //        await _db.SaveChangesAsync(cancellation);
-        //        return true;
-        //    }
+            if (address != null)
+            {
+                address.Id = inputAddress.Id;
+                address.CartId = inputAddress.CartId;
+                await _db.SaveChangesAsync(cancellation);
+                return true;
+            }
 
-        //    return false;
-        //}
+            return false;
+        }
     }
 }

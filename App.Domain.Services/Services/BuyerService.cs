@@ -74,9 +74,9 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
-        //public async Task<bool> Update(int Id, Buyer addressInput, CancellationToken cancellation)
-        //{
-        //    return await _repository.Update(Id, addressInput, cancellation);
-        //}
+        public async Task<bool> Update(int Id, Buyer addressInput, CancellationToken cancellation)
+        {
+            return await _repository.Update(Id, addressInput, cancellation);
+        }
     }
 }

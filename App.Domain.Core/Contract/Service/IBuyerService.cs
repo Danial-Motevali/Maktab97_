@@ -12,7 +12,7 @@ namespace App.Domain.Core.Contract.Services
     {
         Task<bool> Add(Buyer input, CancellationToken cancellation);
 
-        //Task<bool> Update(int Id, Buyer input, CancellationToken cancellation);
+        Task<bool> Update(int Id, Buyer input, CancellationToken cancellation);
 
         //Task<bool> Delete(int Id, CancellationToken cancellation);
 
