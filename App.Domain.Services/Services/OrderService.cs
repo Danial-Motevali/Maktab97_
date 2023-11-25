@@ -39,7 +39,7 @@ namespace App.Domain.Services.Services
 
         public async Task<Order> GetByBuyerId(int BuyerId, CancellationToken cancellation)
         {
-            return await _repository.GetBuyerId(BuyerId, cancellation);
+            return await _repository.GetByBuyerId(BuyerId, cancellation);
         }
 
         public async Task<Order> GetById(int Id, CancellationToken cancellation)

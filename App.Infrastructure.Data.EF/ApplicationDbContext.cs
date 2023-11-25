@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Entities;
 using App.Domain.Core.Models.Identity.Entites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -40,6 +41,10 @@ namespace App.Infrastructure.Data.EF
         public DbSet<Shop> Shops { get; set; }
 
         public DbSet<Wage> Wages { get; set; }
+
+        public DbSet<Order> orders { get; set; }
+
+        public DbSet<ProductOreder> productOreders { get; set; }
 
         //Identity
         public DbSet<Buyer> Buyers { get; set; }
@@ -176,6 +181,22 @@ namespace App.Infrastructure.Data.EF
             {
                 entity.ToTable("Buyer");
 
+
+            });
+
+            modelBuilder.Entity<ProductOreder>(entity =>
+            {
+                entity.ToTable("ProductOreder");
+
+                entity.HasOne(d => d.Order).WithMany(p => p.productOreders)
+                    .HasForeignKey(d => d.OrederId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProductOreder_Order");
+
+                entity.HasOne(d => d.Product).WithMany(p => p.productOreders)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProductOreder_Products");
 
             });
 
