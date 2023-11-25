@@ -84,6 +84,20 @@ namespace App.Domain.Services.Services
             return markInventory;
         }
 
+        public async Task<List<Inventory>> GetByCartId(int CartId, CancellationToken cancellation)
+        {
+            var allInventory = _repository.GetAll(cancellation);
+            var markInventory = new List<Inventory>();
+
+            foreach (var inventory in allInventory)
+            {
+                if (inventory.CartId == CartId)
+                    markInventory.Add(inventory);
+            }
+
+            return markInventory;
+        }
+
         public List<Inventory> GetByShopId(int ShopId, CancellationToken cancellation)
         {
             var allInventory = _repository.GetAll(cancellation);
