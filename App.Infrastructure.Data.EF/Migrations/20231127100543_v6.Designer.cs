@@ -4,6 +4,7 @@ using App.Infrastructure.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127100543_v6")]
+    partial class v6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,15 +227,14 @@ namespace App.Infrastructure.Data.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("IsExpired")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Rank")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nchar(10)")
                         .IsFixedLength();
 
                     b.Property<int?>("SellerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -796,7 +798,8 @@ namespace App.Infrastructure.Data.EF.Migrations
                 {
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "Seller")
                         .WithMany("Medals")
-                        .HasForeignKey("SellerId");
+                        .HasForeignKey("SellerId")
+                        .IsRequired();
 
                     b.Navigation("Seller");
                 });

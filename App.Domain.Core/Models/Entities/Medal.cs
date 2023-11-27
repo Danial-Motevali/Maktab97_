@@ -6,9 +6,12 @@ public class Medal
 {
     public int Id { get; set; }
 
-    public string Rank { get; set; } = null!;
+    public string? Rank { get; set; }
+
+    public bool? IsExpired { get; set; } = false;
 
     public int? SellerId { get; set; }
 
-    public Seller Seller { get; set; } = null!;
+    public Seller? Seller { get; set; } 
+
 }
