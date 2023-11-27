@@ -1,6 +1,7 @@
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Identity;
 using App.Domain.Core.Models.Identity.Entites;
+using App.Domain.Services;
 using App.Infrastructure.Data.EF;
 using App.Infrastructure.DataAccess.Repository;
 using AutoMapper;
@@ -39,6 +40,7 @@ namespace UI
             //configure the services in dependency class
             builder.Services.Infstracture();
 
+            // add hangfire
             builder.Services.AddHangfire((sp, config) =>
             {
                 var connection = sp.GetRequiredService<IConfiguration>().GetConnectionString("DefultConnection");
@@ -46,15 +48,17 @@ namespace UI
             });
             builder.Services.AddHangfireServer();
 
+            builder.Services.AddSingleton(new AppSetting(builder.Configuration));
+
             var app = builder.Build();
 
             //data seeder
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var context = services.GetService<ApplicationDbContext>();
-                DataSeeder.Seedfordata(context);
-            }
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    var context = services.GetService<ApplicationDbContext>();
+            //    DataSeeder.Seedfordata(context);
+            //}
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -77,11 +81,6 @@ namespace UI
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
-        }
-
-        public static void Test(CancellationToken cancellation)
-        {
-
         }
     }
 }

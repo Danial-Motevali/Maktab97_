@@ -11,17 +11,29 @@ namespace App.Domain.Services
     {
         public AppSetting(IConfiguration configuration) 
         {
-            GoldWage = configuration.GetValue<int>("GoldWage");
+            Gold = configuration.GetValue<int>("Gold");
 
-            SilverWage = configuration.GetValue<int>("SilverWage");
+            Silver = configuration.GetValue<int>("Silver");
 
-            CopperWage = configuration.GetValue<int>("CopperWage");
+            Copper = configuration.GetValue<int>("Copper");
+
+            Rank2 = configuration.GetValue<string>("Rank2");
+
+            Rank0 = configuration.GetValue<string>("Rank0");
+
+            Rank1 = configuration.GetValue<string>("Rank1");
         }
 
-        public int GoldWage { get; private set; }
+        public int Gold { get; private set; }
 
-        public int SilverWage { get; private set; }
+        public int Silver { get; private set; }
 
-        public int CopperWage { get; private set; }
+        public int Copper { get; private set; }
+
+        public string Rank2 { get; private set;}
+
+        public string Rank0 { get; private set; }
+
+        public string Rank1 { get; private set; }
     }
 }
