@@ -8,9 +8,11 @@ public class Wage
 
     public int HowMuch { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
+
+    public bool IsPaid { get; set; } = false;
 
     public int? SellerId { get; set; }
 
-    public Seller User { get; set; } = null!;
+    public Seller? User { get; set; } 
 }
