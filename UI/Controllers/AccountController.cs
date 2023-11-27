@@ -110,7 +110,7 @@ namespace UI.Controllers
                 if (result.Succeeded)
                 {
                     if(inputUser.Potion == Potion.Buyer)
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
 
                     if (inputUser.Potion == Potion.Seller)
                         return RedirectToAction("Index", "Home");
