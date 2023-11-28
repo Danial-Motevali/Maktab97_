@@ -95,10 +95,6 @@ namespace App.Infrastructure.Data.EF
                     .HasForeignKey(d => d.AuctionId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                entity.HasOne(d => d.Cart).WithMany(p => p.Inventories)
-                    .HasForeignKey(d => d.CartId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
                 entity.HasOne(d => d.Price).WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.PriceId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
@@ -181,6 +177,9 @@ namespace App.Infrastructure.Data.EF
             {
                 entity.ToTable("Buyer");
 
+                entity.HasMany(x => x.carts)
+                .WithOne(x => x.Buyer)
+                .HasForeignKey(x => x.BuyerId);
 
             });
 
