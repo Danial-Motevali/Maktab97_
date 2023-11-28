@@ -72,6 +72,8 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 address.Id = inputAddress.Id;
                 address.HowMuch = inputAddress.HowMuch;
+                address.IsPaid = inputAddress.IsPaid;
+                address.SellerId = inputAddress.SellerId;
 
                 await _db.SaveChangesAsync(cancellation);
                 return true;

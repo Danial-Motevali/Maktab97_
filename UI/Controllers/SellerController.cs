@@ -51,12 +51,21 @@ namespace UI.Controllers
             return View(shopDasBordDto);
         }
 
+        public async Task<IActionResult> AuctionDashBord(CancellationToken cancellation)
+        {
+            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var seller = _sellerAppService.FindSeller(userId, cancellation);
+            var auctionDto = await _sellerAppService.FillAuctionDto(seller, cancellation);
+
+            return View(auctionDto);
+        }
+
         [HttpPost]
         public  IActionResult CreateANewShop(ShopDashBordDto shop, CancellationToken cancellation) 
         {
             var newShop = _sellerAppService.CreateAShop(shop, cancellation).Result;
 
-            return View("~/Views/Seller/ShodDashBord.cshtml", newShop);
+            return RedirectToAction("ShodDashBord", newShop);
         }
 
         [HttpGet]
@@ -107,6 +116,7 @@ namespace UI.Controllers
 
             return View(result);
         }
+
         [HttpGet]
         public IActionResult AppProduct(CancellationToken cancellation)
         {
@@ -125,12 +135,15 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> AppProduct(AddProductDto productDto ,CancellationToken cancellation)
         {
+            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var seller = _sellerAppService.FindSeller(userId, cancellation);
+
             string filename = UploadFile(productDto);
             productDto.PictureUrl = filename;
 
-            await _sellerAppService.AddProduct(productDto, cancellation);
+            await _sellerAppService.AddProduct(productDto, seller, cancellation);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ShodDashBord");
         }
 
         public string UploadFile(AddProductDto input)
@@ -152,11 +165,17 @@ namespace UI.Controllers
             return fileName;
         }
 
-        public IActionResult AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation)
+        public async Task<IActionResult> AddToAcuion(int ProductId, int SellerId,int AddToAcuion,  CancellationToken cancellation)
         {
-            _sellerAppService.AddToAcuion(ProductId, SellerId, cancellation);
+            await _sellerAppService.AddToAcuion(ProductId, SellerId, cancellation);
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> EditAuction(int AuctionId, DateTime newDate, CancellationToken cancellation)
+        {
+
+            return View();
+        } // warnign workers are working
     }
 }

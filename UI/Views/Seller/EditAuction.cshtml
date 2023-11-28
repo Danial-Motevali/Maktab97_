@@ -1,32 +1,7 @@
-﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.ShopDashBordDto>
+﻿
 
-@* <div>
-    <div>
-        <h1></h1>
-    </div>
-</div>
 
-<div>
-    <a asp-controller="Seller" asp-action="AppProduct" class="btn btn-primary">Add Product</a>
-</div>
 
-@foreach(var itme in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <form asp-controller="Seller" asp-action="AddToAcuion" asp-route-ProductId="@itme.ProductId" asp-route-SellerId="@itme.SellerId" method="post">
-            <img src="~/Images/@itme.PictureUrl" class="card-img-top" alt="ther is a problem with this">
-            <div class="card-body">
-                <h5 class="card-title">@itme.ProductTitle</h5>
-                <p class="card-text">Category of : @itme.ProductCategory</p>
-                <p class="card-text">Qnt of Product : @itme.InventoryQnt</p>
-                <p class="card-text">Price of Product : @itme.ProdductPrice</p>
-                <p class="card-text">wage of Product : c.wage</p>
-                <button type="submit" class="btn btn-primary">Add To Auction</button>
-            </div>
-        </form>
-        
-    </div>
-} *@
 
 
 
@@ -700,15 +675,13 @@
                     <div class="page-header">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="page-header-left">
-                                    <h3>Cart</h3>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                        <li class="breadcrumb-item">Pages    </li>
-                                        <li class="breadcrumb-item">Ecommerce</li>
-                                        <li class="breadcrumb-item active">Cart</li>
-                                    </ol>
-                                </div>
+                                <h3>Base inputs</h3>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item">Forms</li>
+                                    <li class="breadcrumb-item">Form Controls</li>
+                                    <li class="breadcrumb-item active">Base Inputs</li>
+                                </ol>
                             </div>
                             <div class="col-sm-6">
                                 <!-- Bookmark Start-->
@@ -739,120 +712,58 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header pb-0">
-                                    <h5>Cart</h5>
+                                    <h5>Basic HTML input control</h5>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="order-history table-responsive wishlist">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Picture</th>                @* fild tr with thos order *@
-                                                        <th>Prdouct Name</th>
-                                                        <th>Prdouct Category</th>
-                                                        <th>Price</th>
-                                                        <th>Wage</th>
-                                                        <th>Add to Auction</th>
-                                                        <th>Number of Day for Auction</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if(Model != null)
-                                                    {
-                                                        @foreach(var item in Model)
-                                                        {
-                                                            <tr>
-                                                                <td><img class="img-fluid img-40" src="~/Images/@item.PictureUrl" alt="#"></td>
-                                                                        <td>
-                                                                     <div class="product-name">
-                                                                         <a href="#">
-                                                                            <h6>@item.ProductTitle</h6>
-                                                                         </a>
-                                                                     </div>
-                                                                </td>
-                                                                <td>@item.ProductCategory</td>
-                                                                <td>@item.ProdductPrice</td>
-                                                                <td>@item.wage</td>
-                                                                @* <td>
-                                                                    <fieldset class="qty-box">
-                                                                        <div class="input-group">
-                                                                            <input class="touchspin text-center" type="text" value="5">
-                                                                         </div>
-                                                                    </fieldset>
-                                                                </td> *@
-                                                                <td><a asp-controller="Seller" asp-route-AuctionDays="AuctionDay" asp-action="AddToAcuion" asp-route-ProductId="@item.ProductId"  asp-route-SellerId="@item.SellerId" class="btn btn-primary"></a> 
-                                                                </td>
-                                                                @* <td>
-                                                                    <div class="input-group">
-                                                                        <input class="touchspin text-center" type="number" id="AuctionDay">
-                                                                    </div>
-                                                                </td> *@
-                                                                @* <td>$12456</td> *@
-                                                            </tr>
-                                                        }
-                                                    }
-                                                    
-                                                    @* <tr>
-                                                        <td><img class="img-fluid img-40" src="../assets/images/product/13.png" alt="#"></td>
-                                                        <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>Fancy watch</h6>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>$50</td>
-                                                        <td>
-                                                            <fieldset class="qty-box">
-                                                                <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
-                                                                </div>
-                                                            </fieldset>
-                                                        </td>
-                                                        <td><i data-feather="x-circle"></i></td>
-                                                        <td>$12456</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><img class="img-fluid img-40" src="../assets/images/product/4.png" alt="#"></td>
-                                                        <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>Man shoes</h6>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>$11</td>
-                                                        <td>
-                                                            <fieldset class="qty-box">
-                                                                <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
-                                                                </div>
-                                                            </fieldset>
-                                                        </td>
-                                                        <td><i data-feather="x-circle"></i></td>
-                                                        <td>$12456</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4">
-                                                            <div class="input-group">
-                                                                <input class="form-control me-2" type="text" placeholder="Enter coupan code"><a class="btn btn-primary" href="#">Apply</a>
-                                                            </div>
-                                                        </td>
-                                                        <td class="total-amount">
-                                                            <h6 class="m-0 text-end"><span class="f-w-600">Total Price :</span></h6>
-                                                        </td>
-                                                        <td><span>$6935.00  </span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
-                                                        <td><a class="btn btn-success cart-btn-transform" href="checkout.html">check out</a></td>
-                                                    </tr> *@
-                                                </tbody>
-                                            </table>
+                                <form class="form theme-form">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Simple Input</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Date and time</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control digits" id="example-datetime-local-input" type="datetime-local" value="2018-01-19T18:45:00">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control digits" type="date" value="2018-01-01">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Month</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control digits" type="month" value="2018-01">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Week</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control digits" type="week" value="2018-W09">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Day</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control digits" type="time" value="21:45:00">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <a asp-controller="Seller" asp-action="AppProduct" class="btn btn-primary">Add a Product</a>
                                     </div>
-                                </div>
+                                    <div class="card-footer text-end">
+                                        <div class="col-sm-9 offset-sm-3">
+                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                            <input class="btn btn-light" type="reset" value="Cancel">
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -886,9 +797,6 @@
     <script src="../assets/js/bootstrap/popper.min.js"></script>
     <script src="../assets/js/bootstrap/bootstrap.min.js"></script>
     <!-- Plugins JS start-->
-    <script src="../assets/js/touchspin/vendors.min.js"></script>
-    <script src="../assets/js/touchspin/touchspin.js"></script>
-    <script src="../assets/js/touchspin/input-groups.min.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="../assets/js/script.js"></script>

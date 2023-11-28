@@ -1,37 +1,4 @@
-﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.ShopDashBordDto>
-
-@* <div>
-    <div>
-        <h1></h1>
-    </div>
-</div>
-
-<div>
-    <a asp-controller="Seller" asp-action="AppProduct" class="btn btn-primary">Add Product</a>
-</div>
-
-@foreach(var itme in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <form asp-controller="Seller" asp-action="AddToAcuion" asp-route-ProductId="@itme.ProductId" asp-route-SellerId="@itme.SellerId" method="post">
-            <img src="~/Images/@itme.PictureUrl" class="card-img-top" alt="ther is a problem with this">
-            <div class="card-body">
-                <h5 class="card-title">@itme.ProductTitle</h5>
-                <p class="card-text">Category of : @itme.ProductCategory</p>
-                <p class="card-text">Qnt of Product : @itme.InventoryQnt</p>
-                <p class="card-text">Price of Product : @itme.ProdductPrice</p>
-                <p class="card-text">wage of Product : c.wage</p>
-                <button type="submit" class="btn btn-primary">Add To Auction</button>
-            </div>
-        </form>
-        
-    </div>
-} *@
-
-
-
-
-
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.AuctionDashBordDto>
 
 
 
@@ -252,10 +219,11 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="home"></i><span>Dashboard</span></a>
                                     <ul class="nav-submenu menu-content">
+                                        @*  OverHere       *@
                                         <li><a asp-controller="Seller" asp-action="ShodDashBord">ShodDashBord</a></li>     @* go to the action *@
                                         <li><a asp-controller="Seller" asp-action="EditProfile">EditProfile</a></li>
                                         <li><a asp-controller="Seller" asp-action="AuctionDashBord">AuctionDashBord</a></li>
-                                        <li><a asp-controller="Seller" asp-action="EditAuction">AuctionDashBord</a></li>
+                                        <li><a asp-controller="Seller" asp-action="EditAuction">EditAuction</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -700,15 +668,13 @@
                     <div class="page-header">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="page-header-left">
-                                    <h3>Cart</h3>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                        <li class="breadcrumb-item">Pages    </li>
-                                        <li class="breadcrumb-item">Ecommerce</li>
-                                        <li class="breadcrumb-item active">Cart</li>
-                                    </ol>
-                                </div>
+                                <h3>Pricing</h3>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item">Pages</li>
+                                    <li class="breadcrumb-item">Ecommerce   </li>
+                                    <li class="breadcrumb-item active">Pricing</li>
+                                </ol>
                             </div>
                             <div class="col-sm-6">
                                 <!-- Bookmark Start-->
@@ -739,122 +705,204 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header pb-0">
-                                    <h5>Cart</h5>
+                                    <h5>Simple Pricing Card</h5>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="order-history table-responsive wishlist">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Picture</th>                @* fild tr with thos order *@
-                                                        <th>Prdouct Name</th>
-                                                        <th>Prdouct Category</th>
-                                                        <th>Price</th>
-                                                        <th>Wage</th>
-                                                        <th>Add to Auction</th>
-                                                        <th>Number of Day for Auction</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if(Model != null)
-                                                    {
-                                                        @foreach(var item in Model)
-                                                        {
-                                                            <tr>
-                                                                <td><img class="img-fluid img-40" src="~/Images/@item.PictureUrl" alt="#"></td>
-                                                                        <td>
-                                                                     <div class="product-name">
-                                                                         <a href="#">
-                                                                            <h6>@item.ProductTitle</h6>
-                                                                         </a>
-                                                                     </div>
-                                                                </td>
-                                                                <td>@item.ProductCategory</td>
-                                                                <td>@item.ProdductPrice</td>
-                                                                <td>@item.wage</td>
-                                                                @* <td>
-                                                                    <fieldset class="qty-box">
-                                                                        <div class="input-group">
-                                                                            <input class="touchspin text-center" type="text" value="5">
-                                                                         </div>
-                                                                    </fieldset>
-                                                                </td> *@
-                                                                <td><a asp-controller="Seller" asp-route-AuctionDays="AuctionDay" asp-action="AddToAcuion" asp-route-ProductId="@item.ProductId"  asp-route-SellerId="@item.SellerId" class="btn btn-primary"></a> 
-                                                                </td>
-                                                                @* <td>
-                                                                    <div class="input-group">
-                                                                        <input class="touchspin text-center" type="number" id="AuctionDay">
-                                                                    </div>
-                                                                </td> *@
-                                                                @* <td>$12456</td> *@
-                                                            </tr>
-                                                        }
-                                                    }
-                                                    
-                                                    @* <tr>
-                                                        <td><img class="img-fluid img-40" src="../assets/images/product/13.png" alt="#"></td>
-                                                        <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>Fancy watch</h6>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>$50</td>
-                                                        <td>
-                                                            <fieldset class="qty-box">
-                                                                <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
-                                                                </div>
-                                                            </fieldset>
-                                                        </td>
-                                                        <td><i data-feather="x-circle"></i></td>
-                                                        <td>$12456</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><img class="img-fluid img-40" src="../assets/images/product/4.png" alt="#"></td>
-                                                        <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>Man shoes</h6>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>$11</td>
-                                                        <td>
-                                                            <fieldset class="qty-box">
-                                                                <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
-                                                                </div>
-                                                            </fieldset>
-                                                        </td>
-                                                        <td><i data-feather="x-circle"></i></td>
-                                                        <td>$12456</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4">
-                                                            <div class="input-group">
-                                                                <input class="form-control me-2" type="text" placeholder="Enter coupan code"><a class="btn btn-primary" href="#">Apply</a>
-                                                            </div>
-                                                        </td>
-                                                        <td class="total-amount">
-                                                            <h6 class="m-0 text-end"><span class="f-w-600">Total Price :</span></h6>
-                                                        </td>
-                                                        <td><span>$6935.00  </span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
-                                                        <td><a class="btn btn-success cart-btn-transform" href="checkout.html">check out</a></td>
-                                                    </tr> *@
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <a asp-controller="Seller" asp-action="AppProduct" class="btn btn-primary">Add a Product</a>
+                                <div class="card-body row pricing-content">
+                                    @*over here*@               @if (Model != null)
+                                    {
+                                        @foreach (var product in Model)
+                                        {
+                                            <div class="col-xl-3 col-sm-6 xl-50 box-col-6">
+                                                <div class="card text-center pricing-simple">
+                                                    <div class="card-body">
+                                                        <h3>@product.ProductTitle</h3>
+                                                        <img src="~/Images/@product.PictureUrl">
+                                                        <h1 class="mb-0">@product.LastPrice</h1>
+                                                        <h1 class="mb-0">@product.ProductCategory</h1>
+                                                        <p class="mb-0">@product.TimeOfEnd</p>
+                                                    </div><a class="btn btn-lg btn-primary btn-block" asp-route-AuctionId="@product.AuctionId" asp-controller="Seller" asp-action="EditAuction">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    @* <div class="col-xl-3 col-sm-6 xl-50 box-col-6">
+                                    <div class="card text-center pricing-simple">
+                                    <div class="card-body">
+                                    <h3>Business</h3>
+                                    <h1>$25</h1>
+                                    <h6 class="mb-0">Lorum Ipsum</h6>
+                                    </div><a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">
+                                    <h5 class="mb-0">Purchase</h5>
+                                    </a>
                                     </div>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-6 xl-50 box-col-6">
+                                    <div class="card text-center pricing-simple">
+                                    <div class="card-body">
+                                    <h3>Premium</h3>
+                                    <h1>$35</h1>
+                                    <h6 class="mb-0">Lorum Ipsum</h6>
+                                    </div><a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">
+                                    <h5 class="mb-0">Purchase</h5>
+                                    </a>
+                                    </div>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-6 xl-50 box-col-6">
+                                    <div class="card text-center pricing-simple">
+                                    <div class="card-body">
+                                    <h3>Extra</h3>
+                                    <h1>$45</h1>
+                                    <h6 class="mb-0">Lorum Ipsum</h6>
+                                    </div><a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">
+                                    <h5 class="mb-0">Purchase</h5>
+                                    </a>
+                                    </div>
+                                    </div> *@
                                 </div>
                             </div>
                         </div>
+                        @*  <div class="col-sm-12">
+                        <div class="card">
+                        <div class="card-header pb-0">
+                        <h5>Pricing</h5>
+                        </div>
+                        <div class="card-body row pricing-content pricing-col">
+                        <div class="col-md-3">
+                        <div class="pricing-block card text-center">
+                        <div class="pricing-header">
+                        <h2>standard</h2>
+                        <div class="price-box">
+                        <div>
+                        <h3>$10</h3>
+                        <p>/ month</p>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="pricing-list">
+                        <ul class="pricing-inner">
+                        <li>
+                        <h6>50GB<span> Disk Space</span></h6>
+                        </li>
+                        <li>
+                        <h6>50<span> Email Accounts</span></h6>
+                        </li>
+                        <li>
+                        <h6>50GB<span> Bandwidth</span></h6>
+                        </li>
+                        <li>
+                        <h6>10<span> Subdomains</span></h6>
+                        </li>
+                        <li>
+                        <h6>15<span> Domains</span></h6>
+                        </li>
+                        </ul>
+                        <button class="btn btn-primary btn-lg" type="button" data-original-title="btn btn-primary btn-lg" title="">Subscribe</button>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                        <div class="pricing-block card text-center">
+                        <div class="pricing-header">
+                        <h2>business</h2>
+                        <div class="price-box">
+                        <div>
+                        <h3>$20</h3>
+                        <p>/ month</p>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="pricing-list">
+                        <ul class="pricing-inner">
+                        <li>
+                        <h6>60GB<span> Disk Space</span></h6>
+                        </li>
+                        <li>
+                        <h6>60<span> Email Accounts</span></h6>
+                        </li>
+                        <li>
+                        <h6>60GB<span> Bandwidth</span></h6>
+                        </li>
+                        <li>
+                        <h6>15<span> Subdomains</span></h6>
+                        </li>
+                        <li>
+                        <h6>20<span> Domains</span></h6>
+                        </li>
+                        </ul>
+                        <button class="btn btn-primary btn-lg" type="button" data-original-title="btn btn-primary btn-lg" title="">Subscribe</button>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                        <div class="pricing-block card text-center">
+                        <div class="pricing-header">
+                        <h2>PREMIUM </h2>
+                        <div class="price-box">
+                        <div>
+                        <h3>$30</h3>
+                        <p>/ month</p>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="pricing-list">
+                        <ul class="pricing-inner">
+                        <li>
+                        <h6>70GB<span> Disk Space</span></h6>
+                        </li>
+                        <li>
+                        <h6>70<span> Email Accounts</span></h6>
+                        </li>
+                        <li>
+                        <h6>70GB<span> Bandwidth</span></h6>
+                        </li>
+                        <li>
+                        <h6>25<span> Subdomains</span></h6>
+                        </li>
+                        <li>
+                        <h6>30<span> Domains</span></h6>
+                        </li>
+                        </ul>
+                        <button class="btn btn-primary btn-lg" type="button" data-original-title="btn btn-primary btn-lg" title="">Subscribe</button>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                        <div class="pricing-block card text-center">
+                        <div class="pricing-header">
+                        <h2>auther pack</h2>
+                        <div class="price-box">
+                        <div>
+                        <h3>$40</h3>
+                        <p>/ month</p>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="pricing-list">
+                        <ul class="pricing-inner">
+                        <li>
+                        <h6>80GB<span> Disk Space</span></h6>
+                        </li>
+                        <li>
+                        <h6>80<span> Email Accounts</span></h6>
+                        </li>
+                        <li>
+                        <h6>80GB<span> Bandwidth</span></h6>
+                        </li>
+                        <li>
+                        <h6>25<span> Subdomains</span></h6>
+                        </li>
+                        <li>
+                        <h6>30<span> Domains</span></h6>
+                        </li>
+                        </ul>
+                        <button class="btn btn-primary btn-lg" type="button" data-original-title="btn btn-primary btn-lg" title="">Subscribe</button>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div> *@
                     </div>
                 </div>
                 <!-- Container-fluid Ends-->
@@ -886,9 +934,9 @@
     <script src="../assets/js/bootstrap/popper.min.js"></script>
     <script src="../assets/js/bootstrap/bootstrap.min.js"></script>
     <!-- Plugins JS start-->
-    <script src="../assets/js/touchspin/vendors.min.js"></script>
-    <script src="../assets/js/touchspin/touchspin.js"></script>
-    <script src="../assets/js/touchspin/input-groups.min.js"></script>
+    <script src="../assets/js/counter/jquery.waypoints.min.js"></script>
+    <script src="../assets/js/counter/jquery.counterup.min.js"></script>
+    <script src="../assets/js/counter/counter-custom.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="../assets/js/script.js"></script>

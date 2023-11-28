@@ -5,11 +5,14 @@ using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Identity.Entites;
 using Hangfire;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace App.Domain.Services.AppServices
 {
     public class SellerAppService : ISellerAppService
     {
+        private readonly AppSetting _appSetting;
         private readonly ISellerService _sellerService;
         private readonly IShopService _shopService;
         private readonly IInventoryService _inventoryService;
@@ -20,7 +23,8 @@ namespace App.Domain.Services.AppServices
         private readonly IPriceService _priceService;
         private readonly IWageService _wageService;
         private readonly IAuctionService _auctionService;
-        public SellerAppService(IAuctionService auctionService, IWageService wageService, IPriceService priceService, ICategoryService categoryService, IProductService productService, IPictureService pictureService, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductPictureService productPictureService)
+        private readonly IMedalService _medalService;
+        public SellerAppService(AppSetting appSetting, IMedalService medalService, IAuctionService auctionService, IWageService wageService, IPriceService priceService, ICategoryService categoryService, IProductService productService, IPictureService pictureService, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductPictureService productPictureService)
         {
             _sellerService = sellerService;
             _shopService = shopService;
@@ -32,6 +36,8 @@ namespace App.Domain.Services.AppServices
             _priceService = priceService;
             _wageService = wageService;
             _auctionService = auctionService;
+            _medalService = medalService;
+            _appSetting = appSetting;
         }
 
         public Seller FindSeller(int UserId, CancellationToken cancellation)
@@ -80,26 +86,29 @@ namespace App.Domain.Services.AppServices
             return shopDto;
         }
 
-        public List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation) // call -> PictureUrl, ProductTitle, ProductCategory
+        public List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation) 
         {
             var SellerShop = new List<ShopDashBordDto>();
             var allInventorys = _inventoryService.GetByShopId(shop.Id ?? default(int), cancellation);
 
             foreach (var inventory in allInventorys)
             {
-                var newProduct = new ShopDashBordDto
+                if(inventory.PriceId != null && inventory.AuctionId == null)
                 {
-                    SellerId = shop.SellerId ?? default(int),
-                    PictureUrl = PictureUrl(inventory.ProductId ?? default(int), cancellation),
-                    ProductTitle = ProductTitle(inventory.ProductId ?? default(int), cancellation),
-                    ProductCategory = ProductCategory(inventory.ProductId ?? default(int), cancellation),
-                    InventoryQnt = inventory.Qnt ?? default(int),
-                    ProdductPrice = ProdductPrice(inventory.PriceId ?? default(int), cancellation),
-                    wage = SellerWage(shop.SellerId ?? default(int), cancellation),
-                    ProductId = inventory.ProductId ?? default(int)
-                };
+                    var newProduct = new ShopDashBordDto
+                    {
+                        SellerId = shop.SellerId ?? default(int),
+                        PictureUrl = PictureUrl(inventory.ProductId ?? default(int), cancellation),
+                        ProductTitle = ProductTitle(inventory.ProductId ?? default(int), cancellation),
+                        ProductCategory = ProductCategory(inventory.ProductId ?? default(int), cancellation),
+                        InventoryQnt = inventory.Qnt ?? default(int),
+                        ProdductPrice = ProdductPrice(inventory.PriceId ?? default(int), cancellation),
+                        wage = SellerWage(inventory.Id ??default(int), cancellation),
+                        ProductId = inventory.ProductId ?? default(int)
+                    };
 
-                SellerShop.Add(newProduct);
+                    SellerShop.Add(newProduct);
+                }
             }
 
             return (SellerShop);
@@ -146,48 +155,39 @@ namespace App.Domain.Services.AppServices
             return price.ProdutPrice;
         }
 
-        public int SellerWage(int Sellerid, CancellationToken cancellation)
+        public int SellerWage(int InventoryId, CancellationToken cancellation)
         {
-            var wage = _wageService.GetAllBySellerId(Sellerid, cancellation).Result;
+            var wage = _wageService.GetAllByInventoyId(InventoryId, cancellation).Result;
 
-            foreach (var w in wage)
-            {
-                return w.HowMuch;
-            }
-
-            return 0;
+            return wage.HowMuch;
         }
 
 
-        public async Task<bool> AddProduct(AddProductDto input, CancellationToken cancellation)
+        public async Task<bool> AddProduct(AddProductDto input, Seller seller, CancellationToken cancellation)
         {
             var newProduct = new Product();
             var newInventory = new Inventory();
             var newPrice = new Price();
-            var newCategory = new Category();
             var newPicture = new Picture();
             var newProductPicture = new ProductPicture();
+            var newWage = new Wage();
+            int sellerWage = 0;
             int categoryId = 1;
 
-            if (input.ProductCategory != null)
-            {
-                newCategory.Title = input.ProductCategory;
 
-                await _categoryService.Add(newCategory, cancellation);
-            }
-
-            var allCategory = _categoryService.GetAll(cancellation);
-
-            foreach (var category in allCategory)
-            {
-                if (category.Title == input.ProductCategory)
-                    categoryId = category.Id;
-            }
+            newProduct.Title = input.ProductTitle;
+            newProduct.IsDeleted = false;
 
             if (input.ProductCategory != null)
             {
-                newProduct.Title = input.ProductTitle;
-                newProduct.IsDeleted = false;
+                var allCategory = _categoryService.GetAll(cancellation);
+
+                foreach (var category in allCategory)
+                {
+                    if (category.Title == input.ProductCategory)
+                        categoryId = category.Id;
+                }
+
                 newProduct.CategoryId = categoryId;
 
                 await _productService.Add(newProduct, cancellation);
@@ -207,11 +207,19 @@ namespace App.Domain.Services.AppServices
             newInventory.ProductId = FindProductId(input, cancellation);
             if(input.ProductPrice != null)
             {
-                newInventory.PriceId = FindPriceId(input, cancellation);
-
+                newInventory.PriceId = newPrice.Id /*FindPriceId(input, cancellation)*/;
             };
 
             await _inventoryService.Add(newInventory, cancellation);
+
+
+            newWage.IsDeleted = false;
+            newWage.SellerId = seller.Id;
+            newWage.HowMuch = await CaculeteWage(seller, input.ProductPrice ??default(int), cancellation);
+            newWage.IsPaid = false;
+            newWage.InventoryId = newInventory.Id;
+
+            await _wageService.Add(newWage, cancellation);
 
             if(input.PictureUrl != null)
             {
@@ -221,12 +229,53 @@ namespace App.Domain.Services.AppServices
                 await _pictureService.Add(newPicture, cancellation);
 
                 newProductPicture.PictureId = FindPictureId(input, cancellation);
-                newProductPicture.ProductId = FindProductId(input, cancellation);
+                newProductPicture.ProductId = newProduct.Id ?? default(int); /*FindProductId(input, cancellation);*/
 
                 await _productPictureService.Add(newProductPicture, cancellation);
             }
 
             return true;
+        }
+
+        public async Task<int> CaculeteWage(Seller seller, int price, CancellationToken cancellation)
+        {
+            var allUserMedal =  _medalService.GetBySellerId(seller.Id, cancellation);
+            var markMedal = new Medal();
+            var aWage = 0;
+            var wagePercent = 0;
+
+            foreach(var medal in allUserMedal)
+            {
+                if (medal.Rank == _appSetting.Rank2 && medal.IsExpired == false)
+                {
+                    markMedal = medal;
+                    break;
+                }else if(medal.Rank == _appSetting.Rank1 && medal.IsExpired == false)
+                {
+                    markMedal= medal;
+                    break;
+                }else if(medal.Rank == _appSetting.Rank0 && medal.IsExpired == false)
+                {
+                    markMedal = medal;
+                    break;
+                }
+            }
+
+            if(markMedal.Rank == "Gold")
+            {
+                wagePercent = _appSetting.Gold;
+            }else if(markMedal.Rank == "Silver")
+            {
+                wagePercent = _appSetting.Silver;
+            }
+            else
+            {
+                wagePercent = _appSetting.Copper;
+            }
+
+            aWage = (int)Math.Round((decimal)(price * wagePercent) / 100);
+
+            return aWage;
         }
 
         public int FindPictureId(AddProductDto add, CancellationToken cancellation)
@@ -276,7 +325,7 @@ namespace App.Domain.Services.AppServices
 
         public async Task<bool> AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation)
         {
-            var productInInventorys = _inventoryService.GetByProductId(ProductId, cancellation).Result;
+            var productInInventorys = await _inventoryService.GetByProductId(ProductId, cancellation);
             var aShop = _shopService.GetBySellerId(SellerId, cancellation);
             var aInventory = new Inventory();
             var newAuction = new Auction();
@@ -289,37 +338,100 @@ namespace App.Domain.Services.AppServices
                 }
             }
 
-            if (aInventory.PriceId != null)
-                return false;
-
             newAuction.TimeOfStart = DateTime.Now;
+            newAuction.TimeOfEnd =  DateTime.Now.AddDays(1);
             newAuction.SellerId = SellerId;
+            newAuction.LastPrice = 0;
 
             await _auctionService.Add(newAuction, cancellation);
 
-            var scedul = DateTime.Now.AddHours(24);
-            var dateTimeOfSet = new DateTimeOffset(scedul);
+            aInventory.AuctionId = newAuction.Id;
+            aInventory.PriceId = null;
+            aInventory.Price = null;
 
-            BackgroundJob.Schedule(() => EndAuction(SellerId, cancellation), dateTimeOfSet);
+            await _inventoryService.Update(aInventory.Id??default(int) ,aInventory, cancellation);
+
+            var scedul = DateTime.Now.AddDays(1);
+            var defultScedul = new DateTimeOffset(scedul);
+
+             BackgroundJob.Schedule(() => EndAuction(SellerId, cancellation), defultScedul);
 
             return true;
         }
 
-        public async void EndAuction(int sellerId, CancellationToken cancellation)
+        public async Task EndAuction(int sellerId, CancellationToken cancellation)
         {
-            var allAuction = _auctionService.GetAll(cancellation);
+            var allAuction = await _auctionService.GetBySellerId(sellerId, cancellation);
             var specficAuction = new Auction();
 
             foreach(var auction in allAuction)
             {
-                if(auction.SellerId == sellerId)
-                    specficAuction = auction;
+                if(auction.TimeOfEnd == DateTime.Now)
+                    specficAuction.IsActive = false;
             };
 
-            specficAuction.TimeOfEnd = DateTime.Now;
-            specficAuction.IsActive = true;
+            await _auctionService.Update(specficAuction.Id ??default(int),specficAuction, cancellation);
+        }
 
-            await _auctionService.Update(specficAuction.Id ,specficAuction, cancellation);
+        public async Task<List<AuctionDashBordDto>> FillAuctionDto(Seller seller, CancellationToken cancellation)
+        {
+            var activeAuction = new List<Auction>();
+            var allAuction = await _auctionService.GetBySellerId(seller.Id, cancellation);
+            var mark = new Inventory();
+            var markList = new List<AuctionDashBordDto>();
+
+            var newAuctionDto = new AuctionDashBordDto
+            {
+                SellerId = seller.Id,
+            };
+
+            foreach (var auction in allAuction)
+            {
+                if(auction.IsActive == true)
+                {
+                    activeAuction.Add(auction);
+                    newAuctionDto.LastPrice = auction.LastPrice??default(int);
+                    newAuctionDto.AuctionId = auction.Id??default(int);
+                    newAuctionDto.TimeOfEnd = auction.TimeOfEnd;
+                }
+
+            }
+
+            foreach(var auction in activeAuction)
+            {
+                mark = _inventoryService.GetByAuctionId(auction.Id ?? default(int), cancellation);
+                markList.Add(await FillAuctionDtoHelper(newAuctionDto, mark, cancellation));
+            }
+
+            return markList;
+        }
+
+        public async Task<AuctionDashBordDto> FillAuctionDtoHelper(AuctionDashBordDto dto, Inventory inventory, CancellationToken cancellation)
+        {
+            var aProduct = await _productService.GetById(inventory.ProductId, cancellation);
+            var allPicture = _productPictureService.GetByProducId(inventory.ProductId ??default(int), cancellation);
+            var apicture = new Picture();
+            var aCategory = await _categoryService.GetById(aProduct.CategoryId??default(int), cancellation);
+
+            dto.ProductCategory = aCategory.Title;
+            dto.ProductTitle = aProduct.Title;
+
+            foreach(var picture in allPicture)
+            {
+                apicture = await _pictureService.GetById(picture.PictureId, cancellation);
+                dto.PictureUrl = apicture.Url;
+                break;
+            }
+
+            dto.InventoryQnt = inventory.Qnt ?? default(int);
+            dto.ProductId = inventory.ProductId??default(int);
+
+            return dto;
+        }
+
+        public Task<bool> UpdateTheAcuion(int AuctionId, bool DeleteAuction, int AddTheDays, CancellationToken cancellation)
+        {
+            throw new NotImplementedException();
         }
     }
 }

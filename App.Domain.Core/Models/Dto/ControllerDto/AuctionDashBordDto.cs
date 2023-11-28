@@ -11,18 +11,21 @@ namespace App.Domain.Core.Models.Dto.ControllerDto
         public int SellerId { get; set; }
 
         public int ProductId { get; set; }
-        public string ShopName { get; set; }
 
-        public string PictureUrl { get; set; } //Picture Entity
+        public int AuctionId { get; set; }
 
-        public string ProductTitle { get; set; } // Product
+        public string PictureUrl { get; set; } 
 
-        public string ProductCategory { get; set; } // Category
+        public string ProductTitle { get; set; } 
 
-        public int InventoryQnt { get; set; } // Inventory
+        public string ProductCategory { get; set; } 
 
-        public int ProdductPrice { get; set; } // Price
+        public DateTime TimeOfEnd { get; set; }
 
-        public int wage { get; set; } // Wage
+        public int InventoryQnt { get; set; } 
+
+        public int LastPrice { get; set; } 
+
+        public int wage { get; set; } 
     }
 }

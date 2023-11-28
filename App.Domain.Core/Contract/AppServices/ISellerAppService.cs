@@ -20,8 +20,12 @@ namespace App.Domain.Core.Contract.AppServices
 
         List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation);
 
-        Task<bool> AddProduct(AddProductDto input, CancellationToken cancellation);
+        Task<bool> AddProduct(AddProductDto input, Seller seller, CancellationToken cancellation);
+
         Task<bool> AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation);
 
+        Task<List<AuctionDashBordDto>> FillAuctionDto(Seller seller, CancellationToken cancellation);
+
+        Task<bool> UpdateTheAcuion(int AuctionId, bool DeleteAuction, int AddTheDays, CancellationToken cancellation);
     }
 }

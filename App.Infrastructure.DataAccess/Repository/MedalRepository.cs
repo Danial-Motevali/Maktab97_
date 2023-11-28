@@ -72,6 +72,8 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 address.Id = inputAddress.Id;
                 address.Rank = inputAddress.Rank;
+                address.IsExpired = inputAddress.IsExpired;
+                address.SellerId = inputAddress.SellerId;
 
                 await _db.SaveChangesAsync(cancellation);
                 return true;
