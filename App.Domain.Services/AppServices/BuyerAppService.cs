@@ -3,8 +3,10 @@ using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
+using App.Domain.Core.Models.Entities;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Domain.Core.Models.Identity.Role;
+using App.Domain.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,9 @@ namespace App.Domain.Services.AppServices
         private readonly ICartService _cartService;
         private readonly IBuyerService _buyerService;
         private readonly IAuctionService _auctionService;
+        private readonly ICommentService _commentService;
+        private readonly IOrderService _orderService;
+        private readonly IProductOrederService _productOrederService;
         public BuyerAppService(
              IPriceService priceService 
             ,ICategoryService categoryService
@@ -43,6 +48,9 @@ namespace App.Domain.Services.AppServices
             , ICartService cartService
             , IBuyerService buyerService
             , IAuctionService auctionService
+            , ICommentService commentService
+            , IOrderService orderService
+            , IProductOrederService productOrederService
             )
         {
             _userServices = userServices;
@@ -57,6 +65,9 @@ namespace App.Domain.Services.AppServices
             _cartService = cartService;
             _buyerService = buyerService;
             _auctionService = auctionService;
+            _commentService = commentService;
+            _orderService = orderService;
+            _productOrederService = productOrederService;
         }
 
 
@@ -87,7 +98,7 @@ namespace App.Domain.Services.AppServices
             
             var aSeller = _sellerService.ByUserId(user.Id, cancellation);
             var aShop = _shopService.GetBySellerId(aSeller.Id, cancellation);
-            var selllerInventory = _inventoryService.GetByShopId(aShop.Id ?? default(int), cancellation);
+            var selllerInventory = _inventoryService.GetByShopId(aShop.Id, cancellation);
             var aProduct = new Product();
             var allProductPicture = new List<ProductPicture>();
             var productCategory = new Category();
@@ -103,12 +114,12 @@ namespace App.Domain.Services.AppServices
                 if (inventory.AuctionId == null)
                 {
                     aProduct = await _productService.GetById(inventory.ProductId, cancellation);
-                    allProductPicture = _productPictureService.GetByProducId(aProduct.Id ?? default(int), cancellation);
+                    allProductPicture = _productPictureService.GetByProducId(aProduct.Id, cancellation);
                     productCategory = await _categoryService.GetById(aProduct.CategoryId ?? default(int), cancellation);
 
                     foreach (var picture in allProductPicture)
                     {
-                        pictureList.Add(await _pictureService.GetById(picture.PictureId, cancellation));
+                        pictureList.Add(await _pictureService.GetById(picture.PictureId ?? default(int), cancellation));
                     }
 
                     foreach (var picture in pictureList)
@@ -120,9 +131,9 @@ namespace App.Domain.Services.AppServices
                     inventoryPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
 
                     aBuyerSearchDto.SellerId = aSeller.Id;
-                    aBuyerSearchDto.ProductId = aProduct.Id ?? default(int);
-                    aBuyerSearchDto.ShopId = aShop.Id ?? default(int);
-                    aBuyerSearchDto.ProductPrice = inventoryPrice.ProdutPrice;
+                    aBuyerSearchDto.ProductId = aProduct.Id;
+                    aBuyerSearchDto.ShopId = aShop.Id;
+                    aBuyerSearchDto.ProductPrice = inventoryPrice.ProdutPrice ?? default(int);
                     aBuyerSearchDto.Category = productCategory.Title;
                     aBuyerSearchDto.Category = productCategory.Title;
                     aBuyerSearchDto.ProductTitle = aProduct.Title;
@@ -151,7 +162,7 @@ namespace App.Domain.Services.AppServices
 
 
                     aBuyerSearchDto.ProductId = inventory.ProductId ?? default(int);
-                    aBuyerSearchDto.ProductPrice = aPrice.ProdutPrice;
+                    aBuyerSearchDto.ProductPrice = aPrice.ProdutPrice ?? default(int);
                     aBuyerSearchDto.ProductUrl = Picture;
                     aBuyerSearchDto.ProductTitle = aProduct.Title;
                     aBuyerSearchDto.SellerId = aSeller.Id;
@@ -173,7 +184,7 @@ namespace App.Domain.Services.AppServices
 
             foreach (var product in allProduct)
             {
-                allInventory.AddRange(await _inventoryService.GetByProductId(product.Id ?? default(int), cancellation));
+                allInventory.AddRange(await _inventoryService.GetByProductId(product.Id, cancellation));
             }
 
             return allInventory;
@@ -186,7 +197,7 @@ namespace App.Domain.Services.AppServices
 
             foreach(var picture in allProductPicture)
             {
-                url = await _pictureService.GetById(picture.PictureId, cancellation);
+                url = await _pictureService.GetById(picture.PictureId ?? default(int), cancellation);
 
                 return url.Url;
             }
@@ -198,7 +209,7 @@ namespace App.Domain.Services.AppServices
         {
             var aShop = await _shopService.GetById(shopId, cancellation);
             var aSeller = await _sellerService.GetById(aShop.SellerId ?? default(int), cancellation);
-            var aUser = await _userServices.GetById(aSeller.UserId, cancellation);
+            var aUser = await _userServices.GetById(aSeller.UserId ?? default(int), cancellation);
 
             return aUser;
         }
@@ -311,13 +322,18 @@ namespace App.Domain.Services.AppServices
             {
                 foreach (var cart in allCart)
                 {
-                    newCart.ProdutName = await ProdutNameByCartId(cart, cancellation);
-                    newCart.ProductPrice = await PriceByCart(cart, cancellation);
-                    newCart.BuyerId = cart.BuyerId;
-                    newCart.ProductId = await ProductByCart(cart, cancellation);
-                    newCart.Url = await PictureByCart(cart, cancellation);
+                    if(cart.IsActive == true)
+                    {
+                        newCart.ProdutName = await ProdutNameByCartId(cart, cancellation);
+                        newCart.ProductPrice = await PriceByCart(cart, cancellation);
+                        newCart.BuyerId = cart.BuyerId;
+                        newCart.ProductId = await ProductByCart(cart, cancellation);
+                        newCart.Url = await PictureByCart(cart, cancellation);
+                        newCart.CartId = cart.Id;
+                        newCart.InventoryId = cart.InventoryId;
 
-                    newListCartDto.Add(newCart);
+                        newListCartDto.Add(newCart);
+                    }
                 }
             }
 
@@ -328,11 +344,11 @@ namespace App.Domain.Services.AppServices
         {
             var aInventory = await _inventoryService.GetById(cart.InventoryId??default(int), cancellation);
             var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
-            var allProductPicture = _productPictureService.GetByProducId(aProduct.Id??default(int), cancellation);
+            var allProductPicture = _productPictureService.GetByProducId(aProduct.Id, cancellation);
 
             foreach(var product in allProductPicture)
             {
-                var picture = await _pictureService.GetById(product.PictureId, cancellation);
+                var picture = await _pictureService.GetById(product.PictureId??default(int), cancellation);
 
                 return picture.Url;
             }
@@ -350,10 +366,10 @@ namespace App.Domain.Services.AppServices
 
         public async Task<int> PriceByCart(Cart cart, CancellationToken cancellation)
         {
-            var aInventory = await _inventoryService.GetById(cart.Id, cancellation);
+            var aInventory = await _inventoryService.GetById(cart.InventoryId??default(int), cancellation);
             var aPrice = await _priceService.GetById(aInventory.PriceId??default(int), cancellation);
 
-            return aPrice.ProdutPrice;
+            return aPrice.ProdutPrice??default(int);
         }
 
         public async Task<int> ProductByCart(Cart cart, CancellationToken cancellation)
@@ -361,12 +377,51 @@ namespace App.Domain.Services.AppServices
             var aInventory = await _inventoryService.GetById(cart.InventoryId??default(int), cancellation);
             var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
 
-            return aProduct.Id??default(int);
+            return aProduct.Id;
         }
 
-        public Task<bool> AddOrder(List<BuyerCartDto> input, CancellationToken cancellation)
+
+
+        public async Task<bool> AddOrder(List<BuyerCartDto> input, CancellationToken cancellation)
         {
-            throw new NotImplementedException();
+            foreach(var cart in input)
+            {
+                await DeActiveCart(cart.CartId??default(int), cancellation);
+                await CreateNewOrder(cart.BuyerId ?? default(int), cart.InventoryId ?? default(int), cancellation);
+            }
+
+            return true;
+        }
+
+        public async Task<bool> CreateNewOrder(int BuyerId, int InventoryId, CancellationToken cancellation)
+        {
+            var newProOrder = new ProductOreder();
+            var newOrder = new Order();
+            var aInventory = await _inventoryService.GetById(InventoryId, cancellation);
+            var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
+
+            newOrder.BuyerId = BuyerId;
+            newOrder.IsDeleted = false;
+
+            await _orderService.Add(newOrder, cancellation);
+
+            newProOrder.IsDeleted = false;
+            newProOrder.OrederId = newOrder.Id;
+            newProOrder.ProductId = aProduct.Id;
+
+            await _productOrederService.Add(newProOrder, cancellation);
+
+            return true;
+        }
+
+        public async Task<bool> DeActiveCart(int CartId, CancellationToken cancellation)
+        {
+            var aCart = await _cartService.GetById(CartId, cancellation);
+
+            aCart.IsActive = false;
+            await _cartService.Update(CartId, aCart, cancellation);
+
+            return true;
         }
     }
 }

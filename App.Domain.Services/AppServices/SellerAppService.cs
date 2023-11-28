@@ -89,7 +89,7 @@ namespace App.Domain.Services.AppServices
         public List<ShopDashBordDto> FillTheDto(Shop shop, CancellationToken cancellation) 
         {
             var SellerShop = new List<ShopDashBordDto>();
-            var allInventorys = _inventoryService.GetByShopId(shop.Id ?? default(int), cancellation);
+            var allInventorys = _inventoryService.GetByShopId(shop.Id, cancellation);
 
             foreach (var inventory in allInventorys)
             {
@@ -103,7 +103,7 @@ namespace App.Domain.Services.AppServices
                         ProductCategory = ProductCategory(inventory.ProductId ?? default(int), cancellation),
                         InventoryQnt = inventory.Qnt ?? default(int),
                         ProdductPrice = ProdductPrice(inventory.PriceId ?? default(int), cancellation),
-                        wage = SellerWage(inventory.Id ??default(int), cancellation),
+                        wage = SellerWage(inventory.Id, cancellation),
                         ProductId = inventory.ProductId ?? default(int)
                     };
 
@@ -122,7 +122,7 @@ namespace App.Domain.Services.AppServices
             {
                 foreach (var product in allProductPricture)
                 {
-                    var picture = _pictureService.GetById(product.PictureId, cancellation).Result;
+                    var picture = _pictureService.GetById(product.PictureId ?? default(int), cancellation).Result;
                     return picture.Url;
                 }
             }
@@ -152,7 +152,7 @@ namespace App.Domain.Services.AppServices
             if (price == null)
                 return 0;
 
-            return price.ProdutPrice;
+            return price.ProdutPrice ?? default(int);
         }
 
         public int SellerWage(int InventoryId, CancellationToken cancellation)
@@ -229,7 +229,7 @@ namespace App.Domain.Services.AppServices
                 await _pictureService.Add(newPicture, cancellation);
 
                 newProductPicture.PictureId = FindPictureId(input, cancellation);
-                newProductPicture.ProductId = newProduct.Id ?? default(int); /*FindProductId(input, cancellation);*/
+                newProductPicture.ProductId = newProduct.Id; /*FindProductId(input, cancellation);*/
 
                 await _productPictureService.Add(newProductPicture, cancellation);
             }
@@ -301,7 +301,7 @@ namespace App.Domain.Services.AppServices
             {
                 if (product.Title == add.ProductTitle)
                 {
-                    return product.Id ?? default(int);
+                    return product.Id;
                 }
             }
 
@@ -346,10 +346,8 @@ namespace App.Domain.Services.AppServices
             await _auctionService.Add(newAuction, cancellation);
 
             aInventory.AuctionId = newAuction.Id;
-            aInventory.PriceId = null;
-            aInventory.Price = null;
 
-            await _inventoryService.Update(aInventory.Id??default(int) ,aInventory, cancellation);
+            await _inventoryService.Update(aInventory.Id ,aInventory, cancellation);
 
             var scedul = DateTime.Now.AddDays(1);
             var defultScedul = new DateTimeOffset(scedul);
@@ -392,7 +390,7 @@ namespace App.Domain.Services.AppServices
                     activeAuction.Add(auction);
                     newAuctionDto.LastPrice = auction.LastPrice??default(int);
                     newAuctionDto.AuctionId = auction.Id??default(int);
-                    newAuctionDto.TimeOfEnd = auction.TimeOfEnd;
+                    newAuctionDto.TimeOfEnd = auction.TimeOfEnd ?? default(DateTime);
                 }
 
             }
@@ -418,7 +416,7 @@ namespace App.Domain.Services.AppServices
 
             foreach(var picture in allPicture)
             {
-                apicture = await _pictureService.GetById(picture.PictureId, cancellation);
+                apicture = await _pictureService.GetById(   picture.PictureId ?? default(int), cancellation);
                 dto.PictureUrl = apicture.Url;
                 break;
             }

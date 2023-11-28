@@ -171,7 +171,7 @@ namespace App.Domain.Services.AppServices
             foreach (var shop in allShops)
             {
                 if (shop.SellerId == sellerSId && shop.IsDeleted == false)
-                    return shop.Id ?? default(int);
+                    return shop.Id;
             }
 
             return 0;
@@ -193,7 +193,7 @@ namespace App.Domain.Services.AppServices
         public List<Product> SellersProduct(int SellerId, CancellationToken cancellation)
         {
             var sellerShop = _shopServices.GetBySellerId(SellerId ,cancellation);
-            var sellerInventory = _inventoryService.GetByShopId(sellerShop.Id ?? default(int), cancellation);
+            var sellerInventory = _inventoryService.GetByShopId(sellerShop.Id , cancellation);
             var allProduct = _productService.GetAll(cancellation);
             var markProduct = new List<Product>();
 
