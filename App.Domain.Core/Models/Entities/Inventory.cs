@@ -9,7 +9,7 @@ public class Inventory
     public int? AuctionId { get; set; }
     public Auction? Auction { get; set; } 
 
-    public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
+    public ICollection<Comment>? Comments { get; set; } 
 
     public int? PriceId { get; set; }
 

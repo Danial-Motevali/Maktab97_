@@ -33,7 +33,7 @@ namespace UI.Controllers
             var buyer = _buyerAppService.FindBuyer(userId, cancellation);
             var result = await _buyerAppService.AddToCart(buyer, ProductId, ShopId, cancellation);
 
-            return View("Serach");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Action(CancellationToken cancellation)
