@@ -714,9 +714,9 @@
                                             <div class="col-xl-3 col-sm-6 xl-50 box-col-6">
                                                 <div class="card text-center pricing-simple">
                                                     <div class="card-body">
-                                                        <h3>Standard</h3>
+                                                        <p>@product.ProductName</p>
                                                         <h1>@product.LastPrice</h1>
-                                                        <h6 class="mb-0">@product.ProductName</h6>
+                                                        @* <h6 class="mb-0">@product.ProductName</h6> *@
                                                     </div><a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">
                                                         <form asp-controller="Buyer" asp-action="AddNewPrice" asp-route-AuctionId="@product.AuctionId" method="post" class="form-inline search-form">
                                                             <div class="form-group form-control-search">

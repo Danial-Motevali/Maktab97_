@@ -283,6 +283,7 @@ namespace App.Domain.Services.AppServices
                     newAuctionDto.IsActive = true;
                     newAuctionDto.LastPrice = auction.LastPrice;
                     newAuctionDto.TimeOfEnd = auction.TimeOfEnd;
+                    newAuctionDto.ProductName = await FindProductName(auction, cancellation);
                     newAuctionDto.TimeOfStart = auction.TimeOfStart;
                     newAuctionDto.SellerId = auction.SellerId;
 
@@ -291,6 +292,14 @@ namespace App.Domain.Services.AppServices
             }
 
             return activeAuction;
+        }
+
+        public async Task<string> FindProductName(Auction auction, CancellationToken cancellation)
+        {
+            var aInventory = _inventoryService.GetByAuctionId(auction.Id??default(int), cancellation);
+            var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
+
+            return aProduct.Title;
         }
 
         public async Task<bool> AddNewPrice(int newPrice, int AuctionId, CancellationToken cancellation)
