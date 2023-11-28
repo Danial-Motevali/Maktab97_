@@ -4,6 +4,7 @@ using App.Infrastructure.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231128045451_v9")]
+    partial class v9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,9 +368,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                     b.Property<int>("HowMuch")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InventoryId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -378,8 +378,6 @@ namespace App.Infrastructure.Data.EF.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InventoryId");
 
                     b.HasIndex("SellerId");
 
@@ -845,16 +843,10 @@ namespace App.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Entities.Wage", b =>
                 {
-                    b.HasOne("App.Domain.Core.Entities.Inventory", "Inventory")
-                        .WithMany()
-                        .HasForeignKey("InventoryId");
-
                     b.HasOne("App.Domain.Core.Models.Identity.Entites.Seller", "User")
                         .WithMany("Wages")
                         .HasForeignKey("SellerId")
                         .HasConstraintName("FK_Wages_Seller");
-
-                    b.Navigation("Inventory");
 
                     b.Navigation("User");
                 });

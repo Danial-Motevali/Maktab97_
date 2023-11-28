@@ -12,6 +12,10 @@ public class Wage
 
     public bool IsPaid { get; set; } = false;
 
+    public int? InventoryId { get; set; }
+
+    public Inventory? Inventory { get; set; }
+
     public int? SellerId { get; set; }
 
     public Seller? User { get; set; } 

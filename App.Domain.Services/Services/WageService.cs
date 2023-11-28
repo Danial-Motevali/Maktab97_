@@ -2,6 +2,7 @@
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,20 @@ namespace App.Domain.Services.Services
         public async Task<bool> Update(int Id, Wage wageInput, CancellationToken cancellation)
         {
             return await _repository.Update(Id, wageInput, cancellation);
+        }
+
+        public async Task<Wage> GetAllByInventoyId(int InventorId, CancellationToken cancellation)
+        {
+            var allWage = _repository.GetAll(cancellation);
+            var inventoryWage = new Wage();
+
+            foreach (var wage in allWage)
+            {
+                if (wage.InventoryId == InventorId && wage.IsDeleted == false && wage.IsPaid == false)
+                    return wage;
+            }
+
+            return null;
         }
     }
 }
