@@ -7,12 +7,11 @@ public class Buyer
 {
     public int Id { get; set; }
 
-    public ICollection<Address> Addresses { get; set; } = new List<Address>();
+    public ICollection<Address>? Addresses { get; set; }
 
-    public int? CartId { get; set; }
-    public Cart? Cart { get; set; }
+    public ICollection<Cart>? carts { get; set; }
 
-    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public ICollection<Comment>? Comments { get; set; }
 
     public int UserId { get; set; }
     public User User { get; set; }
