@@ -27,6 +27,9 @@ namespace App.Domain.Services.AppServices
         private readonly ICategoryService _categoryService;
         private readonly IProductService _productService;
         private readonly IPriceService _priceService;
+        private readonly ICartService _cartService;
+        private readonly IBuyerService _buyerService;
+        private readonly IAuctionService _auctionService;
         public BuyerAppService(
              IPriceService priceService 
             ,ICategoryService categoryService
@@ -36,7 +39,11 @@ namespace App.Domain.Services.AppServices
             ,  IShopService shopService
             , IInventoryService inventoryService
             , ISellerService sellerService
-            , IUserServices userServices)
+            , IUserServices userServices
+            , ICartService cartService
+            , IBuyerService buyerService
+            , IAuctionService auctionService
+            )
         {
             _userServices = userServices;
             _sellerService = sellerService;
@@ -47,6 +54,9 @@ namespace App.Domain.Services.AppServices
             _categoryService = categoryService;
             _productService = productService;
             _priceService = priceService;
+            _cartService = cartService;
+            _buyerService = buyerService;
+            _auctionService = auctionService;
         }
 
 
@@ -74,44 +84,51 @@ namespace App.Domain.Services.AppServices
         public async Task<List<BuyerSearchDto>> SearchWithUserName(User user, CancellationToken cancellation) // need test
         {
             var newBuyerSearchDto = new List<BuyerSearchDto>();
-            var aBuyerSearchDto = new BuyerSearchDto();
+            
             var aSeller = _sellerService.ByUserId(user.Id, cancellation);
             var aShop = _shopService.GetBySellerId(aSeller.Id, cancellation);
             var selllerInventory = _inventoryService.GetByShopId(aShop.Id ?? default(int), cancellation);
             var aProduct = new Product();
             var allProductPicture = new List<ProductPicture>();
             var productCategory = new Category();
-            var pictureList = new List<Picture>();
             var inventoryPrice = new Price();
 
-            foreach(var inventory in selllerInventory)
+            if (aShop.Inventories == null)
+                return null;
+
+            foreach(var inventory in aShop.Inventories)
             {
-                aProduct = await _productService.GetById(inventory.ProductId, cancellation);
-                allProductPicture =  _productPictureService.GetByProducId(aProduct.Id ?? default(int), cancellation);
-                productCategory = await _categoryService.GetById(aProduct.CategoryId ?? default(int), cancellation);
-
-                foreach(var picture in allProductPicture)
+                var aBuyerSearchDto = new BuyerSearchDto();
+                var pictureList = new List<Picture>();
+                if (inventory.AuctionId == null)
                 {
-                    pictureList.Add(await _pictureService.GetById(picture.PictureId, cancellation));
+                    aProduct = await _productService.GetById(inventory.ProductId, cancellation);
+                    allProductPicture = _productPictureService.GetByProducId(aProduct.Id ?? default(int), cancellation);
+                    productCategory = await _categoryService.GetById(aProduct.CategoryId ?? default(int), cancellation);
+
+                    foreach (var picture in allProductPicture)
+                    {
+                        pictureList.Add(await _pictureService.GetById(picture.PictureId, cancellation));
+                    }
+
+                    foreach (var picture in pictureList)
+                    {
+                        aBuyerSearchDto.ProductUrl = picture.Url;
+                        break;
+                    }
+
+                    inventoryPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
+
+                    aBuyerSearchDto.SellerId = aSeller.Id;
+                    aBuyerSearchDto.ProductId = aProduct.Id ?? default(int);
+                    aBuyerSearchDto.ShopId = aShop.Id ?? default(int);
+                    aBuyerSearchDto.ProductPrice = inventoryPrice.ProdutPrice;
+                    aBuyerSearchDto.Category = productCategory.Title;
+                    aBuyerSearchDto.Category = productCategory.Title;
+                    aBuyerSearchDto.ProductTitle = aProduct.Title;
+
+                    newBuyerSearchDto.Add(aBuyerSearchDto);
                 }
-
-                foreach(var picture in pictureList)
-                {
-                    aBuyerSearchDto.ProductUrl = picture.Url;
-                    break;
-                }
-
-                inventoryPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
-
-                aBuyerSearchDto.SellerId = aSeller.Id;
-                aBuyerSearchDto.ProductId = aProduct.Id ?? default (int);
-                aBuyerSearchDto.ShopId = aShop.Id?? default(int);
-                aBuyerSearchDto.ProductPrice = inventoryPrice.ProdutPrice;
-                aBuyerSearchDto.Category = productCategory.Title;
-                aBuyerSearchDto.Category = productCategory.Title;
-                aBuyerSearchDto.ProductTitle = aProduct.Title;
-
-                newBuyerSearchDto.Add(aBuyerSearchDto);
             }
 
             return newBuyerSearchDto;
@@ -125,22 +142,25 @@ namespace App.Domain.Services.AppServices
 
             foreach (var inventory in targetInventorys)
             {
-               var aPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
-               var Picture = await FindPictureWithProductId(inventory.ProductId ?? default(int), cancellation);
-               var aProduct = await _productService.GetById(inventory.ProductId ?? default(int), cancellation);
-               var aSeller = await FindSellerIdWithShopId(inventory.ShopId ?? default(int), cancellation);
-               
+                if(inventory.AuctionId == null)
+                {
+                    var aPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
+                    var Picture = await FindPictureWithProductId(inventory.ProductId ?? default(int), cancellation);
+                    var aProduct = await _productService.GetById(inventory.ProductId ?? default(int), cancellation);
+                    var aSeller = await FindSellerIdWithShopId(inventory.ShopId ?? default(int), cancellation);
 
-                aBuyerSearchDto.ProductId = inventory.ProductId ?? default(int);
-                aBuyerSearchDto.ProductPrice = aPrice.ProdutPrice;
-                aBuyerSearchDto.ProductUrl = Picture;
-                aBuyerSearchDto.ProductTitle = aProduct.Title;
-                aBuyerSearchDto.SellerId = aSeller.Id;
-                aBuyerSearchDto.SellerName = aSeller.UserName;
-                aBuyerSearchDto.Category = Category.Title;
-                aBuyerSearchDto.ShopId = inventory.ShopId ?? default(int);
 
-                newBuyerSearchDto.Add(aBuyerSearchDto);
+                    aBuyerSearchDto.ProductId = inventory.ProductId ?? default(int);
+                    aBuyerSearchDto.ProductPrice = aPrice.ProdutPrice;
+                    aBuyerSearchDto.ProductUrl = Picture;
+                    aBuyerSearchDto.ProductTitle = aProduct.Title;
+                    aBuyerSearchDto.SellerId = aSeller.Id;
+                    aBuyerSearchDto.SellerName = aSeller.UserName;
+                    aBuyerSearchDto.Category = Category.Title;
+                    aBuyerSearchDto.ShopId = inventory.ShopId ?? default(int);
+
+                    newBuyerSearchDto.Add(aBuyerSearchDto);
+                }
             }
 
             return newBuyerSearchDto;
@@ -181,6 +201,147 @@ namespace App.Domain.Services.AppServices
             var aUser = await _userServices.GetById(aSeller.UserId, cancellation);
 
             return aUser;
+        }
+
+
+
+
+
+        public async Task<bool> AddToCart(Buyer buyer, int ProductId, int ShopId, CancellationToken cancellation)
+        {
+            if(buyer.CartId == null)
+            {
+                var newCart = new Cart();
+                var aInventory = await FindInventory(ProductId, ShopId, cancellation);
+
+                newCart.IsActive = true;
+                newCart.TimeOfCreate = DateTime.Now;
+
+                aInventory.Cart = newCart;
+                await _inventoryService.Update(aInventory.Id ?? default(int), aInventory, cancellation);
+
+                buyer.CartId = newCart.Id;
+                await _buyerService.Update(buyer.Id, buyer, cancellation);
+            }
+
+            var productInventory = await FindInventory(ProductId, ShopId, cancellation);
+            productInventory.CartId = buyer.CartId;
+            await _inventoryService.Update(productInventory.Id ?? default(int),productInventory, cancellation);
+
+            return true;
+        }
+
+        public async Task<Inventory> FindInventory(int ProductId, int ShopId, CancellationToken cancellation)
+        {
+            var shopInventory =  _inventoryService.GetByShopId(ShopId, cancellation);
+
+            foreach (var inventory in shopInventory)
+            {
+                if(inventory.ProductId == ProductId)
+                    return inventory;
+            }
+
+            return null;
+        }
+
+        public Buyer FindBuyer(int UserId, CancellationToken cancellation)
+        {
+            var aBuyer = _buyerService.ByUserId(UserId, cancellation);
+
+            return aBuyer;
+        }
+
+
+
+
+        public async Task<List<AuctionDto>> Action(CancellationToken cancellation)
+        {
+            var allAuction = _auctionService.GetAll(cancellation);
+            var activeAuction = new List<AuctionDto>();
+            var newAuctionDto = new AuctionDto();
+
+            if (allAuction == null)
+                return null;
+
+            foreach(var auction in allAuction)
+            {
+                if(auction.TimeOfEnd == DateTime.Now)
+                {
+                    auction.IsActive = false;
+
+                    await _auctionService.Update(auction.Id ??default(int), auction, cancellation);
+                }
+            }
+
+            foreach(var auction in allAuction)
+            {
+                if(auction.IsActive == true && auction.TimeOfEnd != DateTime.Now)
+                {
+                    newAuctionDto.IsActive = true;
+                    newAuctionDto.LastPrice = auction.LastPrice;
+                    newAuctionDto.TimeOfEnd = auction.TimeOfEnd;
+                    newAuctionDto.TimeOfStart = auction.TimeOfStart;
+                    newAuctionDto.SellerId = auction.SellerId;
+
+                    activeAuction.Add(newAuctionDto);
+                }
+            }
+
+            return activeAuction;
+        }
+
+        public async Task<bool> AddNewPrice(int newPrice, int AuctionId, CancellationToken cancellation)
+        {
+            var aAuction = await _auctionService.GetById(AuctionId, cancellation);
+
+            if(aAuction == null)
+                return false;
+
+            if(aAuction.LastPrice >= newPrice && aAuction.TimeOfEnd != DateTime.Now)
+            {
+                aAuction.LastPrice = newPrice;
+                await _auctionService.Update(aAuction.Id ?? default(int) ,aAuction, cancellation);
+
+                return true;
+            }
+
+            return false;
+        }
+
+
+
+        public async Task<List<BuyerCartDto>> Cart(Buyer buyer, CancellationToken cancellation)
+        {
+            var newListCartDto = new List<BuyerCartDto>();
+            var newCart = new BuyerCartDto();
+            var aCart = await _cartService.GetById(buyer.CartId ?? default(int), cancellation);
+            if(aCart != null)
+            {
+                var allInventory = await _inventoryService.GetByCartId(aCart.Id, cancellation);
+
+                foreach (var inventory in allInventory)
+                {
+                    var aProduct = await _productService.GetById(inventory.ProductId, cancellation);
+                    var aPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
+
+                    newCart.ProdutName = aProduct.Title;
+                    newCart.ProductId = aProduct.Id;
+                    newCart.ProductPrice = aPrice.ProdutPrice;
+                    newCart.BuyerId = buyer.Id;
+
+                    newListCartDto.Add(newCart);
+                }
+            }
+
+            return newListCartDto;
+        }
+
+
+
+
+        public Task<bool> AddOrder(List<BuyerCartDto> input, CancellationToken cancellation)
+        {
+            throw new NotImplementedException();
         }
     }
 }

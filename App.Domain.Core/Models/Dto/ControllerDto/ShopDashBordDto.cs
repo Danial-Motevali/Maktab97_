@@ -25,6 +25,10 @@ namespace App.Domain.Core.Models.Dto.ControllerDto
         public int ProdductPrice { get; set; } // Price
 
         public int wage { get; set; } // Wage
+
+        public int WageInventoryId { get; set; }
+
+        public int AuctionDay { get; set; }
     }
 
     public class ShopProduct

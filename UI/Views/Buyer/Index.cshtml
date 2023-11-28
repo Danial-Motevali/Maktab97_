@@ -1,9 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.Buyer.BuyerSearchDto>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -224,8 +219,9 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="home"></i><span>Dashboard</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="index.html">Default</a></li>
-                                        <li><a href="dashboard-02.html">Ecommerce</a></li>
+               @* Over here *@          <li><a asp-controller="Buyer" asp-action="Action">Action</a></li>     @* go to the action *@
+                                        <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="Cart">Cart</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -941,9 +937,10 @@
                                             </div>
                                         </div>
                                         <div class="product-search">
-                                            <form>
+                                            <form asp-controller="Buyer" asp-action="Serach" asp-route-search="">
+                                                @* Serach for user name or product *@
                                                 <div class="form-group m-0">
-                                                    <input class="form-control" type="search" placeholder="Search.." data-original-title="" title=""><i class="fa fa-search"></i>
+                                                    <input name="inputValue" id="inputValue" class="form-control" type="text" placeholder="Search.." data-original-title="" title=""><i class="fa fa-search"></i>
                                                 </div>
                                             </form>
                                         </div>
@@ -953,155 +950,87 @@
                         </div>
                         <div class="product-wrapper-grid">
                             <div class="row">
-                                <div class="col-xl-3 col-sm-6 xl-4">
-                                    <div class="card">
-                                        <div class="product-box">
-                                            <div class="product-img">
-                                                <img class="img-fluid" src="../assets/images/ecommerce/01.jpg" alt="">
-                                                <div class="product-hover">
-                                                    <ul>
-                                                        <li><a href="cart.html"><i class="icon-shopping-cart"></i></a></li>
-                                                        <li><a data-bs-toggle="modal" data-bs-target="#exampleModalCenter16"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="modal fade" id="exampleModalCenter16">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <div class="product-box row">
-                                                                <div class="product-img col-lg-6"><img class="img-fluid" src="../assets/images/ecommerce/01.jpg" alt=""></div>
-                                                                <div class="product-details col-lg-6 text-start">
-                                                                    <a href="product-page.html">
-                                                                        <h4>Man's Jacket                                       </h4>
-                                                                    </a>
-                                                                    <div class="product-price">
-                                                                        $26.00
-                                                                        <del>$35.00</del>
-                                                                    </div>
-                                                                    <div class="product-view">
-                                                                        <h6 class="f-w-600">Product Details</h6>
-                                                                        <p class="mb-0">Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.</p>
-                                                                    </div>
-                                                                    <div class="product-size">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button class="btn btn-outline-light" type="button">M</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button class="btn btn-outline-light" type="button">L</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button class="btn btn-outline-light" type="button">Xl</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="product-qnty">
-                                                                        <h6 class="f-w-600">Quantity</h6>
-                                                                        <fieldset>
-                                                                            <div class="input-group">
-                                                                                <input class="touchspin text-center" type="text" value="5">
+                                @if(Model != null)
+                                {
+                                    @foreach (var product in Model)
+                                    {
+                                        <div class="col-xl-3 col-sm-6 xl-4">
+                                            <div class="card">
+                                                <div class="product-box">
+                                                    <div class="product-img">
+                                                        <div class="ribbon ribbon-danger">Sale</div><img class="img-fluid" src="~/Images/@product.ProductUrl" alt="">
+                                                        <div class="product-hover">
+                                                            <ul>
+                                                                <li><a href="cart.html"><i class="icon-shopping-cart"></i></a></li>
+                                                                <li><a data-bs-toggle="modal" data-bs-target="#exampleModalCenter1"><i class="icon-eye"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="exampleModalCenter1">
+                                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <div class="product-box row">
+                                                                        <div class="product-img col-lg-6"><img class="img-fluid" src="~/Images/@product.ProductUrl" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHL0D7_6Vux_CTOwAvpCHIGPrK8G0uRFpgAA&usqp=CAU"></div>
+                                                                        <div class="product-details col-lg-6 text-start">
+                                                                            <a href="product-page.html">
+                                                                                <h4>@product.ProductTitle</h4>
+                                                                            </a>
+                                                                            <div class="product-price">
+                                                                                @product.ProductPrice
                                                                             </div>
-                                                                        </fieldset>
-                                                                        <div class="addcart-btn"><a class="btn btn-primary me-3" href="cart.html">Add to Cart                                                     </a><a class="btn btn-primary" href="product-page.html">View Details</a></div>
+                                                                            <div class="product-view">
+                                                                                <h6 class="f-w-600">Product Details</h6>
+                                                                                <p class="mb-0">NO!<p>
+                                                                            </div>
+                                                                            <div class="product-size">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <button class="btn btn-outline-light" type="button">M</button>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <button class="btn btn-outline-light" type="button">L</button>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <button class="btn btn-outline-light" type="button">Xl</button>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                            <div class="product-qnty">
+                                                                                <h6 class="f-w-600">Quantity</h6>
+                                                                                <fieldset>
+                                                                                    <div class="input-group">
+                                                                                        <input class="touchspin text-center" type="text" value="5">
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                                <div class="addcart-btn"><a class="btn btn-primary me-3" asp-controller="Buyer" asp-action="AddToCart" asp-route-ProductId="@product.ProductId" asp-route-ShopId="@product.ShopId">Add to Cart</a><a class="btn btn-primary" href="product-page.html">View Details</a></div> @* add product to cart  *@@* href="cart.html" *@
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
+                                                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                             </div>
-                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <a href="product-page.html">
+                                                            <h4>@product.ProductTitle</h4>
+                                                        </a>
+                                                        <p>No!</p>
+                                                        <div class="product-price">
+                                                            @product.ProductPrice
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="product-details">
-                                                <a href="product-page.html">
-                                                    <h4>Man's Jacket                                       </h4>
-                                                </a>
-                                                <p>Solid Denim Jacket</p>
-                                                <div class="product-price">
-                                                    $26.00
-                                                    <del>$35.00</del>
-                                                </div>
-                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-sm-6 xl-4">
+                                    }
+                                }
+                                @* <div class="col-xl-3 col-sm-6 xl-4">
                                     <div class="card">
                                         <div class="product-box">
                                             <div class="product-img">
-                                                <div class="ribbon ribbon-danger">Sale</div><img class="img-fluid" src="../assets/images/ecommerce/02.jpg" alt="">
-                                                <div class="product-hover">
-                                                    <ul>
-                                                        <li><a href="cart.html"><i class="icon-shopping-cart"></i></a></li>
-                                                        <li><a data-bs-toggle="modal" data-bs-target="#exampleModalCenter1"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="modal fade" id="exampleModalCenter1">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <div class="product-box row">
-                                                                <div class="product-img col-lg-6"><img class="img-fluid" src="../assets/images/ecommerce/02.jpg" alt=""></div>
-                                                                <div class="product-details col-lg-6 text-start">
-                                                                    <a href="product-page.html">
-                                                                        <h4>fido dido</h4>
-                                                                    </a>
-                                                                    <div class="product-price">
-                                                                        $55.00
-                                                                        <del>$62.00 </del>
-                                                                    </div>
-                                                                    <div class="product-view">
-                                                                        <h6 class="f-w-600">Product Details</h6>
-                                                                        <p class="mb-0">Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.</p>
-                                                                    </div>
-                                                                    <div class="product-size">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <button class="btn btn-outline-light" type="button">M</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button class="btn btn-outline-light" type="button">L</button>
-                                                                            </li>
-                                                                            <li>
-                                                                                <button class="btn btn-outline-light" type="button">Xl</button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="product-qnty">
-                                                                        <h6 class="f-w-600">Quantity</h6>
-                                                                        <fieldset>
-                                                                            <div class="input-group">
-                                                                                <input class="touchspin text-center" type="text" value="5">
-                                                                            </div>
-                                                                        </fieldset>
-                                                                        <div class="addcart-btn"><a class="btn btn-primary me-3" href="cart.html">Add to Cart</a><a class="btn btn-primary" href="product-page.html">View Details</a></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="product-details">
-                                                <a href="product-page.html">
-                                                    <h4>fido dido</h4>
-                                                </a>
-                                                <p>Solid Polo Collar T-shirt</p>
-                                                <div class="product-price">
-                                                    $55.00
-                                                    <del>$62.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-sm-6 xl-4">
-                                    <div class="card">
-                                        <div class="product-box">
-                                            <div class="product-img">
-                                                <img class="img-fluid" src="../assets/images/ecommerce/03.jpg" alt="">
+                                                <img class="img-fluid" src="~/Images/85f29109-7361-459b-9f78-8be6c88e6be3_selfi pic.jpeg" alt="">
                                                 <div class="product-hover">
                                                     <ul>
                                                         <li><a href="cart.html"><i class="icon-shopping-cart"></i></a></li>
@@ -1114,7 +1043,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <div class="product-box row">
-                                                                <div class="product-img col-lg-6"><img class="img-fluid" src="../assets/images/ecommerce/03.jpg" alt=""></div>
+                                                                <div class="product-img col-lg-6"><img class="img-fluid" src="~/Images/85f29109-7361-459b-9f78-8be6c88e6be3_selfi pic.jpeg" alt=""></div>
                                                                 <div class="product-details col-lg-6 text-start">
                                                                     <a href="product-page.html">
                                                                         <h4>Wonder Woman</h4>
@@ -2104,7 +2033,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                         </div>
                     </div>
