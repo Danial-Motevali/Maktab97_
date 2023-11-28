@@ -279,6 +279,7 @@ namespace App.Domain.Services.AppServices
             {
                 if(auction.IsActive == true && auction.TimeOfEnd != DateTime.Now)
                 {
+                    newAuctionDto.AuctionId = auction.Id;
                     newAuctionDto.IsActive = true;
                     newAuctionDto.LastPrice = auction.LastPrice;
                     newAuctionDto.TimeOfEnd = auction.TimeOfEnd;
@@ -299,7 +300,7 @@ namespace App.Domain.Services.AppServices
             if(aAuction == null)
                 return false;
 
-            if(aAuction.LastPrice >= newPrice && aAuction.TimeOfEnd != DateTime.Now)
+            if(aAuction.LastPrice < newPrice && aAuction.TimeOfEnd != DateTime.Now)
             {
                 aAuction.LastPrice = newPrice;
                 await _auctionService.Update(aAuction.Id ?? default(int) ,aAuction, cancellation);
@@ -423,5 +424,6 @@ namespace App.Domain.Services.AppServices
 
             return true;
         }
+
     }
 }

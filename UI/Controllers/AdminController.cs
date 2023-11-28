@@ -40,7 +40,7 @@ namespace UI.Controllers
                     Id = buyer.Id,
                     FirstName = buyer.FirstName,
                     LastName = buyer.LastName,
-                    IsDeleted = buyer.IsDeleted
+                    IsDeleted = buyer.IsDeleted ?? default(bool)
                 };
 
                 buyerDto.Add(userToDto);
@@ -78,7 +78,7 @@ namespace UI.Controllers
                     Id = seller.Id,
                     FirstName = seller.FirstName,
                     LastName = seller.LastName,
-                    IsDeleted = seller.IsDeleted
+                    IsDeleted = seller.IsDeleted ?? default(bool)
                 };
 
                 sellerDto.Add(userToDto);
@@ -129,7 +129,7 @@ namespace UI.Controllers
                 LastName = x.LastName,
                 Email = x.Email,
                 UserName = x.UserName,
-                IsDeleted = x.IsDeleted
+                IsDeleted = x.IsDeleted ?? default(bool)
 
             }).ToList();
 

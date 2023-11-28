@@ -8,7 +8,11 @@ namespace App.Domain.Core.Models.Dto.ControllerDto.Buyer
 {
     public class BuyerCartDto
     {
+        public int? CartId { get; set; }
+
         public int? BuyerId { get; set; }
+
+        public int? InventoryId { get; set; }
 
         public int? ProductId { get; set; }
 

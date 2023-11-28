@@ -1,4 +1,35 @@
-﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.Buyer.BuyerCartDto>
+﻿@model App.Domain.Core.Models.Identity.Entites.User
+@{
+    ViewData["Title"] = "EditProfile";
+}
+
+@* <h1>EditUser</h1>
+
+<form asp-controller="Seller" asp-action="EditProfile" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="from-group">
+        <lable class="control-label" asp-for="UserName"></lable>
+        <input class="from-control" asp-for="UserName" />
+    </div>
+    <div class="from-group">
+        <lable class="control-label" asp-for="FirstName"></lable>
+        <input class="from-control" asp-for="FirstName" />
+    </div>
+    <div class="from-group">
+        <lable class="control-label" asp-for="LastName"></lable>
+        <input class="from-control" asp-for="LastName" />
+    </div>
+
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-Primary">Submit</button>
+</form> *@
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -217,15 +248,16 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="home"></i><span>Dashboard</span></a>
                                     <ul class="nav-submenu menu-content">
-              @* over here *@           <li><a asp-controller="Buyer" asp-action="Action">Action</a></li>     
+                                        <li><a asp-controller="Buyer" asp-action="Action">Action</a></li>
                                         <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
-                                        <li><a asp-controller="Buyer" asp-action="Cart">Cart</a></li>
                                         <li><a asp-controller="Buyer" asp-action="EditProfile">EditProfile</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="Cart">Cart</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Widgets</span></a>
                                     <ul class="nav-submenu menu-content">
+                                        
                                         <li><a href="general-widget.html">General</a></li>
                                         <li><a href="chart-widget.html">Chart</a></li>
                                     </ul>
@@ -660,18 +692,17 @@
                 </nav>
             </header>
             <!-- Page Sidebar Ends-->
-            <div class="page-body">
+            <div class="page-body checkout">
                 <div class="container-fluid">
                     <div class="page-header">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="page-header-left">
-                                    <h3>Cart</h3>
+                                    <h3>Checkout</h3>
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                        <li class="breadcrumb-item">Pages    </li>
+                                        <li class="breadcrumb-item"><a href="index.html">Home                                       </a></li>
                                         <li class="breadcrumb-item">Ecommerce</li>
-                                        <li class="breadcrumb-item active">Cart</li>
+                                        <li class="breadcrumb-item active">Checkout</li>
                                     </ol>
                                 </div>
                             </div>
@@ -700,137 +731,119 @@
                 </div>
                 <!-- Container-fluid starts-->
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-header pb-0">
-                                    <h5>Cart</h5>
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h5>Billing Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <form asp-controller="Buyer" asp-action="EditProfile" method="post">            @* over here *@
+                                        <div class="row">
+                                            <div class="mb-3 col-sm-6">
+                                                <label for="inputEmail4" asp-for="FirstName">First Name</label>
+                                                <input class="form-control" asp-for="FirstName" id="inputEmail4" type="text">
+                                            </div>
+                                            <div class="mb-3 col-sm-6">
+                                                <label for="inputPassword4" asp-for="LastName">Last Name</label>
+                                                <input class="form-control" asp-for="LastName" id="inputPassword4" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-sm-12">
+                                            <label for="inputPassword4" asp-for="UserName">User Name</label>
+                                            <input class="form-control" asp-for="UserName" id="inputPassword4" type="text">
+                                        </div>
+                                        @* <div class="row"> *@
+                                        <div class="mb-3 col-sm-12">
+                                            <label for="inputPassword7" asp-for="Email">Email Address</label>
+                                            <input class="form-control" asp-for="Email" id="inputPassword7" type="email">
+                                        </div>
+                                        @* </div> *@
+                                        @* <div class="mb-3">
+                                            <label for="inputState">Country</label>
+                                            <select class="form-control" id="inputState">
+                                                <option selected="">Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div> *@
+                                        @* <div class="mb-3">
+                                            <label for="inputAddress5">Address</label>
+                                            <input class="form-control" id="inputAddress5" type="text">
+                                        </div> *@
+                                        @* <div class="mb-3">
+                                            <label for="inputCity">Town/City</label>
+                                            <input class="form-control" id="inputCity" type="text">
+                                        </div> *@
+                                        @* <div class="mb-3">
+                                            <label for="inputAddress2">State/Country</label>
+                                            <input class="form-control" id="inputAddress2" type="text">
+                                        </div> *@
+                                        @* <div class="mb-3">
+                                            <label for="inputAddress6">Postal Code</label>
+                                            <input class="form-control" id="inputAddress6" type="text">
+                                        </div> *@
+                                        @* <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" id="gridCheck" type="checkbox">
+                                                <label class="form-check-label" for="gridCheck">Update me out</label>
+                                            </div>
+                                        </div> *@
+                                        <div class="col-sm-12">
+                                            <div class="mb-3 col-sm-4">
+                                                <button type="submit" class="btn btn-primary">Update me out</button>
+                                            </div>
+                                        </div>
+                                        
+                                    </form>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="order-history table-responsive wishlist">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Prdouct</th>
-                                                        <th>Prdouct Name</th>
-                                                        <th>Price</th>
-                                                        <th>Quantity</th>
-                                                        <th>Action</th>
-                                                        <th>Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if(Model != null)
-                                                    {
-                                                        @foreach(var item in Model)
-                                                        {
-                                                            <tr>
-                                                                <td><img class="img-fluid img-40" src="~/Images/@item.Url" alt="#"></td>
-                                                                <td>
-                                                                    <div class="product-name">
-                                                                        <a href="#">
-                                                                            <h6>@item.ProdutName</h6>
-                                                                        </a>
-                                                                    </div>
-                                                                </td>
-                                                                <td>@item.ProductPrice</td>
-                                                                <td>
-                                                                    <fieldset class="qty-box">
-                                                                        <div class="input-group">
-                                                                            <input class="touchspin text-center" type="text" value="5">
-                                                                        </div>
-                                                                    </fieldset>
-                                                                </td>
-                                                                <td><i data-feather="x-circle"></i></td>
-                                                                <td></td> @*totla price*@
-                                                            </tr>
-                                                        }
-                                                        <tr>
-                                                            <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" asp-controller="Buyer"  asp-action="Index" >continue shopping</a></td>    @* href="product.html" *@
-                                                            <td>
-                                                                @* <a class="btn btn-success cart-btn-transform" asp-controller="Buyer" asp-action="Cart">
-                                                                    check out
-                                                                </a>*@
-                                                                <form asp-controller="Buyer" asp-action="Cart" method="post" class="form-inline search-form">
-                                                                    <div class="form-group form-control-search">
-                                                                        @{
-                                                                            
-                                                                        }
-                                                                        @for (int i = 0; i < Model.Count(); i ++)
-                                                                        {
-                                                                            <input name="outputList[@i].BuyerId" value="@Model[i].BuyerId" type="hidden" />
-                                                                            <input name="outputList[@i].ProductId" value="@Model[i].ProductId" type="hidden" />
-                                                                            <input name="outputList[@i].CartId" value="@Model[i].CartId" type="hidden" />
-                                                                            <input name="outputList[@i].InventoryId" value="@Model[i].InventoryId" type="hidden" />
-                                                                            <input name="outputList[@i].ProductPrice" value="@Model[i].ProductPrice" type="hidden" />
-                                                                            <input name="outputList[@i].CreatedDate" value="@Model[i].CreatedDate" type="hidden" />
-                                                                        }
-                                                                        <button type="submit" class="btn btn-primary">check Out</button>
-                                                                    </div>
-                                                                </form>
-                                                            </td>  @* href="checkout.html" *@
-                                                        </tr>
-                                                    }
-                                                    @* 
-                                                    <tr>
-                                                        <td><img class="img-fluid img-40" src="../assets/images/product/13.png" alt="#"></td>
-                                                        <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>Fancy watch</h6>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>$50</td>
-                                                        <td>
-                                                            <fieldset class="qty-box">
-                                                                <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
-                                                                </div>
-                                                            </fieldset>
-                                                        </td>
-                                                        <td><i data-feather="x-circle"></i></td>
-                                                        <td>$12456</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><img class="img-fluid img-40" src="../assets/images/product/4.png" alt="#"></td>
-                                                        <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>Man shoes</h6>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>$11</td>
-                                                        <td>
-                                                            <fieldset class="qty-box">
-                                                                <div class="input-group">
-                                                                    <input class="touchspin text-center" type="text" value="5">
-                                                                </div>
-                                                            </fieldset>
-                                                        </td>
-                                                        <td><i data-feather="x-circle"></i></td>
-                                                        <td>$12456</td>
-                                                    </tr> *@
-                                                    @* <tr>
-                                                        <td colspan="4">
-                                                            <div class="input-group">
-                                                                <input class="form-control me-2" type="text" placeholder="Enter coupan code"><a class="btn btn-primary" href="#">Apply</a>
-                                                            </div>
-                                                        </td>
-                                                        <td class="total-amount">
-                                                            <h6 class="m-0 text-end"><span class="f-w-600">Total Price :</span></h6>
-                                                        </td>
-                                                        <td><span>$6935.00  </span></td>
-                                                    </tr>
-                                                    *@
-                                                     
-                                                </tbody>
-                                            </table>
+                                @* <div class="col-xl-6 col-sm-12">
+                                    <div class="checkout-details">
+                                        <div class="order-box">
+                                            <div class="title-box">
+                                                <div class="checkbox-title">
+                                                    <h4 class="mb-0">Product </h4><span>Total</span>
+                                                </div>
+                                            </div>
+                                            <ul class="qty">
+                                                <li>Pink Slim Shirt × 1 <span>$25.10</span></li>
+                                                <li>SLim Fit Jeans × 1 <span>$555.00</span></li>
+                                            </ul>
+                                            <ul class="sub-total">
+                                                <li>Subtotal <span class="count">$380.10</span></li>
+                                                <li class="shipping-class">
+                                                    Shipping
+                                                    <div class="shopping-checkout-option">
+                                                        <label class="d-block" for="chk-ani">
+                                                            <input class="checkbox_animated" id="chk-ani" type="checkbox" checked="">Option 1
+                                                        </label>
+                                                        <label class="d-block" for="chk-ani1">
+                                                            <input class="checkbox_animated" id="chk-ani1" type="checkbox">Option 2
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="sub-total total">
+                                                <li>Total <span class="count">$620.00</span></li>
+                                            </ul>
+                                            <div class="animate-chk">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="d-block" for="edo-ani">
+                                                            <input class="radio_animated" id="edo-ani" type="radio" name="rdo-ani" checked="" data-original-title="" title="">Check Payments
+                                                        </label>
+                                                        <label class="d-block" for="edo-ani1">
+                                                            <input class="radio_animated" id="edo-ani1" type="radio" name="rdo-ani" data-original-title="" title="">Cash On Delivery
+                                                        </label>
+                                                        <label class="d-block" for="edo-ani2">
+                                                            <input class="radio_animated" id="edo-ani2" type="radio" name="rdo-ani" checked="" data-original-title="" title="">PayPal<img class="img-paypal" src="../assets/images/checkout/paypal.png" alt="">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-place"><a class="btn btn-primary" href="javascript:void(0)">Place Order  </a></div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                         </div>
                     </div>
@@ -864,9 +877,6 @@
     <script src="../assets/js/bootstrap/popper.min.js"></script>
     <script src="../assets/js/bootstrap/bootstrap.min.js"></script>
     <!-- Plugins JS start-->
-    <script src="../assets/js/touchspin/vendors.min.js"></script>
-    <script src="../assets/js/touchspin/touchspin.js"></script>
-    <script src="../assets/js/touchspin/input-groups.min.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="../assets/js/script.js"></script>
