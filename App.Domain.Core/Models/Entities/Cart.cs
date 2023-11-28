@@ -6,9 +6,9 @@ public class Cart
 {
     public int Id { get; set; }
 
-    public bool IsActive { get; set; } = true;
+    public bool? IsActive { get; set; } = true;
 
-    public DateTime TimeOfCreate { get; set; }
+    public DateTime? TimeOfCreate { get; set; }
 
     public int? BuyerId { get; set; }
 

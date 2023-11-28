@@ -7,11 +7,11 @@ public class Seller
 {
     public int Id { get; set; }
 
-    public ICollection<Address> Addresses { get; set; } = new List<Address>();
+    public ICollection<Address>? Addresses { get; set; } 
 
-    public ICollection<Medal> Medals { get; set; } = new List<Medal>();
+    public ICollection<Medal>? Medals { get; set; } 
 
-    public ICollection<Wage> Wages { get; set; } = new List<Wage>();
-    public int UserId { get; set; }
-    public User User { get; set; }
+    public ICollection<Wage>? Wages { get; set; }
+    public int? UserId { get; set; }
+    public User? User { get; set; }
 }

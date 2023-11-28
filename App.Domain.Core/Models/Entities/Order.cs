@@ -13,11 +13,11 @@ namespace App.Domain.Core.Models.Entities
 
         public int? BuyerId { get; set; }
 
-        public Buyer Buyer { get; set; } = new Buyer();
+        public Buyer? Buyer { get; set; } 
 
-        public bool IsDeleted { get; set; } = false;
+        public bool? IsDeleted { get; set; } = false;
 
-        public ICollection<ProductOreder> productOreders { get; set; } = new List<ProductOreder>();
+        public ICollection<ProductOreder>? productOreders { get; set; } 
 
     }
 }

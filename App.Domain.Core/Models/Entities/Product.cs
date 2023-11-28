@@ -4,7 +4,7 @@ namespace App.Domain.Core.Entities;
 
 public class Product
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     public string? Title { get; set; } = null!;
 
@@ -14,9 +14,9 @@ public class Product
 
     public Category? Category { get; set; }
 
-    public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
+    public ICollection<Inventory>? Inventories { get; set; } 
 
-    public ICollection<ProductPicture> ProductPictures { get; set; } = new List<ProductPicture>();
+    public ICollection<ProductPicture>? ProductPictures { get; set; } 
 
-    public ICollection<ProductOreder> productOreders { get; set; } = new List<ProductOreder>();
+    public ICollection<ProductOreder>? productOreders { get; set; } 
 }

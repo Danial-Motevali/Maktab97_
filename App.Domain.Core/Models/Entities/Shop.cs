@@ -4,7 +4,7 @@ namespace App.Domain.Core.Entities;
 
 public class Shop
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; } = null!;
 
@@ -12,8 +12,8 @@ public class Shop
 
     public bool? IsDeleted { get; set; }
 
-    public ICollection<Inventory>? Inventories { get; set; } = new List<Inventory>();
+    public ICollection<Inventory>? Inventories { get; set; }
 
     public int? SellerId { get; set; }
-    public Seller Seller { get; set; } = new Seller();
+    public Seller? Seller { get; set; } 
 }

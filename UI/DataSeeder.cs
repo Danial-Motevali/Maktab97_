@@ -27,17 +27,6 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            if (!dbContext.Carts.Any()) 
-            {
-                var Address = new List<Cart>
-                {
-                    new Cart { TimeOfCreate = DateTime.Now, IsActive = true}
-                };
-
-                dbContext.AddRange(Address);
-                dbContext.SaveChanges();
-            }
-
             if (!dbContext.Pictures.Any())
             {
                 var Address = new List<Picture>
@@ -90,8 +79,7 @@ namespace UI
 
 
             
-
-
+        
 
 
 
@@ -170,7 +158,7 @@ namespace UI
             {
                 var Address = new List<Order>
                 {
-                    new Order { BuyerId = 1}
+                    new Order { BuyerId = 1, IsDeleted = false}
                 };
 
                 dbContext.AddRange(Address);
@@ -181,7 +169,7 @@ namespace UI
             {
                 var Address = new List<ProductOreder>
                 {
-                    new ProductOreder { OrederId = 1, ProductId = 1}
+                    new ProductOreder { OrederId = 1, ProductId = 1, IsDeleted = false}
                 };
 
                 dbContext.AddRange(Address);
@@ -203,7 +191,18 @@ namespace UI
             {
                 var Address = new List<Inventory>
                 {
-                    new Inventory { Qnt = 3, IsDeleted = false, PriceId = 1, ProductId = 1, ShopId = 1}
+                    new Inventory { Qnt = 3, IsDeleted = false, PriceId = 1, ProductId = 1, ShopId = 1 }
+                };
+
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
+
+            if (!dbContext.Carts.Any())
+            {
+                var Address = new List<Cart>
+                {
+                    new Cart { TimeOfCreate = DateTime.Now, IsActive = true, BuyerId = 1, InventoryId = 1}
                 };
 
                 dbContext.AddRange(Address);
@@ -226,8 +225,8 @@ namespace UI
             {
                 var Address = new List<Medal>
                 {
-                    new Medal { Rank = "Coper", SellerId = 1},
-                    new Medal { Rank = "Silver", SellerId = 1}
+                    new Medal { Rank = "Coper", SellerId = 1, IsExpired = true},
+                    new Medal { Rank = "Silver", SellerId = 1, IsExpired = false}
                 };
 
                 dbContext.AddRange(Address);
@@ -238,7 +237,7 @@ namespace UI
             {
                 var Address = new List<Wage>
                 {
-                    new Wage { HowMuch = 10, IsDeleted = false, SellerId = 1}
+                    new Wage { HowMuch = 10, IsDeleted = false, SellerId = 1, InventoryId = 1, IsPaid = false}
                 };
 
                 dbContext.AddRange(Address);
@@ -250,6 +249,28 @@ namespace UI
                 var Address = new List<ProductPicture>
                 {
                     new ProductPicture { PictureId = 1, ProductId = 1}
+                };
+
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
+
+            if (!dbContext.orders.Any())
+            {
+                var Address = new List<Order>
+                {
+                    new Order{ IsDeleted = false, BuyerId = 1}
+                };
+
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
+
+            if (!dbContext.productOreders.Any())
+            {
+                var Address = new List<ProductOreder>
+                {
+                    new ProductOreder{ IsDeleted = false, OrederId = 1, ProductId = 1}
                 };
 
                 dbContext.AddRange(Address);

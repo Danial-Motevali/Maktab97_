@@ -9,13 +9,13 @@ namespace App.Domain.Core.Models.Identity.Entites
 {
     public class User : IdentityUser<int>
     {
-        public string FirstName { get; set; } = null!;
+        public string? FirstName { get; set; } 
 
-        public string LastName { get; set; } = null!;
+        public string? LastName { get; set; } 
 
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; } = false;
 
-        public Potion Potion { get; set; }
+        public Potion? Potion { get; set; }
     }
 
     public enum Potion

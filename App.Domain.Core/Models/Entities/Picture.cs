@@ -6,7 +6,7 @@ public class Picture
 
     public string? Url { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
-    public ICollection<ProductPicture> ProductPictures { get; set; } = new List<ProductPicture>();
+    public ICollection<ProductPicture>? ProductPictures { get; set; } 
 }
