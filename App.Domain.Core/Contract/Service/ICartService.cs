@@ -17,6 +17,10 @@ namespace App.Domain.Core.Contract.Services
 
         Task<Cart> GetById(int Id, CancellationToken cancellation);
 
+        Task<List<Cart>> GetByBuyerId(int BuyerId, CancellationToken cancellation);
+
+        Task<Cart> GetByInventoryId(int InventoryId, CancellationToken cancellation);
+
         List<Cart> GetAll(CancellationToken cancellation);
     }
 }

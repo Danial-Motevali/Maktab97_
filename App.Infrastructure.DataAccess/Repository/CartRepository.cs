@@ -71,6 +71,10 @@ namespace App.Infrastructure.DataAccess.Repository
             if (address != null)
             {
                 address.Id = inputAddress.Id;
+                address.IsActive = inputAddress.IsActive;
+                address.TimeOfCreate = inputAddress.TimeOfCreate;
+                address.BuyerId = inputAddress.BuyerId;
+                address.InventoryId = inputAddress.InventoryId;
 
                 await _db.SaveChangesAsync(cancellation);
                 return true;

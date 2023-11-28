@@ -6,9 +6,15 @@ public class Cart
 {
     public int Id { get; set; }
 
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public DateTime TimeOfCreate { get; set; }
 
-    public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
+    public int? BuyerId { get; set; }
+
+    public Buyer? Buyer { get; set; }
+
+    public int? InventoryId { get; set; }
+
+    public Inventory? Inventory { get; set; }
 }
