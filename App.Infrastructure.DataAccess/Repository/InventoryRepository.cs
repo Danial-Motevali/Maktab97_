@@ -72,6 +72,10 @@ namespace App.Infrastructure.DataAccess.Repository
             {
                 address.Id = inputAddress.Id;
                 address.Qnt = inputAddress.Qnt;
+                address.IsDeleted = inputAddress.IsDeleted;
+                address.AuctionId = inputAddress.AuctionId;
+                address.ProductId = inputAddress.ProductId;
+                address.ShopId = inputAddress.ShopId;
 
                 await _db.SaveChangesAsync(cancellation);
                 return true;
