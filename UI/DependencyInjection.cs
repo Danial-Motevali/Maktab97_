@@ -59,6 +59,7 @@ namespace UI
             services.AddScoped<IAdminAppServices, AdminAppServices>();
             services.AddScoped<IAccountAppService, AccountAppService>();
             services.AddScoped<ISellerAppService, SellerAppService>();
+            services.AddScoped<IBuyerAppService, BuyerAppService>();
         }
     }
 }

@@ -137,12 +137,12 @@ namespace App.Domain.Services.AppServices
         public async Task<List<BuyerSearchDto>> SearchWithCategory(Category Category, CancellationToken cancellation)
         {
             var targetInventorys = await FindInventorybyCategoryAsync(Category, cancellation);
-            var aBuyerSearchDto = new BuyerSearchDto();
             var newBuyerSearchDto = new List<BuyerSearchDto>();
 
             foreach (var inventory in targetInventorys)
             {
-                if(inventory.AuctionId == null)
+                var aBuyerSearchDto = new BuyerSearchDto();
+                if (inventory.AuctionId == null)
                 {
                     var aPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
                     var Picture = await FindPictureWithProductId(inventory.ProductId ?? default(int), cancellation);
@@ -209,24 +209,15 @@ namespace App.Domain.Services.AppServices
 
         public async Task<bool> AddToCart(Buyer buyer, int ProductId, int ShopId, CancellationToken cancellation)
         {
-            if(buyer.CartId == null)
-            {
-                var newCart = new Cart();
-                var aInventory = await FindInventory(ProductId, ShopId, cancellation);
+            var newCart = new Cart();
+            var aInventory = await FindInventory(ProductId, ShopId, cancellation);
 
-                newCart.IsActive = true;
-                newCart.TimeOfCreate = DateTime.Now;
+            newCart.InventoryId = aInventory.Id;
+            newCart.IsActive = true;
+            newCart.TimeOfCreate = DateTime.Now;
+            newCart.BuyerId = buyer.Id;
 
-                aInventory.Cart = newCart;
-                await _inventoryService.Update(aInventory.Id ?? default(int), aInventory, cancellation);
-
-                buyer.CartId = newCart.Id;
-                await _buyerService.Update(buyer.Id, buyer, cancellation);
-            }
-
-            var productInventory = await FindInventory(ProductId, ShopId, cancellation);
-            productInventory.CartId = buyer.CartId;
-            await _inventoryService.Update(productInventory.Id ?? default(int),productInventory, cancellation);
+            await _cartService.Add(newCart, cancellation);
 
             return true;
         }
@@ -314,20 +305,17 @@ namespace App.Domain.Services.AppServices
         {
             var newListCartDto = new List<BuyerCartDto>();
             var newCart = new BuyerCartDto();
-            var aCart = await _cartService.GetById(buyer.CartId ?? default(int), cancellation);
-            if(aCart != null)
+            var allCart = await _cartService.GetByBuyerId(buyer.Id, cancellation);
+
+            if (allCart != null)
             {
-                var allInventory = await _inventoryService.GetByCartId(aCart.Id, cancellation);
-
-                foreach (var inventory in allInventory)
+                foreach (var cart in allCart)
                 {
-                    var aProduct = await _productService.GetById(inventory.ProductId, cancellation);
-                    var aPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
-
-                    newCart.ProdutName = aProduct.Title;
-                    newCart.ProductId = aProduct.Id;
-                    newCart.ProductPrice = aPrice.ProdutPrice;
-                    newCart.BuyerId = buyer.Id;
+                    newCart.ProdutName = await ProdutNameByCartId(cart, cancellation);
+                    newCart.ProductPrice = await PriceByCart(cart, cancellation);
+                    newCart.BuyerId = cart.BuyerId;
+                    newCart.ProductId = await ProductByCart(cart, cancellation);
+                    newCart.Url = await PictureByCart(cart, cancellation);
 
                     newListCartDto.Add(newCart);
                 }
@@ -336,8 +324,45 @@ namespace App.Domain.Services.AppServices
             return newListCartDto;
         }
 
+        public async Task<string> PictureByCart(Cart cart, CancellationToken cancellation)
+        {
+            var aInventory = await _inventoryService.GetById(cart.InventoryId??default(int), cancellation);
+            var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
+            var allProductPicture = _productPictureService.GetByProducId(aProduct.Id??default(int), cancellation);
 
+            foreach(var product in allProductPicture)
+            {
+                var picture = await _pictureService.GetById(product.PictureId, cancellation);
 
+                return picture.Url;
+            }
+
+            return null;
+        }
+
+        public async Task<string> ProdutNameByCartId(Cart cart, CancellationToken cancellation)
+        {
+            var aInventory = await _inventoryService.GetById(cart.InventoryId??default(int), cancellation);
+            var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
+
+            return aProduct.Title;
+        }
+
+        public async Task<int> PriceByCart(Cart cart, CancellationToken cancellation)
+        {
+            var aInventory = await _inventoryService.GetById(cart.Id, cancellation);
+            var aPrice = await _priceService.GetById(aInventory.PriceId??default(int), cancellation);
+
+            return aPrice.ProdutPrice;
+        }
+
+        public async Task<int> ProductByCart(Cart cart, CancellationToken cancellation)
+        {
+            var aInventory = await _inventoryService.GetById(cart.InventoryId??default(int), cancellation);
+            var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
+
+            return aProduct.Id??default(int);
+        }
 
         public Task<bool> AddOrder(List<BuyerCartDto> input, CancellationToken cancellation)
         {

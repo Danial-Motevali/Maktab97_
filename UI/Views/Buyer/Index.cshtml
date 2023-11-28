@@ -997,13 +997,18 @@
                                                                                 </ul>
                                                                             </div>
                                                                             <div class="product-qnty">
-                                                                                <h6 class="f-w-600">Quantity</h6>
+                                                                                @* <h6 class="f-w-600">Quantity</h6>
                                                                                 <fieldset>
                                                                                     <div class="input-group">
                                                                                         <input class="touchspin text-center" type="text" value="5">
                                                                                     </div>
-                                                                                </fieldset>
-                                                                                <div class="addcart-btn"><a class="btn btn-primary me-3" asp-controller="Buyer" asp-action="AddToCart" asp-route-ProductId="@product.ProductId" asp-route-ShopId="@product.ShopId">Add to Cart</a><a class="btn btn-primary" href="product-page.html">View Details</a></div> @* add product to cart  *@@* href="cart.html" *@
+                                                                                </fieldset> *@
+                                                                                <div class="addcart-btn">
+                                                                                    @* <a class="btn btn-primary me-3" asp-controller="Buyer" asp-action="AddToCart" asp-route-ProductId="@product.ProductId" asp-route-ShopId="@product.ShopId">Add to Cart</a><a class="btn btn-primary" href="product-page.html">View Details</a> *@
+                                                                                    <form asp-controller="Buyer" asp-action="AddToCart" asp-route-ProductId="@product.ProductId" asp-route-ShopId="@product.ShopId" method="post">
+                                                                                        <button class="btn btn-primary" type="submit"></button>
+                                                                                    </form>
+                                                                                </div> @* add product to cart  *@@* href="cart.html" *@
                                                                             </div>
                                                                         </div>
                                                                     </div>

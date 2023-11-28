@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Entities;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
 using Microsoft.AspNetCore.Identity;
@@ -87,6 +88,13 @@ namespace UI
 
 
 
+
+            
+
+
+
+
+
             //entity with fo key
             if (!dbContext.Sellers.Any())
             {
@@ -113,16 +121,16 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            //if (!dbContext.Auctions.Any())
-            //{
-            //    var Address = new List<Auction>
-            //    {
-            //        new Auction { LastPrice = 100, TimeOfStart = DateTime.Now, TimeOfEnd = DateTime.UtcNow, IsActive = false, SellerId = 1}
-            //    };
+            if (!dbContext.Auctions.Any())
+            {
+                var Address = new List<Auction>
+                {
+                    new Auction { LastPrice = 100, TimeOfStart = DateTime.Now, TimeOfEnd = DateTime.UtcNow, IsActive = false, SellerId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             if (!dbContext.MyAdmins.Any())
             {
@@ -140,7 +148,7 @@ namespace UI
             {
                 var Address = new List<Buyer>
                 {
-                    new Buyer { UserId = 3, CartId = 1}
+                    new Buyer { UserId = 3}
                 };
 
                 dbContext.AddRange(Address);
@@ -158,62 +166,84 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            //if (!dbContext.Shops.Any())
-            //{
-            //    var Address = new List<Shop>
-            //    {
-            //        new Shop { Name = "phoneshop!!!", TimeOfCreate = DateTime.Now, IsDeleted = false, SellerId = 1}
-            //    };
+            if (!dbContext.orders.Any())
+            {
+                var Address = new List<Order>
+                {
+                    new Order { BuyerId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.Inventories.Any())
-            //{
-            //    var Address = new List<Inventory>
-            //    {
-            //        new Inventory { Qnt = 3, IsDeleted = false, CartId = 1, PriceId = 1, ProductId = 1, ShopId = 1}
-            //    };
+            if (!dbContext.productOreders.Any())
+            {
+                var Address = new List<ProductOreder>
+                {
+                    new ProductOreder { OrederId = 1, ProductId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.Comments.Any())
-            //{
-            //    var Address = new List<Comment>
-            //    {
-            //        new Comment { Title = "Goodstafe", Description = "this is the good produt", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, InventoryId = 1},
-            //        new Comment { Title = "Badproduct", Description = "this product is bad for you", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, InventoryId = 1}
-            //    };
+            if (!dbContext.Shops.Any())
+            {
+                var Address = new List<Shop>
+                {
+                    new Shop { Name = "phoneshop!!!", TimeOfCreate = DateTime.Now, IsDeleted = false, SellerId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.Medals.Any())
-            //{
-            //    var Address = new List<Medal>
-            //    {
-            //        new Medal { Rank = "Coper", SellerId = 1},
-            //        new Medal { Rank = "Silver", SellerId = 1}
-            //    };
+            if (!dbContext.Inventories.Any())
+            {
+                var Address = new List<Inventory>
+                {
+                    new Inventory { Qnt = 3, IsDeleted = false, PriceId = 1, ProductId = 1, ShopId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.Wages.Any())
-            //{
-            //    var Address = new List<Wage>
-            //    {
-            //        new Wage { HowMuch = 10, IsDeleted = false, SellerId = 1}
-            //    };
+            if (!dbContext.Comments.Any())
+            {
+                var Address = new List<Comment>
+                {
+                    new Comment { Title = "Goodstafe", Description = "this is the good produt", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, InventoryId = 1},
+                    new Comment { Title = "Badproduct", Description = "this product is bad for you", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, InventoryId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
+
+            if (!dbContext.Medals.Any())
+            {
+                var Address = new List<Medal>
+                {
+                    new Medal { Rank = "Coper", SellerId = 1},
+                    new Medal { Rank = "Silver", SellerId = 1}
+                };
+
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
+
+            if (!dbContext.Wages.Any())
+            {
+                var Address = new List<Wage>
+                {
+                    new Wage { HowMuch = 10, IsDeleted = false, SellerId = 1}
+                };
+
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             if (!dbContext.ProductPictures.Any())
             {
