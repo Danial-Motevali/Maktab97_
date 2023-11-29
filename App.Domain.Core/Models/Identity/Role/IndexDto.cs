@@ -13,6 +13,8 @@ namespace App.Domain.Core.Models.Identity.Role
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+
+        public string UserRole { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
