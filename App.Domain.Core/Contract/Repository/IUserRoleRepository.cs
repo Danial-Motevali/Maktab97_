@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IUserRoleRepository
     {
-        IdentityUserRole<int> GetById(int Id, CancellationToken cancellation);
+        //IdentityUserRole<int> GetById(int Id, CancellationToken cancellation);
 
         List<IdentityUserRole<int>> GetAll(CancellationToken cancellation);
     }

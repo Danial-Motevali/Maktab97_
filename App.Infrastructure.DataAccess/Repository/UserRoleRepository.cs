@@ -26,11 +26,11 @@ namespace App.Infrastructure.DataAccess.Repository
             return addresses;
         }
 
-        public IdentityUserRole<int> GetById(int Id, CancellationToken cancellation)
-        {
-            var address = _db.UserRoles.FirstOrDefault(x => x.Id == Id);
+        //public IdentityUserRole<int> GetById(int Id, CancellationToken cancellation)
+        //{
+        //    var address = _db.UserRoles.FirstOrDefault(x => x.RoleId == Id);
 
-            return address;
-        }
+        //    return address;
+        //}
     }
 }

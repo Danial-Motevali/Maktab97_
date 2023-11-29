@@ -22,10 +22,10 @@ namespace App.Domain.Services.Services
             return _repository.GetAll(cancellation);
         }
 
-        public IdentityUserRole<int> GetById(int Id, CancellationToken cancellation)
-        {
-            return _repository.GetById(Id, cancellation);
-        }
+        //public IdentityUserRole<int> GetById(int Id, CancellationToken cancellation)
+        //{
+        //    return _repository.GetById(Id, cancellation);
+        //}
 
         public List<IdentityUserRole<int>> GetByRoleId(int RoleId, CancellationToken cancellation)
         {

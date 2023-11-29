@@ -3,6 +3,7 @@ using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Identity.Entites;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.Domain.Services.AppServices
 {
@@ -16,7 +17,9 @@ namespace App.Domain.Services.AppServices
         private readonly IInventoryService _inventoryService;
         private readonly IProductService _productService;
         private readonly IWageService _wageService;
-        public AdminAppServices(IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService, IWageService wageService)
+        private readonly IRoleService _roleService;
+        private readonly IUserRoleService _userRoleService;
+        public AdminAppServices(IRoleService roleService, IUserRoleService userRoleService, IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService, IWageService wageService)
         {
             _userServices = userServices;
             _sellerSercies = sellerService;
@@ -27,6 +30,8 @@ namespace App.Domain.Services.AppServices
             _buyerService = buyerService;
             _commentService = commentService;
             _wageService = wageService;
+            _roleService = roleService;
+            _userRoleService = userRoleService;
         }
 
         //Buyer Dashbord
@@ -207,6 +212,26 @@ namespace App.Domain.Services.AppServices
             return markProduct;
         } // from Inteface
 
-        
+        public string FindUserRole(int UserId, CancellationToken cancellation)
+        {
+            var allUserRole = _userRoleService.GetByUserId(UserId, cancellation);
+            var aRole = new IdentityRole<int>();
+
+            if(allUserRole == null)
+                return "Don`t hove a role";
+
+            foreach (var role in allUserRole)
+            {
+                aRole = _roleService.GetById(role.RoleId, cancellation);
+
+
+                if(aRole.Name != "Owner")
+                {
+                    return aRole.Name;
+                }
+            }
+
+            return "Don`t hove a role";
+        }
     }
 }

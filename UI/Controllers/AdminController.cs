@@ -118,7 +118,7 @@ namespace UI.Controllers
 
         //Edit user
         [HttpGet]
-        public IActionResult ShowAllUser()
+        public IActionResult ShowAllUser(CancellationToken cancellation)
         {
             var activeIndexDto = new List<IndexDto>();
             var models = _userManager.Users
@@ -129,10 +129,10 @@ namespace UI.Controllers
                 LastName = x.LastName,
                 Email = x.Email,
                 UserName = x.UserName,
-                IsDeleted = x.IsDeleted ?? default(bool)
-
+                IsDeleted = x.IsDeleted ?? default(bool),
+                UserRole = _adminAppServices.FindUserRole(x.Id, cancellation)
             }).ToList();
-
+            
             foreach(var model in models)
             {
                 if(model.IsDeleted == false)
@@ -141,6 +141,7 @@ namespace UI.Controllers
 
             return View(activeIndexDto);
         }
+        
 
         [HttpGet]
         public async Task<IActionResult> EditUser(string id)

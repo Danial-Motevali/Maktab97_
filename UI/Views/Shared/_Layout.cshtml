@@ -361,7 +361,7 @@
                                         @if (User.IsInRole("Seller"))
                                         {
                                             <ul class="nav-submenu menu-content">
-                                                <li><a asp-controller="Seller" asp-action="ShodDashBord">ShodDashBord</a></li>     @* go to the action *@
+                                                <li><a asp-controller="Seller" asp-action="ShodDashBord">ShodDashBord</a></li>     
                                                 <li><a asp-controller="Seller" asp-action="EditProfile">EditProfile</a></li>
                                                 <li><a asp-controller="Seller" asp-action="AuctionDashBord">AuctionDashBord</a></li>
                                             </ul>
@@ -372,22 +372,51 @@
                                                 <li><a asp-controller="Buyer" asp-action="Action">Action</a></li>     @* go to the action *@
                                                 <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
                                                 <li><a asp-controller="Buyer" asp-action="Cart">Cart</a></li>
+                                                <li><a asp-controller="Buyer" asp-action="EditProfile">EditProfile</a></li>
+                                            </ul>
+                                        }
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
+                                        {
+                                            <ul class="nav-submenu menu-content">
+                                                <li><a asp-controller="Admin" asp-action="EditUser">EditUser</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">ShowAllUser</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowTheBuyer">ShowTheBuyer</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
+                                                <li><a asp-controller="Admin" asp-action="BuyerComments">BuyerComments</a></li>
+                                                <li><a asp-controller="Admin" asp-action="SellersProducts">SellersProducts</a></li>
+                                                <li><a asp-controller="Admin" asp-action="SellersWage">SellersWage</a></li>
+                                            </ul>
+                                        }
+                                        @if (User.IsInRole("Owner"))
+                                        {
+                                            <ul class="nav-submenu menu-content">
+                                                <li><a asp-controller="Admin" asp-action="ShowTheBuyer">ShowTheBuyer</a></li>
+                                                <li><a asp-controller="Admin" asp-action="BuyerComments">BuyerComments</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
+                                                <li><a asp-controller="Admin" asp-action="SellersProducts">SellersProducts</a></li>
+                                                <li><a asp-controller="Admin" asp-action="SellersWage">SellersWage</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">ShowAllUser</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">EditUser</a></li>
                                             </ul>
                                         }
                                     }
                                 </li>
-                                <li class="dropdown">
+                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="layout"></i><span>Page layout</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="box-layout.html">Boxed</a></li>
-                                        <li><a href="layout-rtl.html">RTL</a></li>
-                                        <li><a href="layout-dark.html">Dark</a></li>
-                                        <li><a href="footer-light.html">Footer Light</a></li>
-                                        <li><a href="footer-dark.html">Footer Dark</a></li>
-                                        <li><a href="footer-fixed.html">Footer Fixed</a></li>
+                                        @if (User.IsInRole("Owner")) 
+                                        {
+                                            <li><a asp-controller="ManagerRole" asp-action="ShowAllUser">Index</a></li>
+                                            <li><a asp-controller="ManagerRole" asp-action="AddRole">AddRole</a></li>
+                                            <li><a asp-controller="ManagerRole" asp-action="EditRole">EditRole</a></li>
+                                            <li><a asp-controller="ManagerUser" asp-action="Index">Index</a></li>
+                                            <li><a asp-controller="ManagerUser" asp-action="EditUser">EditUser</a></li>
+                                            <li><a asp-controller="ManagerUser" asp-action="AddUserRole">AddUserRole</a></li>
+                                            <li><a asp-controller="ManagerUser" asp-action="RemoveUserRole">RemoveUserRole</a></li>
+                                        }
                                     </ul>
-                                </li>
-                                <li class="sidebar-main-title">
+                                </li> 
+                               @*  <li class="sidebar-main-title">
                                     <div>
                                         <h6>Components             </h6>
                                     </div>
@@ -420,8 +449,8 @@
                                         <li><a href="box-shadow.html">Shadow</a></li>
                                         <li><a href="list.html">Lists</a></li>
                                     </ul>
-                                </li>
-                                <li class="dropdown">
+                                </li> *@
+                                @* <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="folder-plus"></i><span>Bonus Ui</span></a>
                                     <ul class="nav-submenu menu-content">
                                         <li><a href="scrollable.html">Scrollable</a></li>
@@ -452,8 +481,8 @@
                                             </ul>
                                         </li>
                                     </ul>
-                                </li>
-                                <li class="dropdown">
+                                </li> *@
+                                @* <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="edit-3"></i><span>Builders</span></a>
                                     <ul class="nav-submenu menu-content">
                                         <li><a href="form-builder-1.html">Form Builder 1</a></li>
@@ -646,7 +675,7 @@
                                 <li class="dropdown"><a class="nav-link menu-title link-nav" href="social-app.html"><i data-feather="zap"></i><span>Social App</span></a></li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav" href="to-do.html"><i data-feather="clock"></i><span>To-Do</span></a></li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav" href="search.html"><i data-feather="search"></i><span>Search Result</span></a></li>
-                                <li class="sidebar-main-title">
+                                <li class="sidebar-main-title"> *@
                                     <div>
                                         <h6>Pages             </h6>
                                     </div>

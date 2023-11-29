@@ -736,7 +736,7 @@ else
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>All User</h5>@* <span>Use a class <code>.bg-info, .bg-success, .bg-warning and .bg-danger classes.</code> with light text on dark backgrounds inside table element.<br>To set the light background color use .bg-[color] class where [color] is the value of your selected color from stack color palette. So for teal color background class will be .bg-teal</span> *@
+                                    <h5>All Our User</h5>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped bg-primary">
@@ -747,6 +747,7 @@ else
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Email</th>
+                                                <th scope="col">Role</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -762,6 +763,7 @@ else
                                                         <td>@item.LastName</td>
                                                         <td>@item.UserName</td>
                                                         <td>@item.Email</td>
+                                                        <td>@item.UserRole</td>
                                                     </tr>
 
                                                     rowNumber++;

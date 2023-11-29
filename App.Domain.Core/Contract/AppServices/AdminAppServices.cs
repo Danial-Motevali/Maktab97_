@@ -26,5 +26,7 @@ namespace App.Domain.Core.Contract.AppServices
         bool DeleteComment(int CommentId ,CancellationToken cancellation);
 
         int ShowSellerWage(int SellerId ,CancellationToken cancellation);
+
+        string FindUserRole(int UserId, CancellationToken cancellation);
     }
 }

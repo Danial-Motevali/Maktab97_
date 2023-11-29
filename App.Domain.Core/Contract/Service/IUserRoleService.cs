@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IUserRoleService
     {
-        IdentityUserRole<int> GetById(int Id, CancellationToken cancellation);
+        //IdentityUserRole<int> GetById(int Id, CancellationToken cancellation);
 
         List<IdentityUserRole<int>> GetAll(CancellationToken cancellation);
 

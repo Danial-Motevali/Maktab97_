@@ -34,6 +34,8 @@ namespace UI
             services.AddScoped<IProductPicture, ProductPictureRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductOrderRepository, ProductOrederRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
 
             //configure services
@@ -57,6 +59,8 @@ namespace UI
             services.AddScoped<IProductPictureService, ProductPictureService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IProductOrederService, ProductOrderService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
 
 
             //configure app services
