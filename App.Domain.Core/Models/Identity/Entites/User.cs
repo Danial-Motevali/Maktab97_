@@ -22,6 +22,7 @@ namespace App.Domain.Core.Models.Identity.Entites
     {
         Buyer,
         Seller,
-        Admin
+        Admin,
+        Owner
     }
 }
