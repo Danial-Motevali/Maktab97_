@@ -48,30 +48,30 @@ namespace App.Domain.Services.AppServices
             return 0;
         } // from Interface
 
-        public bool DeleteComment(int CommenttId, CancellationToken cancellation)
+        public async Task<bool> DeleteComment(int CommenttId, CancellationToken cancellation)
         {
-            var rsult = _commentService.Delete(CommenttId, cancellation);
-
-            if (rsult.IsCompleted)
+            var aComment = await _commentService.GetById(CommenttId, cancellation);
+            
+            if(aComment.IsDeleted == false)
             {
-                return true;
+                aComment.IsDeleted = true;
+
+               await _commentService.Update(CommenttId ,aComment, cancellation);
+
+               return true;
             }
 
-            return false;
+            aComment.IsDeleted = false;
+            await _commentService.Update(CommenttId , aComment, cancellation);
+
+            return true;
         } // from Interface
 
         public List<Comment> FindCommentByUserId(int BuyerId, CancellationToken cancellation) // from Interface
         {
             var allComment = _commentService.GetByBuyerId(BuyerId, cancellation);
-            var activeCommetn = new List<Comment>();
 
-            foreach (var comment in allComment)
-            {
-                if(comment.IsDeleted == false)
-                    activeCommetn.Add(comment);
-            }
-
-            return activeCommetn;
+            return allComment;
         } 
 
         public List<User> FindAllBuyer(CancellationToken cancellation)

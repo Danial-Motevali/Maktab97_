@@ -23,7 +23,7 @@ namespace App.Domain.Core.Contract.AppServices
         List<Product> SellersProduct(int SellerId ,CancellationToken cancellation);
 
         bool DeleteProduct(int ProductId ,CancellationToken cancellation);
-        bool DeleteComment(int CommentId ,CancellationToken cancellation);
+        Task<bool> DeleteComment(int CommentId ,CancellationToken cancellation);
 
         int ShowSellerWage(int SellerId ,CancellationToken cancellation);
 

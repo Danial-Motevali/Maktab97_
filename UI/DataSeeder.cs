@@ -210,17 +210,17 @@ namespace UI
             //    dbContext.SaveChanges();
             //}
 
-            //if (!dbContext.Comments.Any())
-            //{
-            //    var Address = new List<Comment>
-            //    {
-            //        new Comment { Title = "Goodstafe", Description = "this is the good produt", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, InventoryId = 1},
-            //        new Comment { Title = "Badproduct", Description = "this product is bad for you", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, InventoryId = 1}
-            //    };
+            if (!dbContext.Comments.Any())
+            {
+                var Address = new List<Comment>
+                {
+                    new Comment { Title = "Goodstafe", Description = "this is the good produt", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, /*InventoryId = 1*/},
+                    new Comment { Title = "Badproduct", Description = "this product is bad for you", IsDeleted = false, TimeOfCreate = DateTime.Now, BuyerId = 1, /*InventoryId = 1*/}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             //if (!dbContext.Medals.Any())
             //{

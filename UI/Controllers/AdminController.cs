@@ -52,6 +52,7 @@ namespace UI.Controllers
             return View(buyerDto);
         }
 
+
         public IActionResult BuyerComments(int Id, CancellationToken cancellation)
         {
             var findBuyerFromUser = _adminAppServices.FindBuyer(Id, cancellation);
@@ -61,9 +62,9 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteComment(int Id, CancellationToken cancellation)
+        public async Task<IActionResult> DeleteComment(int Id, CancellationToken cancellation)
         {
-            _adminAppServices.DeleteComment(Id, cancellation);
+            await _adminAppServices.DeleteComment(Id, cancellation);
 
             return RedirectToAction("ShowTheBuyer");
         }
