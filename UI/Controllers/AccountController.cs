@@ -117,6 +117,9 @@ namespace UI.Controllers
 
                     if (inputUser.Potion == Potion.Admin)
                         return RedirectToAction("Index", "Home");
+
+                    if (inputUser.Potion == Potion.Owner)
+                        return RedirectToAction("Index", "Home");
                 }
             }
             return View(input);
