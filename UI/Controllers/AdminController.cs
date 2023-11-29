@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace UI.Controllers
 {
@@ -144,19 +145,28 @@ namespace UI.Controllers
         
 
         [HttpGet]
-        public async Task<IActionResult> EditUser(string id)
+        public async Task<IActionResult> EditUser()
         {
-            if (id == null) return NotFound();
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (id == null)
+                return NotFound();
+
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null) return NotFound();
+
+            if (user == null)
+                return NotFound();
+
 
             return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(string id, string userName, string firstName, string lastName, bool isDeleted)
+        public async Task<IActionResult> EditUser(/*string id,*/ string userName, string firstName, string lastName, bool isDeleted)
         {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (id == null || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
                 return NotFound();
 
             var user = await _userManager.FindByIdAsync(id);
@@ -172,7 +182,7 @@ namespace UI.Controllers
 
             var result = await _userManager.UpdateAsync(user);
 
-            if (result.Succeeded) return RedirectToAction("Index");
+            if (result.Succeeded) return RedirectToAction("Index", "Home");
 
             foreach (var item in result.Errors)
             {
