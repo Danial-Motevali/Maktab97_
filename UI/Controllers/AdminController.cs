@@ -41,7 +41,9 @@ namespace UI.Controllers
                     Id = buyer.Id,
                     FirstName = buyer.FirstName,
                     LastName = buyer.LastName,
-                    IsDeleted = buyer.IsDeleted ?? default(bool)
+                    IsDeleted = buyer.IsDeleted ?? default(bool),
+                    UserName = buyer.UserName,
+                    Email = buyer.Email
                 };
 
                 buyerDto.Add(userToDto);
