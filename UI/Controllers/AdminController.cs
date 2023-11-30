@@ -82,7 +82,9 @@ namespace UI.Controllers
                     Id = seller.Id,
                     FirstName = seller.FirstName,
                     LastName = seller.LastName,
-                    IsDeleted = seller.IsDeleted ?? default(bool)
+                    IsDeleted = seller.IsDeleted ?? default(bool),
+                    UserName = seller.UserName,
+                    Email = seller.Email
                 };
 
                 sellerDto.Add(userToDto);
