@@ -66,7 +66,7 @@ namespace UI.Controllers
         {
             await _adminAppServices.DeleteComment(Id, cancellation);
 
-            return RedirectToAction("ShowTheBuyer");
+            return RedirectToAction("Index", "Home");
         }
 
         //Seller
@@ -109,14 +109,14 @@ namespace UI.Controllers
         {
             await _adminAppServices.DeleteProduct(Id, cancellation);
 
-            return RedirectToAction("ShowTheSeller");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> DeleteShop(int Id, CancellationToken cancellation)
         {
             await _adminAppServices.DeleteShop(Id, cancellation);
 
-            return RedirectToAction("ShowTheSeller");
+            return RedirectToAction("Index", "Home");
         }
 
         //Edit user
@@ -217,7 +217,7 @@ namespace UI.Controllers
 
             //await _userManager.DeleteAsync(user);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
