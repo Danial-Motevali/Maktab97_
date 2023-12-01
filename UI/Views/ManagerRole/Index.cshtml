@@ -761,7 +761,7 @@ else
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <form asp-controller="ManagerRole" asp-action="EditRole" >
+                                                                        <form asp-controller="ManagerRole" asp-action="EditRole" method="get">
                                                                             <input name="id" id="id" type="hidden" value="@Model[item].Id">
                                                                             <button type="submit" class="btn btn-primary">Edit</button>
                                                                         </form>
