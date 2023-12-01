@@ -120,6 +120,7 @@ namespace App.Domain.Services.AppServices
 
             return allSeller;
         } // from Interface
+
         public List<Inventory> FindInventoryByShopId(int ShopSId, CancellationToken cancellation)
         {
             var allInventory = _inventoryService.GetAll(cancellation);
@@ -267,6 +268,41 @@ namespace App.Domain.Services.AppServices
             }
 
             return "Don`t hove a role";
+        }
+
+        public async Task<string> FindShopName(int UserId, CancellationToken cancellation)
+        {
+            var aSeller = _sellerSercies.ByUserId(UserId, cancellation);
+            var aShop = _shopServices.GetBySellerId(aSeller.Id, cancellation);
+
+            return aShop.Name;
+        }
+
+        public async Task<bool> DeleteShop(int UserId, CancellationToken cancellation)
+        {
+            var aSeller = _sellerSercies.ByUserId(UserId, cancellation);
+            var aShop = _shopServices.GetBySellerId(aSeller.Id, cancellation);
+
+            if(aShop.IsDeleted == false)
+            {
+                aShop.IsDeleted = true;
+            }
+            else
+            {
+                aShop.IsDeleted = false;
+            }
+
+            await _shopServices.Update(aShop.Id, aShop, cancellation);
+           
+            return true;
+        }
+
+        public async Task<bool> ShopActivite(int UserId, CancellationToken cancellation)
+        {
+            var aSeller = _sellerSercies.ByUserId(UserId, cancellation);
+            var aShop = _shopServices.GetBySellerId(aSeller.Id, cancellation);
+
+            return aShop.IsDeleted??default(bool);
         }
     }
 }

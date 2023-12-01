@@ -708,21 +708,24 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>Inverse Table with Primary background</h5><span>Use a class <code>.bg-info, .bg-success, .bg-warning and .bg-danger classes.</code> with light text on dark backgrounds inside table element.<br>To set the light background color use .bg-[color] class where [color] is the value of your selected color from stack color palette. So for teal color background class will be .bg-teal</span>
+                                    <h5>Admin Dashbord to keep chaos a Bay</h5>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped bg-primary">
                                         <thead class="tbl-strip-thad-bdr">
                                             <tr>
                                                 <th scope="col">#</th>
+                                                <th scope="col">ShopName</th>
                                                 <th scope="col">First Name</th>
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Wagr</th>
                                                 <th scope="col">IsDeleted</th>
+                                                <th scope="col">Shop Activite</th>
                                                 <th scope="col">Product</th>
                                                 <th scope="col">Activite</th>
+                                                <th scope="col">Shop Activite</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -733,12 +736,14 @@
                                                 {
                                                     <tr>
                                                         <th scope="row">@rowNumber</th>
+                                                        <td>@item.ShopName</td>
                                                         <td>@item.FirstName</td>
                                                         <td>@item.LastName</td>
                                                         <td>@item.UserName</td>
                                                         <td>@item.Email</td>
                                                         <td>@item.Wage</td>
                                                         <td>@item.IsDeleted</td>
+                                                        <td>@item.Shop</td>
                                                         <td>
                                                             @* <a asp-controller="Admin" asp-action="BuyerComments" asp-route-Id="@item.Id">Comments</a> *@
                                                             <form asp-controller="Admin" asp-action="SellersProducts">
@@ -748,6 +753,12 @@
                                                         </td>
                                                         <td>
                                                             <form asp-controller="Admin" asp-action="DeleteUser">
+                                                                <input type="hidden" value="@item.Id" name="Id">
+                                                                <button type="submit" class="btn btn-primary">Change Activite</button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <form asp-controller="Admin" asp-action="DeleteShop">
                                                                 <input type="hidden" value="@item.Id" name="Id">
                                                                 <button type="submit" class="btn btn-primary">Change Activite</button>
                                                             </form>

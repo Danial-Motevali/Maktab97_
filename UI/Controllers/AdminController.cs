@@ -85,7 +85,9 @@ namespace UI.Controllers
                     IsDeleted = seller.IsDeleted ?? default(bool),
                     UserName = seller.UserName,
                     Email = seller.Email,
-                    Wage = await _adminAppServices.ShowSellerWage(seller.Id, cancellation)
+                    Wage = await _adminAppServices.ShowSellerWage(seller.Id, cancellation),
+                    ShopName = await _adminAppServices.FindShopName(seller.Id, cancellation),
+                    Shop = await _adminAppServices.ShopActivite(seller.Id, cancellation)
                 };
 
                 sellerDto.Add(userToDto);
@@ -106,6 +108,13 @@ namespace UI.Controllers
         public async Task<IActionResult> DeleteProduct(int Id, CancellationToken cancellation)
         {
             await _adminAppServices.DeleteProduct(Id, cancellation);
+
+            return RedirectToAction("ShowTheSeller");
+        }
+
+        public async Task<IActionResult> DeleteShop(int Id, CancellationToken cancellation)
+        {
+            await _adminAppServices.DeleteShop(Id, cancellation);
 
             return RedirectToAction("ShowTheSeller");
         }
