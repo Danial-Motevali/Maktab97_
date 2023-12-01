@@ -110,19 +110,6 @@ namespace UI.Controllers
             return RedirectToAction("ShowTheSeller");
         }
 
-        //public IActionResult SellersWage(int Id, CancellationToken cancellation)
-        //{
-        //    var sellerId = _adminAppServices.FindSeller(Id, cancellation);
-        //    var result = _adminAppServices.ShowSellerWage(sellerId, cancellation);
-        //    var WageDto = new WageDtoOutput
-        //    {
-        //        HowMuch = result
-        //    };
-
-        //    return View(WageDto);
-        //}
-
-
         //Edit user
         [HttpGet]
         public IActionResult ShowAllUser(CancellationToken cancellation)
