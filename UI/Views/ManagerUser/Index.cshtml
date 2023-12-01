@@ -798,7 +798,11 @@ else
                                                             </form>
                                                         </td>
                                                         <td>
-                                                            <a asp-controller="ManagerUser" asp-action="RemoveUserRole" asp-route-id="@item.Id" class="btn btn-primary">Remove User from Role</a>
+                                                            @* <a asp-controller="ManagerUser" asp-action="RemoveUserRole" asp-route-id="@item.Id" class="btn btn-primary">Remove User from Role</a> *@
+                                                            <form asp-controller="ManagerUser" asp-action="RemoveUserRole" method="get">
+                                                                <input type="hidden" value="@item.Id" name="id">
+                                                                <button type="submit" class="btn btn-primary">Delete Role</button>
+                                                            </form  >
                                                         </td>
                                                     </tr>
 
