@@ -1,36 +1,4 @@
-﻿@* @model Microsoft.AspNetCore.Identity.IdentityUser *@
-
-@model App.Domain.Core.Models.Identity.Entites.User
-@*
-@{
-    ViewData["Title"] = "EditUser";
-}
-
-<h1>EditUser</h1>
-
-<form asp-controller="ManagerUser" asp-action="EditUser" method="post">
-    <div asp-validation-summary="ModelOnly"></div>
-
-    <div class="from-group">
-        <lable class="control-label" asp-for="UserName"></lable>
-        <input class="from-control" asp-for="UserName" />
-    </div>
-    <div class="from-group">
-        <lable class="control-label" asp-for="FirstName"></lable>
-        <input class="from-control" asp-for="FirstName" />
-    </div>
-    <div class="from-group">
-        <lable class="control-label" asp-for="LastName"></lable>
-        <input class="from-control" asp-for="LastName" />
-    </div>
-
-
-    <input type="hidden" asp-for="Id"/>
-
-    <button type="submit" class="btn btn-Primary">Submit</button>
-</form>
- *@
-
+﻿@model App.Domain.Core.Models.Identity.Entites.User
 
 <!DOCTYPE html>
 <html lang="en">
@@ -762,54 +730,6 @@
                                         
                                     </form>
                                 </div>
-                                @* <div class="col-xl-6 col-sm-12">
-                                    <div class="checkout-details">
-                                        <div class="order-box">
-                                            <div class="title-box">
-                                                <div class="checkbox-title">
-                                                    <h4 class="mb-0">Product </h4><span>Total</span>
-                                                </div>
-                                            </div>
-                                            <ul class="qty">
-                                                <li>Pink Slim Shirt × 1 <span>$25.10</span></li>
-                                                <li>SLim Fit Jeans × 1 <span>$555.00</span></li>
-                                            </ul>
-                                            <ul class="sub-total">
-                                                <li>Subtotal <span class="count">$380.10</span></li>
-                                                <li class="shipping-class">
-                                                    Shipping
-                                                    <div class="shopping-checkout-option">
-                                                        <label class="d-block" for="chk-ani">
-                                                            <input class="checkbox_animated" id="chk-ani" type="checkbox" checked="">Option 1
-                                                        </label>
-                                                        <label class="d-block" for="chk-ani1">
-                                                            <input class="checkbox_animated" id="chk-ani1" type="checkbox">Option 2
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <ul class="sub-total total">
-                                                <li>Total <span class="count">$620.00</span></li>
-                                            </ul>
-                                            <div class="animate-chk">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <label class="d-block" for="edo-ani">
-                                                            <input class="radio_animated" id="edo-ani" type="radio" name="rdo-ani" checked="" data-original-title="" title="">Check Payments
-                                                        </label>
-                                                        <label class="d-block" for="edo-ani1">
-                                                            <input class="radio_animated" id="edo-ani1" type="radio" name="rdo-ani" data-original-title="" title="">Cash On Delivery
-                                                        </label>
-                                                        <label class="d-block" for="edo-ani2">
-                                                            <input class="radio_animated" id="edo-ani2" type="radio" name="rdo-ani" checked="" data-original-title="" title="">PayPal<img class="img-paypal" src="../assets/images/checkout/paypal.png" alt="">
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-place"><a class="btn btn-primary" href="javascript:void(0)">Place Order  </a></div>
-                                        </div>
-                                    </div>
-                                </div> *@
                             </div>
                         </div>
                     </div>

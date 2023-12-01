@@ -767,6 +767,8 @@ else
                                                 <th scope="col">Email</th>
                                                 <th scope="col">IsDeleted</th>
                                                 <th scope="col">Edit User</th>
+                                                <th scope="col">Add To Role</th>
+                                                <th scope="col">Remove User Role</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -787,6 +789,16 @@ else
                                                                 <input type="hidden" value="@item.Id" name="id">
                                                                 <button type="submit" class="btn btn-primary">Edit</button>
                                                             </form>
+                                                        </td>
+                                                        <td>
+                                                           @*  <a asp-controller="ManagerUser" asp-action="AddUserRole" asp-route-id="@item.Id" class="btn btn-primary">Add To Role</a> *@
+                                                            <form asp-controller="ManagerUser" asp-action="AddUserRole" method="get">
+                                                                <input type="hidden" value="@item.Id" name="id">
+                                                                <button type="submit" class="btn btn-primary">Add Role To User</button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <a asp-controller="ManagerUser" asp-action="RemoveUserRole" asp-route-id="@item.Id" class="btn btn-primary">Remove User from Role</a>
                                                         </td>
                                                     </tr>
 
