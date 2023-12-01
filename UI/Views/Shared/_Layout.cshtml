@@ -382,20 +382,19 @@
                                                 <li><a asp-controller="Admin" asp-action="ShowAllUser">ShowAllUser</a></li>
                                                 <li><a asp-controller="Admin" asp-action="ShowTheBuyer">ShowTheBuyer</a></li>
                                                 <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
-                                                <li><a asp-controller="Admin" asp-action="SellersProducts">SellersProducts</a></li>
                                                 <li><a asp-controller="Admin" asp-action="SellersWage">SellersWage</a></li>
                                             </ul>
                                         }
                                         @if (User.IsInRole("Owner"))
                                         {
                                             <ul class="nav-submenu menu-content">
-                                                <li><a asp-controller="Admin" asp-action="ShowTheBuyer">ShowTheBuyer</a></li>
-                                                <li><a asp-controller="Admin" asp-action="BuyerComments">BuyerComments</a></li>
-                                                <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
-                                                <li><a asp-controller="Admin" asp-action="SellersProducts">SellersProducts</a></li>
-                                                <li><a asp-controller="Admin" asp-action="SellersWage">SellersWage</a></li>
-                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">ShowAllUser</a></li>
                                                 <li><a asp-controller="Admin" asp-action="ShowAllUser">EditUser</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">ShowAllUser</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowTheBuyer">ShowTheBuyer</a></li>
+                                                <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
+                                                <li><a asp-controller="Admin" asp-action="SellersWage">SellersWage</a></li>
+                                                <li><a asp-controller="ManagerRole" asp-action="Index">MangeRole</a></li>
+                                                <li><a asp-controller="ManagerUser" asp-action="Index">MangeUser</a></li>
                                             </ul>
                                         }
                                     }
