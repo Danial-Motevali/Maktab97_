@@ -384,17 +384,13 @@
                                                 <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
                                             </ul>
                                         }
-                                        @if (User.IsInRole("Owner"))
+                                        @* @if (User.IsInRole("Owner"))
                                         {
                                             <ul class="nav-submenu menu-content">
-                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">EditUser</a></li>
-                                                <li><a asp-controller="Admin" asp-action="ShowAllUser">ShowAllUser</a></li>
-                                                <li><a asp-controller="Admin" asp-action="ShowTheBuyer">ShowTheBuyer</a></li>
-                                                <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
                                                 <li><a asp-controller="ManagerRole" asp-action="Index">MangeRole</a></li>
                                                 <li><a asp-controller="ManagerUser" asp-action="Index">MangeUser</a></li>
                                             </ul>
-                                        }
+                                        } *@
                                     }
                                 </li>
                                  <li class="dropdown">
@@ -402,10 +398,8 @@
                                     <ul class="nav-submenu menu-content">
                                         @if (User.IsInRole("Owner")) 
                                         {
-                                            <li><a asp-controller="ManagerRole" asp-action="ShowAllUser">Index</a></li>
-                                            <li><a asp-controller="ManagerRole" asp-action="AddRole">AddRole</a></li>
-                                            <li><a asp-controller="ManagerRole" asp-action="EditRole">EditRole</a></li>
-                                            <li><a asp-controller="ManagerUser" asp-action="Index">Index</a></li>
+                                            <li><a asp-controller="ManagerRole" asp-action="Index">ShowAllRole</a></li>
+                                            <li><a asp-controller="ManagerUser" asp-action="Index">ShowAllUser</a></li>
                                             <li><a asp-controller="ManagerUser" asp-action="EditUser">EditUser</a></li>
                                             <li><a asp-controller="ManagerUser" asp-action="AddUserRole">AddUserRole</a></li>
                                             <li><a asp-controller="ManagerUser" asp-action="RemoveUserRole">RemoveUserRole</a></li>
