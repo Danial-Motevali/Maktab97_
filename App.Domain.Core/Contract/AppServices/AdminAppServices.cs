@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
+using App.Domain.Core.Models.Dto.ControllerDto.Admin;
 using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace App.Domain.Core.Contract.AppServices
         List<User> FindAllSeller(CancellationToken cancellation);
         List<User> FindAllBuyer(CancellationToken cancellation);
 
-        List<Product> SellersProduct(int SellerId ,CancellationToken cancellation);
+        Task<List<ShowProductDto>> SellersProduct(int SellerId ,CancellationToken cancellation);
 
-        bool DeleteProduct(int ProductId ,CancellationToken cancellation);
+        Task<bool> DeleteProduct(int ProductId ,CancellationToken cancellation);
         Task<bool> DeleteComment(int CommentId ,CancellationToken cancellation);
 
         int ShowSellerWage(int SellerId ,CancellationToken cancellation);

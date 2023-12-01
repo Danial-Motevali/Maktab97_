@@ -719,7 +719,9 @@
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Email</th>
-                                                <th scope="col">BuyerComment</th>
+                                                <th scope="col">IsDeleted</th>
+                                                <th scope="col">Product</th>
+                                                <th scope="col">Activite</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -734,11 +736,18 @@
                                                         <td>@item.LastName</td>
                                                         <td>@item.UserName</td>
                                                         <td>@item.Email</td>
+                                                        <td>@item.IsDeleted</td>
                                                         <td>
                                                             @* <a asp-controller="Admin" asp-action="BuyerComments" asp-route-Id="@item.Id">Comments</a> *@
-                                                            <form asp-controller="Admin" asp-action="BuyerComments">
+                                                            <form asp-controller="Admin" asp-action="SellersProducts">
                                                                 <input type="hidden" value="@item.Id" name="Id">
-                                                                <button type="submit" class="btn btn-primary">Comments</button>
+                                                                <button type="submit" class="btn btn-primary">Seller`s Product</button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <form asp-controller="Admin" asp-action="DeleteUser">
+                                                                <input type="hidden" value="@item.Id" name="Id">
+                                                                <button type="submit" class="btn btn-primary">Change Activite</button>
                                                             </form>
                                                         </td>
                                                     </tr>

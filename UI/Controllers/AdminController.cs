@@ -84,7 +84,7 @@ namespace UI.Controllers
                     LastName = seller.LastName,
                     IsDeleted = seller.IsDeleted ?? default(bool),
                     UserName = seller.UserName,
-                    Email = seller.Email
+                    Email = seller.Email,
                 };
 
                 sellerDto.Add(userToDto);
@@ -93,18 +93,18 @@ namespace UI.Controllers
             return View(sellerDto);
         }
 
-        public IActionResult SellersProducts(int Id, CancellationToken cancellation)
+        public async Task<IActionResult> SellersProducts(int Id, CancellationToken cancellation)
         {
             var sellerId = _adminAppServices.FindSeller(Id, cancellation);
-            var findSellerProduct = _adminAppServices.SellersProduct(sellerId, cancellation);
+            var findSellerProduct = await _adminAppServices.SellersProduct(sellerId, cancellation);
 
             return View(findSellerProduct);
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct(int Id, CancellationToken cancellation)
+        public async Task<IActionResult> DeleteProduct(int Id, CancellationToken cancellation)
         {
-            _adminAppServices.DeleteProduct(Id, cancellation);
+            await _adminAppServices.DeleteProduct(Id, cancellation);
 
             return RedirectToAction("ShowTheSeller");
         }
@@ -207,7 +207,14 @@ namespace UI.Controllers
             if (user == null)
                 return NotFound();
 
-            user.IsDeleted = true;
+            if(user.IsDeleted == false)
+            {
+                user.IsDeleted = true;
+            }
+            else
+            {
+                user.IsDeleted = false;
+            }
 
             var result = await _userManager.UpdateAsync(user);
 

@@ -2,7 +2,10 @@
 using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto.ControllerDto.Admin;
+using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
+using App.Domain.Services.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Domain.Services.AppServices
@@ -19,7 +22,11 @@ namespace App.Domain.Services.AppServices
         private readonly IWageService _wageService;
         private readonly IRoleService _roleService;
         private readonly IUserRoleService _userRoleService;
-        public AdminAppServices(IRoleService roleService, IUserRoleService userRoleService, IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService, IWageService wageService)
+        private readonly IProductPictureService _productPictureService;
+        private readonly IPictureService _pictureService;
+        private readonly ICategoryService _categoryService;
+        private readonly IPriceService _priceService;
+        public AdminAppServices(IPriceService priceService, ICategoryService categoryService, IPictureService pictureService, IProductPictureService productPictureService, IRoleService roleService, IUserRoleService userRoleService, IUserServices userServices, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductService productService, IBuyerService buyerService, ICommentService commentService, IWageService wageService)
         {
             _userServices = userServices;
             _sellerSercies = sellerService;
@@ -32,6 +39,10 @@ namespace App.Domain.Services.AppServices
             _wageService = wageService;
             _roleService = roleService;
             _userRoleService = userRoleService;
+            _productPictureService = productPictureService;
+            _pictureService = pictureService;
+            _categoryService = categoryService;
+            _priceService = priceService;
         }
 
         //Buyer Dashbord
@@ -96,17 +107,22 @@ namespace App.Domain.Services.AppServices
 
         //Seller Dashbord
 
-        public bool DeleteProduct(int ProductId, CancellationToken cancellation)
+        public async Task<bool> DeleteProduct(int ProductId, CancellationToken cancellation)
         {
-            var rsult = _productService.Delete(ProductId, cancellation);
+            var aProduct = await _productService.GetById(ProductId, cancellation);
 
-            if (rsult.IsCompleted)
+            if(aProduct.IsDeleted == false)
             {
-                return true;
+                aProduct.IsDeleted = true;
+            }
+            else
+            {
+                aProduct.IsDeleted = false;
             }
 
-            return false;
+            await _productService.Update(aProduct.Id , aProduct, cancellation);
 
+            return true;
         } // from Interface
 
         public List<User> FindAllSeller(CancellationToken cancellation)
@@ -116,11 +132,12 @@ namespace App.Domain.Services.AppServices
 
             foreach (var user in allSeller)
             {
-                foreach (var seller in allSeller)
-                {
-                    if (user.IsDeleted == false)
-                        activeUser.Add(user);
-                }
+                //foreach (var seller in allSeller)
+                //{
+                //    if (user.IsDeleted == false)
+                //        activeUser.Add(user);
+                //}
+                activeUser.Add(user);
             }
 
             return activeUser;
@@ -195,18 +212,56 @@ namespace App.Domain.Services.AppServices
             return sellerWage;
         } // from Interface
 
-        public List<Product> SellersProduct(int SellerId, CancellationToken cancellation)
+        public async Task<List<ShowProductDto>> SellersProduct(int SellerId, CancellationToken cancellation)
         {
-            var sellerShop = _shopServices.GetBySellerId(SellerId ,cancellation);
-            var sellerInventory = _inventoryService.GetByShopId(sellerShop.Id , cancellation);
-            var allProduct = _productService.GetAll(cancellation);
-            var markProduct = new List<Product>();
+            var markProduct = new List<ShowProductDto>();
+            //var aSeller = await _sellerSercies.GetById(SellerId, cancellation);
+            var aShop = _shopServices.GetBySellerId(SellerId, cancellation);
+            var selllerInventory = _inventoryService.GetByShopId(aShop.Id, cancellation);
+            var aProduct = new Product();
+            var allProductPicture = new List<ProductPicture>();
+            var productCategory = new Category();
+            var inventoryPrice = new Price();
+            var wage = new Wage();
 
-            foreach(var inventory in sellerInventory)
+            if (aShop.Inventories == null)
+                return null;
+
+            foreach (var inventory in aShop.Inventories)
             {
-                foreach (var product in allProduct)
-                    if (inventory.ProductId == product.Id && product.IsDeleted == false && inventory.IsDeleted == false)
-                        markProduct.Add(product);
+                var aShowProductDto = new ShowProductDto();
+                var pictureList = new List<Picture>();
+                if (inventory.AuctionId == null)
+                {
+
+                    aProduct = await _productService.GetById(inventory.ProductId, cancellation);
+                    allProductPicture = _productPictureService.GetByProducId(aProduct.Id, cancellation);
+                    productCategory = await _categoryService.GetById(aProduct.CategoryId ?? default(int), cancellation);
+
+                    foreach (var picture in allProductPicture)
+                    {
+                        pictureList.Add(await _pictureService.GetById(picture.PictureId ?? default(int), cancellation));
+                    }
+
+                    foreach (var picture in pictureList)
+                    {
+                        aShowProductDto.Url = picture.Url;
+                        break;
+                    }
+
+                    inventoryPrice = await _priceService.GetById(inventory.PriceId ?? default(int), cancellation);
+                    wage = await _wageService.GetAllByInventoyId(inventory.Id, cancellation);
+
+                    aShowProductDto.SellerId = SellerId;
+                    aShowProductDto.ProductId = aProduct.Id;
+                    aShowProductDto.ProductPrice = inventoryPrice.ProdutPrice ?? default(int);
+                    aShowProductDto.ProductCategory = productCategory.Title;
+                    aShowProductDto.ProductName = aProduct.Title;
+                    aShowProductDto.Wage = wage.HowMuch;
+                    aShowProductDto.IsDeletd = aProduct.IsDeleted ?? default(bool);
+
+                    markProduct.Add(aShowProductDto);
+                }
             }
 
             return markProduct;
