@@ -85,6 +85,7 @@ namespace UI.Controllers
                     IsDeleted = seller.IsDeleted ?? default(bool),
                     UserName = seller.UserName,
                     Email = seller.Email,
+                    Wage = await _adminAppServices.ShowSellerWage(seller.Id, cancellation)
                 };
 
                 sellerDto.Add(userToDto);
@@ -109,17 +110,17 @@ namespace UI.Controllers
             return RedirectToAction("ShowTheSeller");
         }
 
-        public IActionResult SellersWage(int Id, CancellationToken cancellation)
-        {
-            var sellerId = _adminAppServices.FindSeller(Id, cancellation);
-            var result = _adminAppServices.ShowSellerWage(sellerId, cancellation);
-            var WageDto = new WageDtoOutput
-            {
-                HowMuch = result
-            };
+        //public IActionResult SellersWage(int Id, CancellationToken cancellation)
+        //{
+        //    var sellerId = _adminAppServices.FindSeller(Id, cancellation);
+        //    var result = _adminAppServices.ShowSellerWage(sellerId, cancellation);
+        //    var WageDto = new WageDtoOutput
+        //    {
+        //        HowMuch = result
+        //    };
 
-            return View(WageDto);
-        }
+        //    return View(WageDto);
+        //}
 
 
         //Edit user

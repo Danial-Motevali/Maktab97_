@@ -199,14 +199,16 @@ namespace App.Domain.Services.AppServices
             return 0;
         }
 
-        public int ShowSellerWage(int SellerId, CancellationToken cancellation)
+        public async Task<int> ShowSellerWage(int UserId, CancellationToken cancellation)
         {
-            var allSellerWage = _wageService.GetAllBySellerId(SellerId, cancellation).Result;
+            var aSeller = _sellerSercies.ByUserId(UserId, cancellation);
+            var allSellerWage = await _wageService.GetAllBySellerId(aSeller.Id, cancellation);
             int sellerWage = 0;
 
             foreach (var wage in allSellerWage)
             {
-                sellerWage = sellerWage + wage.HowMuch;
+                if(wage.IsPaid == false)
+                    sellerWage = sellerWage + wage.HowMuch;
             }
 
             return sellerWage;

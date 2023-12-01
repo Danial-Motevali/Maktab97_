@@ -18,6 +18,7 @@ namespace App.Domain.Core.Models.Dto
 
         public string Email { get; set; }
 
+        public int Wage { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
