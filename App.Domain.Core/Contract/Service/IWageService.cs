@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IWageService
     {
-        Task<bool> Add(Wage input, CancellationToken cancellation);
+        Task<Wage> Add(Wage input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Wage input, CancellationToken cancellation);
 

@@ -18,7 +18,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Comment commentInput, CancellationToken cancellation)
+        public async Task<Comment> Add(Comment commentInput, CancellationToken cancellation)
         {
             return await _repository.Add(commentInput, cancellation);
         }

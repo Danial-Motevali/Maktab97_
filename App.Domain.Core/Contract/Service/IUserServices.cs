@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IUserServices
     {
-        Task<bool> Add(User input, CancellationToken cancellation);
+        Task<User> Add(User input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, User input, CancellationToken cancellation);
 

@@ -18,7 +18,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Wage wageInput, CancellationToken cancellation)
+        public async Task<Wage> Add(Wage wageInput, CancellationToken cancellation)
         {
             return await _repository.Add(wageInput, cancellation);
         }

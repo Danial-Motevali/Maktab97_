@@ -19,7 +19,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Address addressInput, CancellationToken cancellation)
+        public async Task<Address> Add(Address addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }

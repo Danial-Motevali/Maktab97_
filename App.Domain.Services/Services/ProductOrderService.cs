@@ -17,7 +17,7 @@ namespace App.Domain.Services.Services
             _repository = productPicture;
 
         }
-        public async Task<bool> Add(ProductOreder input, CancellationToken cancellation)
+        public async Task<ProductOreder> Add(ProductOreder input, CancellationToken cancellation)
         {
             return await _repository.Add(input, cancellation);
         }

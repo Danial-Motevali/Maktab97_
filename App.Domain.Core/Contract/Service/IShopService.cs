@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IShopService
     {
-        Task<bool> Add(Shop input, CancellationToken cancellation);
+        Task<Shop> Add(Shop input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Shop input, CancellationToken cancellation);
 

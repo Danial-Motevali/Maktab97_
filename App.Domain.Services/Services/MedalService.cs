@@ -18,7 +18,7 @@ namespace App.Domain.Services.Services
             _repository = repository;
         }
 
-        public async Task<bool> Add(Medal addressInput, CancellationToken cancellation)
+        public async Task<Medal> Add(Medal addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }

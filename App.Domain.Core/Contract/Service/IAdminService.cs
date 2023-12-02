@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IAdminService
     {
-        Task<bool> Add(MyAdmin input, CancellationToken cancellation);
+        Task<MyAdmin> Add(MyAdmin input, CancellationToken cancellation);
 
         //Task<bool> Update(int Id, MyAdmin input, CancellationToken cancellation);
 

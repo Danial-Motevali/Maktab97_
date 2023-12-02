@@ -17,7 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Inventory addressInput, CancellationToken cancellation)
+        public async Task<Inventory> Add(Inventory addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }

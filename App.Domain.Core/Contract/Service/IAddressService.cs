@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IAddressService
     {
-        Task<bool> Add(Address input, CancellationToken cancellation);
+        Task<Address> Add(Address input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Address input, CancellationToken cancellation);
 

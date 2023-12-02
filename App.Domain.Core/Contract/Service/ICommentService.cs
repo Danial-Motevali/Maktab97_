@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface ICommentService
     {
-        Task<bool> Add(Comment input, CancellationToken cancellation);
+        Task<Comment> Add(Comment input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Comment input, CancellationToken cancellation);
 

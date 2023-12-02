@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IBuyerService
     {
-        Task<bool> Add(Buyer input, CancellationToken cancellation);
+        Task<Buyer> Add(Buyer input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Buyer input, CancellationToken cancellation);
 

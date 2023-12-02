@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IAuctionService
     {
-        Task<bool> Add(Auction input, CancellationToken cancellation);
+        Task<Auction> Add(Auction input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Auction input, CancellationToken cancellation);
 

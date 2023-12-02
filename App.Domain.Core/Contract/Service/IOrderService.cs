@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IOrderService
     {
-        Task<bool> Add(Order input, CancellationToken cancellation);
+        Task<Order> Add(Order input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Order input, CancellationToken cancellation);
 

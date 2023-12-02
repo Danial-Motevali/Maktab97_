@@ -17,7 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Picture pictureInput, CancellationToken cancellation)
+        public async Task<Picture> Add(Picture pictureInput, CancellationToken cancellation)
         {
             return await _repository.Add(pictureInput, cancellation);
         }

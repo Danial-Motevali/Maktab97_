@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface ICartService
     {
-        Task<bool> Add(Cart input, CancellationToken cancellation);
+        Task<Cart> Add(Cart input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Cart input, CancellationToken cancellation);
 

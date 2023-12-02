@@ -17,7 +17,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Category categoryInput, CancellationToken cancellation)
+        public async Task<Category> Add(Category categoryInput, CancellationToken cancellation)
         {
             return await _repository.Add(categoryInput, cancellation);
         }

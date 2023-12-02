@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface ICategoryService
     {
-        Task<bool> Add(Category input, CancellationToken cancellation);
+        Task<Category> Add(Category input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Category input, CancellationToken cancellation);
 

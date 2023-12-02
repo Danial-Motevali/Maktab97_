@@ -12,7 +12,7 @@ namespace App.Domain.Core.Contract.Service
         List<ProductPicture> GetByProducId(int ProductId, CancellationToken cancellation);
         List<ProductPicture> GetByPictureId(int PictureId, CancellationToken cancellation);
         List<ProductPicture> GetAll(CancellationToken cancellation);
-        Task<bool> Add(ProductPicture input, CancellationToken cancellation);
+        Task<ProductPicture> Add(ProductPicture input, CancellationToken cancellation);
        // List<Product> AllProductctByPictureId(int Picturid, CancellationToken cancellation);
         //List<Product> AllProdutctByProductId(int Picturid, CancellationToken cancellation);
     }

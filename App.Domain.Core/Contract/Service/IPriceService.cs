@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IPriceService
     {
-        Task<bool> Add(Price input, CancellationToken cancellation);
+        Task<Price> Add(Price input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Price input, CancellationToken cancellation);
 

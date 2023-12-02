@@ -50,7 +50,7 @@ namespace App.Domain.Services.Services
             return _picturePictureRepository.GetAll(cancellation);
         }
 
-        public async Task<bool> Add(ProductPicture input, CancellationToken cancellation)
+        public async Task<ProductPicture> Add(ProductPicture input, CancellationToken cancellation)
         {
             return await _picturePictureRepository.Add(input, cancellation);
         }

@@ -18,7 +18,7 @@ namespace App.Domain.Services.Services
         {
             _repository = repository;
         }
-        public async Task<bool> Add(Cart cartInput, CancellationToken cancellation)
+        public async Task<Cart> Add(Cart cartInput, CancellationToken cancellation)
         {
             return await _repository.Add(cartInput, cancellation);
         }

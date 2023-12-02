@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Services
 {
     public interface IInventoryService
     {
-        Task<bool> Add(Inventory input, CancellationToken cancellation);
+        Task<Inventory> Add(Inventory input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Inventory input, CancellationToken cancellation);
 

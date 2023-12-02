@@ -9,7 +9,7 @@ namespace App.Domain.Core.Contract.Service
 {
     public interface IProductOrederService
     {
-        Task<bool> Add(ProductOreder input, CancellationToken cancellation);
+        Task<ProductOreder> Add(ProductOreder input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, ProductOreder input, CancellationToken cancellation);
 

@@ -20,7 +20,7 @@ namespace App.Domain.Services.Services
             _repository = repository;
             _userRepsitory = userRepsitory;
         }
-        public async Task<bool> Add(MyAdmin addressInput, CancellationToken cancellation)
+        public async Task<MyAdmin> Add(MyAdmin addressInput, CancellationToken cancellation)
         {
             return await _repository.Add(addressInput, cancellation);
         }
