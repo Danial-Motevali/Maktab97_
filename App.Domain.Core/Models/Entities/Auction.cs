@@ -8,7 +8,7 @@ public class Auction
 
     public int? LastPrice { get; set; }
 
-    public bool IsActive { get; set; } 
+    public bool IsActive { get; set; } = true;
 
     public int? SellerId { get; set; }
     public Seller? Seller { get; set; } 
