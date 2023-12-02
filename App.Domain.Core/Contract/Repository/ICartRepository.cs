@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICartRepository
     {
-        Task<bool> Add(Cart input, CancellationToken cancellation);
+        Task<Cart> Add(Cart input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Cart input, CancellationToken cancellation);
 

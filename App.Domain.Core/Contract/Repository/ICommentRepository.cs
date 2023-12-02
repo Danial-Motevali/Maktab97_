@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICommentRepository
     {
-        Task<bool> Add(Comment input, CancellationToken cancellation);
+        Task<Comment> Add(Comment input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Comment input, CancellationToken cancellation);
 

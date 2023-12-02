@@ -190,7 +190,7 @@ namespace App.Domain.Services.AppServices
 
                 newProduct.CategoryId = categoryId;
 
-                await _productService.Add(newProduct, cancellation);
+                var createdProduct = await _productService.Add(newProduct, cancellation);
             }
 
             if (input.ProductPrice != null)

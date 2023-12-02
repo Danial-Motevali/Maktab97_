@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IAuctionRepository
     {
-        Task<bool> Add(Auction input, CancellationToken cancellation);
+        Task<Auction> Add(Auction input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Auction input, CancellationToken cancellation);
 

@@ -13,6 +13,6 @@ namespace App.Domain.Core.Contract.Repository
 
         ProductPicture GetById(int Id, CancellationToken cancellation);
 
-        Task<bool> Add(ProductPicture inpur, CancellationToken cancellation);
+        Task<ProductPicture> Add(ProductPicture inpur, CancellationToken cancellation);
     }
 }

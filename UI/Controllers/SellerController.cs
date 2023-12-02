@@ -14,13 +14,15 @@ namespace UI.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ISellerAppService _sellerAppService;
         private readonly ICategoryService _categoryService;
+        private readonly IShopService _shopService;
         private readonly IWebHostEnvironment _env;
-        public SellerController(IWebHostEnvironment env ,ICategoryService categoryService ,ISellerAppService sellerAppService, UserManager<User> userManager)
+        public SellerController(IShopService shopService, IWebHostEnvironment env ,ICategoryService categoryService ,ISellerAppService sellerAppService, UserManager<User> userManager)
         {
             _sellerAppService = sellerAppService;
             _userManager = userManager;
             _categoryService = categoryService;
             _env = env;
+            _shopService = shopService;
         }
 
         public IActionResult Index()
@@ -125,7 +127,7 @@ namespace UI.Controllers
 
             var newProduct = new AddProductDto
             {
-                ShopId = seller.Id,
+                ShopId = _shopService.GetBySellerId(seller.Id, cancellation).Id,
                 category = _categoryService.GetAll(cancellation)
             };
 

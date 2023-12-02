@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IProductOrderRepository
     {
-        Task<bool> Add(ProductOreder input, CancellationToken cancellation);
+        Task<ProductOreder> Add(ProductOreder input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, ProductOreder input, CancellationToken cancellation);
 

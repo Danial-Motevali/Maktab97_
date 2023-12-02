@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> Add(Order input, CancellationToken cancellation)
+        public async Task<Order> Add(Order input, CancellationToken cancellation)
         {
             var address = await _db.orders.FirstOrDefaultAsync(x => x.Id == input.Id);
 
@@ -30,9 +30,9 @@ namespace App.Infrastructure.DataAccess.Repository
                 await _db.orders.AddAsync(input, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
-                return true;
+                return input;
             }
-            return false;
+            return address;
         }
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)

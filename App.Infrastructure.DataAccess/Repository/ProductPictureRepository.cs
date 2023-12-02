@@ -19,7 +19,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
         }
 
-        public async Task<bool> Add(ProductPicture inpur, CancellationToken cancellation)
+        public async Task<ProductPicture> Add(ProductPicture inpur, CancellationToken cancellation)
         {
             var address = await _db.ProductPictures.FirstOrDefaultAsync(x => x.Id == inpur.Id);
 
@@ -28,9 +28,9 @@ namespace App.Infrastructure.DataAccess.Repository
                 await _db.ProductPictures.AddAsync(inpur, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
-                return true;
+                return inpur;
             }
-            return false;
+            return address;
         }
 
         public List<ProductPicture> GetAll(CancellationToken cancellation)

@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IPriceRepository
     {
-        Task<bool> Add(Price input, CancellationToken cancellation);
+        Task<Price> Add(Price input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Price input, CancellationToken cancellation);
 

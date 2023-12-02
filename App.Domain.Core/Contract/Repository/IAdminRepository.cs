@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IAdminRepository
     {
-        Task<bool> Add(MyAdmin input, CancellationToken cancellation);
+        Task<MyAdmin> Add(MyAdmin input, CancellationToken cancellation);
 
         //Task<bool> Update(int Id, MyAdmin input, CancellationToken cancellation);
 

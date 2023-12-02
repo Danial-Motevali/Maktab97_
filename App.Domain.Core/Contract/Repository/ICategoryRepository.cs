@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface ICategoryRepository
     {
-        Task<bool> Add(Category input, CancellationToken cancellation);
+        Task<Category> Add(Category input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Category input, CancellationToken cancellation);
 

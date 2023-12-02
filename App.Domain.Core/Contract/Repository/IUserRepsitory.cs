@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IUserRepsitory
     {
-        Task<bool> Add(User input, CancellationToken cancellation);
+        Task<User> Add(User input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, User input, CancellationToken cancellation);
 

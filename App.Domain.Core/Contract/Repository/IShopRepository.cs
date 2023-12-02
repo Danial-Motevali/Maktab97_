@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IShopRepository
     {
-        Task<bool> Add(Shop input, CancellationToken cancellation);
+        Task<Shop> Add(Shop input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Shop input, CancellationToken cancellation);
 

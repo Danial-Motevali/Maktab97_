@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IPictureRepository
     {
-        Task<bool> Add(Picture input, CancellationToken cancellation);
+        Task<Picture> Add(Picture input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Picture input, CancellationToken cancellation);
 

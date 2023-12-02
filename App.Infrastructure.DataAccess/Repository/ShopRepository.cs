@@ -15,7 +15,7 @@ namespace App.Infrastructure.DataAccess.Repository
             _db = db;
             _mapper = mapper;
         }
-        public async Task<bool> Add(Shop inputAddress, CancellationToken cancellation)
+        public async Task<Shop> Add(Shop inputAddress, CancellationToken cancellation)
         {
             var address = await _db.Shops.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
@@ -24,9 +24,9 @@ namespace App.Infrastructure.DataAccess.Repository
                 await _db.Shops.AddAsync(inputAddress);
                 await _db.SaveChangesAsync();
 
-                return true;
+                return inputAddress;
             }
-            return false;
+            return address;
         }
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)

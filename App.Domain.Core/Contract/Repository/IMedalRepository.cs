@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IMedalRepository
     {
-        Task<bool> Add(Medal input, CancellationToken cancellation);
+        Task<Medal> Add(Medal input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Medal input, CancellationToken cancellation);
 

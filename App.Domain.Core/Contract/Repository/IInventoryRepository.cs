@@ -10,7 +10,7 @@ namespace App.Domain.Core.Contract.Repository
 {
     public interface IInventoryRepository
     {
-        Task<bool> Add(Inventory input, CancellationToken cancellation);
+        Task<Inventory> Add(Inventory input, CancellationToken cancellation);
 
         Task<bool> Update(int Id, Inventory input, CancellationToken cancellation);
 
