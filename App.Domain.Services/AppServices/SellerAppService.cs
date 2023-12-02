@@ -81,7 +81,7 @@ namespace App.Domain.Services.AppServices
                 IsDeleted = false,
             };
 
-            await _shopService.Add(newShop, cancellation);
+            var createdShop = await _shopService.Add(newShop, cancellation);
 
             return shopDto;
         }
@@ -173,7 +173,12 @@ namespace App.Domain.Services.AppServices
             var newWage = new Wage();
             int sellerWage = 0;
             int categoryId = 1;
-
+            var createdProduct = new Product();
+            var createdPrice = new Price();
+            var createdInventory = new Inventory();
+            var createdWage = new Wage();
+            var createdPicture = new Picture();
+            var createdProductPicture = new ProductPicture();
 
             newProduct.Title = input.ProductTitle;
             newProduct.IsDeleted = false;
@@ -190,7 +195,7 @@ namespace App.Domain.Services.AppServices
 
                 newProduct.CategoryId = categoryId;
 
-                var createdProduct = await _productService.Add(newProduct, cancellation);
+                createdProduct = await _productService.Add(newProduct, cancellation);
             }
 
             if (input.ProductPrice != null)
@@ -198,40 +203,40 @@ namespace App.Domain.Services.AppServices
                 newPrice.ProdutPrice = input.ProductPrice ?? default(int);
                 newPrice.IsDeleted = false;
 
-                await _priceService.Add(newPrice, cancellation);
+                createdPrice = await _priceService.Add(newPrice, cancellation);
             }
 
             newInventory.IsDeleted = false;
             newInventory.ShopId = input.ShopId;
             newInventory.Qnt = input.Qnt;
-            newInventory.ProductId = FindProductId(input, cancellation);
+            newInventory.ProductId = /*FindProductId(input, cancellation);*/ createdProduct.Id;
             if(input.ProductPrice != null)
             {
-                newInventory.PriceId = newPrice.Id /*FindPriceId(input, cancellation)*/;
+                newInventory.PriceId =  createdPrice.Id/*FindPriceId(input, cancellation)*/;
             };
 
-            await _inventoryService.Add(newInventory, cancellation);
+            createdInventory = await _inventoryService.Add(newInventory, cancellation);
 
 
             newWage.IsDeleted = false;
             newWage.SellerId = seller.Id;
             newWage.HowMuch = await CaculeteWage(seller, input.ProductPrice ??default(int), cancellation);
             newWage.IsPaid = false;
-            newWage.InventoryId = newInventory.Id;
+            newWage.InventoryId = createdInventory.Id;
 
-            await _wageService.Add(newWage, cancellation);
+            createdWage = await _wageService.Add(newWage, cancellation);
 
             if(input.PictureUrl != null)
             {
                 newPicture.Url = input.PictureUrl;
                 newPicture.IsDeleted = false;
 
-                await _pictureService.Add(newPicture, cancellation);
+                createdPicture = await _pictureService.Add(newPicture, cancellation);
 
                 newProductPicture.PictureId = FindPictureId(input, cancellation);
-                newProductPicture.ProductId = newProduct.Id; /*FindProductId(input, cancellation);*/
+                newProductPicture.ProductId = createdProduct.Id; /*FindProductId(input, cancellation);*/
 
-                await _productPictureService.Add(newProductPicture, cancellation);
+                createdProductPicture = await _productPictureService.Add(newProductPicture, cancellation);
             }
 
             return true;
@@ -293,35 +298,35 @@ namespace App.Domain.Services.AppServices
             return 0;
         }
 
-        public int FindProductId(AddProductDto add, CancellationToken cancellation)
-        {
-            var allProduct = _productService.GetAll(cancellation);
+        //public int FindProductId(AddProductDto add, CancellationToken cancellation)
+        //{
+        //    var allProduct = _productService.GetAll(cancellation);
 
-            foreach (var product in allProduct)
-            {
-                if (product.Title == add.ProductTitle)
-                {
-                    return product.Id;
-                }
-            }
+        //    foreach (var product in allProduct)
+        //    {
+        //        if (product.Title == add.ProductTitle)
+        //        {
+        //            return product.Id;
+        //        }
+        //    }
 
-            return 0;
-        }
+        //    return 0;
+        //}
 
-        public int FindPriceId(AddProductDto input, CancellationToken cancellation)
-        {
-            var allProduct = _priceService.GetAll(cancellation);
+        //public int FindPriceId(AddProductDto input, CancellationToken cancellation)
+        //{
+        //    var allProduct = _priceService.GetAll(cancellation);
 
-            foreach (var product in allProduct)
-            {
-                if (product.ProdutPrice == input.ProductPrice)
-                {
-                    return product.Id;
-                }
-            }
+        //    foreach (var product in allProduct)
+        //    {
+        //        if (product.ProdutPrice == input.ProductPrice)
+        //        {
+        //            return product.Id;
+        //        }
+        //    }
 
-            return 0;
-        }
+        //    return 0;
+        //}
 
         public async Task<bool> AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation)
         {
