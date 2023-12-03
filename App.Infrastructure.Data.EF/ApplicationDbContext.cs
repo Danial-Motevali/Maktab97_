@@ -193,7 +193,7 @@ namespace App.Infrastructure.Data.EF
                     .HasConstraintName("FK_ProductOreder_Order");
 
                 entity.HasOne(d => d.Inventory).WithMany(p => p.inventoryOreders)
-                    .HasForeignKey(d => d.Inventory)
+                    .HasForeignKey(d => d.InventoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductOreder_Products");
 

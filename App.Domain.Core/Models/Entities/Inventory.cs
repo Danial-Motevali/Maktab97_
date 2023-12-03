@@ -25,5 +25,5 @@ public class Inventory
 
     public Shop? Shop { get; set; }
 
-    public IEnumerable<InventoryOreder>? inventoryOreders { get; set; }
+    public ICollection<InventoryOreder>? inventoryOreders { get; set; }
 }
