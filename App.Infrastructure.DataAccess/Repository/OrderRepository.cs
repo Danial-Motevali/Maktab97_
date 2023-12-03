@@ -64,13 +64,6 @@ namespace App.Infrastructure.DataAccess.Repository
             return address;
         }
 
-        public async Task<Order> GetByBuyerId(int BuyerId, CancellationToken cancellation)
-        {
-            var address = _db.orders.FirstOrDefault(x => x.BuyerId == BuyerId);
-
-            return address;
-        }
-
         public async Task<bool> Update(int Id, Order input, CancellationToken cancellation)
         {
             var address = _db.orders.FirstOrDefault(x => x.Id == Id);

@@ -19,7 +19,5 @@ namespace App.Domain.Core.Contract.Repository
         Task<Order> GetById(int Id, CancellationToken cancellation);
 
         List<Order> GetAll(CancellationToken cancellation);
-
-        Task<Order> GetByBuyerId(int BuyerId, CancellationToken cancellation);
     }
 }

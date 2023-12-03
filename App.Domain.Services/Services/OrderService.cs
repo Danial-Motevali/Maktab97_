@@ -37,9 +37,18 @@ namespace App.Domain.Services.Services
             return _repository.GetAll(cancellation);
         }
 
-        public async Task<Order> GetByBuyerId(int BuyerId, CancellationToken cancellation)
+        public async Task<List<Order>> GetByBuyerId(int BuyerId, CancellationToken cancellation)
         {
-            return await _repository.GetByBuyerId(BuyerId, cancellation);
+            var allOrder = _repository.GetAll(cancellation);
+            var markList = new List<Order>();
+
+            foreach (var item in allOrder)
+            {
+                if(item.BuyerId == BuyerId)
+                    markList.Add(item);
+            }
+
+            return markList;
         }
 
         public async Task<Order> GetById(int Id, CancellationToken cancellation)
