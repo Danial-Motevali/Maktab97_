@@ -171,5 +171,13 @@ namespace UI.Controllers
 
             return RedirectToAction("CommentSection");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(int CommentId, CancellationToken cancellation)
+        {
+            await _buyerAppService.DeleteComment(CommentId, cancellation);
+
+            return RedirectToAction("ShowComment");
+        }
     }
 }

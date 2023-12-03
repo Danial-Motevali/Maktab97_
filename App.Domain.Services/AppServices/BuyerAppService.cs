@@ -437,12 +437,20 @@ namespace App.Domain.Services.AppServices
         public async Task<List<Comment>> ShowComment(Buyer Buyer, CancellationToken cancellation)
         {
             var allComment = _commentService.GetByBuyerId(Buyer.Id, cancellation);
+            var activeComment = new List<Comment>();
 
-            return allComment;
+            foreach(var comment in allComment)
+            {
+                if(comment.IsDeleted == false)
+                    activeComment.Add(comment);
+            }
+
+            return activeComment;
         }
 
         public async Task<bool> AddComment(Comment input, CancellationToken cancellation)
         {
+            input.TimeOfCreate = DateTime.Now;
             var createdComment = _commentService.Add(input, cancellation);
 
             return true;
@@ -498,6 +506,17 @@ namespace App.Domain.Services.AppServices
             aBuyerCartDto.ProdutName = aProduct.Title;
 
             return aBuyerCartDto;
+        }
+
+        public async Task<bool> DeleteComment(int CommentId, CancellationToken cancellation)
+        {
+            var aComment = await _commentService.GetById(CommentId, cancellation);
+
+            aComment.IsDeleted = true;
+
+            await _commentService.Update(CommentId ,aComment, cancellation);
+
+            return true;
         }
     }
 }

@@ -12,7 +12,7 @@ public class Comment
 
     public DateTime? TimeOfCreate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; } = false;
 
     public int? BuyerId { get; set; }
 
