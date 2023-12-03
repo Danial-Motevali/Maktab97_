@@ -15,6 +15,10 @@ namespace App.Domain.Core.Models.Entities
 
         public Buyer? Buyer { get; set; } 
 
+        public int? SellerId { get; set; }
+
+        public Seller? Seller { get; set; }
+
         public bool? IsDeleted { get; set; } = false;
 
         public ICollection<ProductOreder>? productOreders { get; set; } 

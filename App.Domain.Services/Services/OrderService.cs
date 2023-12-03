@@ -47,6 +47,20 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
+        public async Task<List<Order>> GetBySellerId(int sellerId, CancellationToken cancellation)
+        {
+            var allOrders =  _repository.GetAll(cancellation);
+            var markList = new List<Order>();
+
+            foreach(var order in allOrders)
+            {
+                if(order.SellerId == sellerId)
+                    markList.Add(order);
+            }
+
+            return markList;
+        }
+
         public async Task<bool> Update(int Id, Order input, CancellationToken cancellation)
         {
             return await _repository.Update(Id, input, cancellation);

@@ -20,5 +20,7 @@ namespace App.Domain.Core.Contract.Service
         Task<List<Order>> GetAll(CancellationToken cancellation);
 
         Task<Order> GetByBuyerId(int BuyerId, CancellationToken cancellation);
+
+        Task<List<Order>> GetBySellerId(int sellerId, CancellationToken cancellation);
     }
 }
