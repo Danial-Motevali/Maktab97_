@@ -125,15 +125,22 @@ namespace UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CommentSection(CancellationToken cancellation)
+        public async Task<IActionResult> ShowComment(CancellationToken cancellation)
         {
             int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var buyer = _buyerAppService.FindBuyer(userId, cancellation);
 
-            var allComments = await _buyerAppService.CommentSection(buyer, cancellation);
+            var allComments = await _buyerAppService.ShowComment(buyer, cancellation);
 
             return View(allComments);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CommentSection(CancellationToken cancellation)
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> AddComment(CancellationToken cancellation)
@@ -150,8 +157,10 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(string Title, string Description, CancellationToken cancellation)
+        public async Task<IActionResult> AddComment(Comment input, CancellationToken cancellation)
         {
+            await _buyerAppService.AddComment(input, cancellation);
+
             return RedirectToAction("CommentSection");
         }
     }

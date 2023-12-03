@@ -434,11 +434,18 @@ namespace App.Domain.Services.AppServices
             return true;
         }
 
-        public async Task<List<Comment>> CommentSection(Buyer Buyer, CancellationToken cancellation)
+        public async Task<List<Comment>> ShowComment(Buyer Buyer, CancellationToken cancellation)
         {
             var allComment = _commentService.GetByBuyerId(Buyer.Id, cancellation);
 
             return allComment;
+        }
+
+        public async Task<bool> AddComment(Comment input, CancellationToken cancellation)
+        {
+            var createdComment = _commentService.Add(input, cancellation);
+
+            return true;
         }
     }
 }
