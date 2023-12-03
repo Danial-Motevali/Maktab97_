@@ -23,16 +23,16 @@ namespace App.Infrastructure.DataAccess.Repository
         }
         public async Task<Comment> Add(Comment inputAddress, CancellationToken cancellation)
         {
-            var address = await _db.Comments.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            //var address = await _db.Comments.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
-            if (address == null)
-            {
+            //if (address == null)
+            //{
                 await _db.Comments.AddAsync(inputAddress, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return inputAddress;
-            }
-            return address;
+            //}
+            //return address;
         }
 
         public async Task<bool> Delete(int CommentId, CancellationToken cancellation)
