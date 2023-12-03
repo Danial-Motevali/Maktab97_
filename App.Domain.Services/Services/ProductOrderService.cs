@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.Services
 {
-    public class ProductOrderService : IProductOrederService
+    public class InventoryOrederService : IInventoryOrederService
     {
-        private readonly IProductOrderRepository _repository;
-        public ProductOrderService(IProductOrderRepository productPicture)
+        private readonly IInventoryOrderRepository _repository;
+        public InventoryOrederService(IInventoryOrderRepository productPicture)
         {
             _repository = productPicture;
 
         }
-        public async Task<ProductOreder> Add(ProductOreder input, CancellationToken cancellation)
+        public async Task<InventoryOreder> Add(InventoryOreder input, CancellationToken cancellation)
         {
             return await _repository.Add(input, cancellation);
         }
@@ -33,27 +33,45 @@ namespace App.Domain.Services.Services
             return false;
         }
 
-        public async Task<List<ProductOreder>> GetAll(CancellationToken cancellation)
+        public async Task<List<InventoryOreder>> GetAll(CancellationToken cancellation)
         {
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task<ProductOreder> GetById(int Id, CancellationToken cancellation)
+        public async Task<InventoryOreder> GetById(int Id, CancellationToken cancellation)
         {
             return await _repository.GetById(Id, cancellation);
         }
 
-        public async Task<List<ProductOreder>> GetByOrderId(int OrderId, CancellationToken cancellation)
+        public async Task<List<InventoryOreder>> GetByOrderId(int OrderId, CancellationToken cancellation)
         {
-            return await _repository.GetOrderId(OrderId, cancellation);
+            var allOrder = await _repository.GetAll(cancellation);
+            var markList = new List<InventoryOreder>();
+
+            foreach (var order in allOrder)
+            {
+                if(order.OrederId == OrderId)
+                    markList.Add(order);
+            }
+
+            return markList;
         }
 
-        public async Task<List<ProductOreder>> GetByProductId(int ProductId, CancellationToken cancellation)
+        public async Task<List<InventoryOreder>> GetInventoryId(int InventoryId, CancellationToken cancellation)
         {
-            return await _repository.GetProductId(ProductId, cancellation);
+            var allOrder = await _repository.GetAll(cancellation);
+            var markList = new List<InventoryOreder>();
+
+            foreach (var order in allOrder)
+            {
+                if (order.InventoryId == InventoryId)
+                    markList.Add(order);
+            }
+
+            return markList;
         }
 
-        public async Task<bool> Update(int Id, ProductOreder input, CancellationToken cancellation)
+        public async Task<bool> Update(int Id, InventoryOreder input, CancellationToken cancellation)
         {
             return await _repository.Update(Id, input, cancellation);
         }

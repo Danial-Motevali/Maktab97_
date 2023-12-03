@@ -44,7 +44,7 @@ namespace App.Infrastructure.Data.EF
 
         public DbSet<Order> orders { get; set; }
 
-        public DbSet<ProductOreder> productOreders { get; set; }
+        public DbSet<InventoryOreder> inventoryOreder { get; set; }
 
         //Identity
         public DbSet<Buyer> Buyers { get; set; }
@@ -183,17 +183,17 @@ namespace App.Infrastructure.Data.EF
 
             });
 
-            modelBuilder.Entity<ProductOreder>(entity =>
+            modelBuilder.Entity<InventoryOreder>(entity =>
             {
                 entity.ToTable("ProductOreder");
 
-                entity.HasOne(d => d.Order).WithMany(p => p.productOreders)
+                entity.HasOne(d => d.Order).WithMany(p => p.inventoryOreders)
                     .HasForeignKey(d => d.OrederId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductOreder_Order");
 
-                entity.HasOne(d => d.Product).WithMany(p => p.productOreders)
-                    .HasForeignKey(d => d.ProductId)
+                entity.HasOne(d => d.Inventory).WithMany(p => p.inventoryOreders)
+                    .HasForeignKey(d => d.Inventory)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProductOreder_Products");
 

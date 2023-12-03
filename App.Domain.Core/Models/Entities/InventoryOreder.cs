@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Models.Entities
 {
-    public class ProductOreder
+    public class InventoryOreder
     {
         public int Id { get; set; }
 
@@ -15,9 +15,9 @@ namespace App.Domain.Core.Models.Entities
 
         public Order? Order { get; set; } 
 
-        public int? ProductId { get; set; }
+        public int? InventoryId { get; set; }
 
-        public Product? Product { get; set; } 
+        public Inventory? Inventory { get; set; } 
 
         public bool? IsDeleted { get; set; } = false;
     }

@@ -1,4 +1,6 @@
-﻿namespace App.Domain.Core.Entities;
+﻿using App.Domain.Core.Models.Entities;
+
+namespace App.Domain.Core.Entities;
 
 public class Inventory
 {
@@ -22,4 +24,6 @@ public class Inventory
     public int? ShopId { get; set; }
 
     public Shop? Shop { get; set; }
+
+    public IEnumerable<InventoryOreder>? inventoryOreders { get; set; }
 }

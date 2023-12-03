@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Models.Identity.Entites;
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,9 @@ namespace App.Domain.Core.Models.Entities
 
         public Buyer? Buyer { get; set; } 
 
-        public int? SellerId { get; set; }
-
-        public Seller? Seller { get; set; }
-
         public bool? IsDeleted { get; set; } = false;
 
-        public ICollection<ProductOreder>? productOreders { get; set; } 
+        public ICollection<InventoryOreder>? inventoryOreders { get; set; } 
 
     }
 }

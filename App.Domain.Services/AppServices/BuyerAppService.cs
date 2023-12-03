@@ -34,7 +34,7 @@ namespace App.Domain.Services.AppServices
         private readonly IAuctionService _auctionService;
         private readonly ICommentService _commentService;
         private readonly IOrderService _orderService;
-        private readonly IProductOrederService _productOrederService;
+        private readonly IInventoryOrederService _productOrederService;
         public BuyerAppService(
              IPriceService priceService 
             ,ICategoryService categoryService
@@ -50,7 +50,7 @@ namespace App.Domain.Services.AppServices
             , IAuctionService auctionService
             , ICommentService commentService
             , IOrderService orderService
-            , IProductOrederService productOrederService
+            , IInventoryOrederService productOrederService
             )
         {
             _userServices = userServices;
@@ -405,7 +405,7 @@ namespace App.Domain.Services.AppServices
 
         public async Task<bool> CreateNewOrder(int BuyerId, int InventoryId, CancellationToken cancellation)
         {
-            var newProOrder = new ProductOreder();
+            var newProOrder = new InventoryOreder();
             var newOrder = new Order();
             var aInventory = await _inventoryService.GetById(InventoryId, cancellation);
             var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
@@ -417,7 +417,7 @@ namespace App.Domain.Services.AppServices
 
             newProOrder.IsDeleted = false;
             newProOrder.OrederId = newOrder.Id;
-            newProOrder.ProductId = aProduct.Id;
+            newProOrder.InventoryId = aInventory.Id;
 
             await _productOrederService.Add(newProOrder, cancellation);
 
@@ -446,6 +446,22 @@ namespace App.Domain.Services.AppServices
             var createdComment = _commentService.Add(input, cancellation);
 
             return true;
+        }
+
+        public async Task<List<BuyerCartDto>> OrderetProdut(Buyer input, CancellationToken cancellation)
+        {
+            var allOrder = await _orderService.GetByBuyerId(input.Id, cancellation);
+            var orderInventoyr = new List<Inventory>();
+            var aOrderInventory = new Inventory();
+            var orderedProduct = new List<BuyerCartDto>();
+
+            //foreach (var item in allOrder)
+            //{
+            //    aOrderInventory = _inventoryService.GetById(item.i);
+                
+            //}
+
+            return orderedProduct;
         }
     }
 }

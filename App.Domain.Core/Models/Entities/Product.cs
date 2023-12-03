@@ -18,5 +18,4 @@ public class Product
 
     public ICollection<ProductPicture>? ProductPictures { get; set; } 
 
-    public ICollection<ProductOreder>? productOreders { get; set; } 
 }

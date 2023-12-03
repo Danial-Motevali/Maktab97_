@@ -28,5 +28,7 @@ namespace App.Domain.Core.Contract.AppServices
         Task<List<Comment>> ShowComment(Buyer Buyer, CancellationToken cancellation);
 
         Task<bool> AddComment(Comment input, CancellationToken cancellation);
+
+        Task<List<BuyerCartDto>> OrderetProdut(Buyer input, CancellationToken cancellation);
     }
 }

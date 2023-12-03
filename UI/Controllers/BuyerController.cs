@@ -138,6 +138,11 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> CommentSection(CancellationToken cancellation)
         {
+            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+
+            var allOrder = await _buyerAppService.OrderetProdut(buyer, cancellation);
+
             return View();
         }
 
