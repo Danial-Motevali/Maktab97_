@@ -1,7 +1,9 @@
 ﻿using App.Domain.Core.Contract.AppServices;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Domain.Services.AppServices;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -122,5 +124,35 @@ namespace UI.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CommentSection(CancellationToken cancellation)
+        {
+            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+
+            var allComments = await _buyerAppService.CommentSection(buyer, cancellation);
+
+            return View(allComments);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddComment(CancellationToken cancellation)
+        {
+            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+
+            var newComment = new Comment()
+            {
+                BuyerId = buyer.Id
+            };
+
+            return View(newComment);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(string Title, string Description, CancellationToken cancellation)
+        {
+            return RedirectToAction("CommentSection");
+        }
     }
 }
