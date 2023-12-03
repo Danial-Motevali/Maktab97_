@@ -34,7 +34,7 @@ namespace App.Domain.Services.AppServices
         private readonly IAuctionService _auctionService;
         private readonly ICommentService _commentService;
         private readonly IOrderService _orderService;
-        private readonly IInventoryOrederService _productOrederService;
+        private readonly IInventoryOrederService _inventoryOrederService;
         public BuyerAppService(
              IPriceService priceService 
             ,ICategoryService categoryService
@@ -50,7 +50,7 @@ namespace App.Domain.Services.AppServices
             , IAuctionService auctionService
             , ICommentService commentService
             , IOrderService orderService
-            , IInventoryOrederService productOrederService
+            , IInventoryOrederService inventoryOrederService
             )
         {
             _userServices = userServices;
@@ -67,7 +67,7 @@ namespace App.Domain.Services.AppServices
             _auctionService = auctionService;
             _commentService = commentService;
             _orderService = orderService;
-            _productOrederService = productOrederService;
+            _inventoryOrederService = inventoryOrederService;
         }
 
 
@@ -419,7 +419,7 @@ namespace App.Domain.Services.AppServices
             newProOrder.OrederId = newOrder.Id;
             newProOrder.InventoryId = aInventory.Id;
 
-            await _productOrederService.Add(newProOrder, cancellation);
+            await _inventoryOrederService.Add(newProOrder, cancellation);
 
             return true;
         }
@@ -451,17 +451,53 @@ namespace App.Domain.Services.AppServices
         public async Task<List<BuyerCartDto>> OrderetProdut(Buyer input, CancellationToken cancellation)
         {
             var allOrder = await _orderService.GetByBuyerId(input.Id, cancellation);
-            var orderInventoyr = new List<Inventory>();
-            var aOrderInventory = new Inventory();
+            var allInventoryOrder = new List<InventoryOreder>();
             var orderedProduct = new List<BuyerCartDto>();
+            var aBuyerCartDto = new BuyerCartDto();
 
-            //foreach (var item in allOrder)
-            //{
-            //    aOrderInventory = _inventoryService.GetById(item.i);
-                
-            //}
+            foreach (var order in allOrder)
+            {
+                allInventoryOrder.AddRange(await _inventoryOrederService.GetByOrderId(order.Id, cancellation));
+            }
+
+            foreach(var inventory in allInventoryOrder)
+            {
+                var aInventory = await _inventoryService.GetById(inventory.InventoryId??default(int), cancellation);
+                var newBuyerCartDto = await OrderetProdutHelper(aInventory, cancellation);
+
+                aBuyerCartDto.BuyerId = input.Id;
+                aBuyerCartDto.InventoryId = inventory.InventoryId;
+                aBuyerCartDto.ProductId = aInventory.ProductId;
+                aBuyerCartDto.ProductPrice = newBuyerCartDto.ProductPrice;
+                aBuyerCartDto.ProdutName = newBuyerCartDto.ProdutName;
+                aBuyerCartDto.Url = newBuyerCartDto.Url;
+
+                orderedProduct.Add(aBuyerCartDto);
+            }
 
             return orderedProduct;
+        }
+
+        public async Task<BuyerCartDto> OrderetProdutHelper(Inventory input, CancellationToken cancellation)
+        {
+            var aBuyerCartDto = new BuyerCartDto();
+            var aPrice = await _priceService.GetById(input.PriceId??default(int), cancellation);
+            var aProduct = await _productService.GetById(input.ProductId, cancellation);
+            var allProductPicture = _productPictureService.GetByProducId(aProduct.Id, cancellation);
+            var allPicture = new Picture();
+
+            foreach (var product in allProductPicture)
+            {
+                allPicture = await _pictureService.GetById(product.PictureId??default(int), cancellation); 
+                aBuyerCartDto.Url = allPicture.Url;
+
+                break;
+            }
+
+            aBuyerCartDto.ProductPrice = aPrice.ProdutPrice;
+            aBuyerCartDto.ProdutName = aProduct.Title;
+
+            return aBuyerCartDto;
         }
     }
 }

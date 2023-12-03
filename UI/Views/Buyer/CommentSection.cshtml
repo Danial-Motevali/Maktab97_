@@ -1,5 +1,4 @@
-﻿@model App.Domain.Core.Entities.Comment
-
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.Buyer.BuyerCartDto>
 
 
 <!DOCTYPE html>
@@ -30,7 +29,6 @@
     <!-- Feather icon-->
     <link rel="stylesheet" type="text/css" href="../assets/css/feather-icon.css">
     <!-- Plugins css start-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/summernote.css">
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css">
@@ -219,8 +217,11 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="home"></i><span>Dashboard</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="index.html">Default</a></li>
-                                        <li><a href="dashboard-02.html">Ecommerce</a></li>
+                                        @* over here *@
+                                        <li><a asp-controller="Buyer" asp-action="Action">Action</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="Cart">Cart</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="EditProfile">EditProfile</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -233,7 +234,7 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="layout"></i><span>Page layout</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="box-layout.html">Boxed</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="EditProfile">EditProfile</a></li>
                                         <li><a href="layout-rtl.html">RTL</a></li>
                                         <li><a href="layout-dark.html">Dark</a></li>
                                         <li><a href="footer-light.html">Footer Light</a></li>
@@ -665,12 +666,15 @@
                     <div class="page-header">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3>Summer Note</h3>
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                    <li class="breadcrumb-item">Editors</li>
-                                    <li class="breadcrumb-item active">Summer Note</li>
-                                </ol>
+                                <div class="page-header-left">
+                                    <h3>Cart</h3>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-item">Pages    </li>
+                                        <li class="breadcrumb-item">Ecommerce</li>
+                                        <li class="breadcrumb-item active">Cart</li>
+                                    </ol>
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <!-- Bookmark Start-->
@@ -695,29 +699,68 @@
                         </div>
                     </div>
                 </div>
-                <!-- Container-fluid starts                    -->
-                <div class="container-fluid summer-note">
+                <!-- Container-fluid starts-->
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card">
-                                <form asp-controller="Buyer" asp-action="AddComment" method="post">
-                                    <div class="card-header pb-0">
-                                        <h5>
-                                            <label>Title: </label>
-                                            <input type="text" asp-for="Title" />
-                                        </h5>
+                                <div class="card-header pb-0">
+                                    <h5>Cart</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="order-history table-responsive wishlist">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Prdouct</th>
+                                                        <th>Prdouct Name</th>
+                                                        <th>Price</th>
+                                                        <th>AddComment</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td><img class="img-fluid img-40" src="~/Images/@item.Url" alt="#"></td>
+                                                                <td>
+                                                                    <div class="product-name">
+                                                                        <a href="#">
+                                                                            <h6>@item.ProdutName</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td>@item.ProductPrice</td>
+                                                                <td>
+                                                                    <form asp-controller="Buyer" asp-action="AddComment" method="get" class="form-inline search-form">
+                                                                        <div class="form-group form-control-search">
+                                                                            @* @for (int i = 0; i < Model.Count(); i++)
+                                                                            {
+                                                                                <input name="outputList[@i].BuyerId" value="@Model[i].BuyerId" type="hidden" />
+                                                                                <input name="outputList[@i].ProductId" value="@Model[i].ProductId" type="hidden" />
+                                                                                <input name="outputList[@i].CartId" value="@Model[i].CartId" type="hidden" />
+                                                                                <input name="outputList[@i].InventoryId" value="@Model[i].InventoryId" type="hidden" />
+                                                                                <input name="outputList[@i].ProductPrice" value="@Model[i].ProductPrice" type="hidden" />
+                                                                                <input name="outputList[@i].CreatedDate" value="@Model[i].CreatedDate" type="hidden" />
+                                                                            } *@
+                                                                            <input type="hidden" value="@item.InventoryId" name="InventoryId">
+                                                                            <button type="submit" class="btn btn-primary">Comment</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </td> 
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                            <label>Description: </label>
-                                            <input type="text" asp-for="Description" />
-                                    </div>
-                                    <input type="hidden" asp-for="BuyerId" value="@Model.BuyerId"/>
-                                    <input type="hidden" asp-for="InventoryId" value="@Model.InventoryId"/>
-                                    <button type="submit" class="btn btn-success">Add</button>
-                                </form>
+                                </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
                 <!-- Container-fluid Ends-->
@@ -749,10 +792,9 @@
     <script src="../assets/js/bootstrap/popper.min.js"></script>
     <script src="../assets/js/bootstrap/bootstrap.min.js"></script>
     <!-- Plugins JS start-->
-    <script src="../assets/js/jquery.ui.min.js"></script>
-    <script src="../assets/js/editor/summernote/summernote.js"></script>
-    <script src="../assets/js/editor/summernote/summernote.custom.js"></script>
-    <script src="../assets/js/tooltip-init.js"></script>
+    <script src="../assets/js/touchspin/vendors.min.js"></script>
+    <script src="../assets/js/touchspin/touchspin.js"></script>
+    <script src="../assets/js/touchspin/input-groups.min.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="../assets/js/script.js"></script>
