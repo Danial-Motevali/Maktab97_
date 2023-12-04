@@ -19,9 +19,11 @@ namespace UI.Controllers
             _buyerAppService = buyerAppService;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken cancellation)
         {
-            return View();
+            var allProduct = await _buyerAppService.ShowAllProduct(cancellation);
+
+            return View(allProduct);
         }
 
         [HttpPost]

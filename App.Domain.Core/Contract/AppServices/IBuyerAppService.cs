@@ -32,5 +32,7 @@ namespace App.Domain.Core.Contract.AppServices
         Task<List<BuyerCartDto>> OrderetProdut(Buyer input, CancellationToken cancellation);
 
         Task<bool> DeleteComment(int CommentId, CancellationToken cancellation);
+
+        Task<List<BuyerSearchDto>> ShowAllProduct(CancellationToken cancellation);
     }
 }

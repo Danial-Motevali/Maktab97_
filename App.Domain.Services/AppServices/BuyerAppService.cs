@@ -71,6 +71,19 @@ namespace App.Domain.Services.AppServices
         }
 
 
+        public async Task<List<BuyerSearchDto>> ShowAllProduct(CancellationToken cancellation)
+        {
+            var searchDto = new List<BuyerSearchDto>();
+            var allCategory = _categoryService.GetAll(cancellation);
+
+            foreach(var category in allCategory)
+            {
+                searchDto.AddRange(await SearchWithCategory(category, cancellation));
+            }
+
+            return searchDto;
+        }
+
         public async Task<List<BuyerSearchDto>> Search(string search, CancellationToken cancellation)
         {
             var searchDto = new List<BuyerSearchDto>();
@@ -152,6 +165,9 @@ namespace App.Domain.Services.AppServices
 
             foreach (var inventory in targetInventorys)
             {
+                if (inventory.IsDeleted == true)
+                    continue;
+
                 var aBuyerSearchDto = new BuyerSearchDto();
                 if (inventory.AuctionId == null)
                 {
@@ -518,5 +534,7 @@ namespace App.Domain.Services.AppServices
 
             return true;
         }
+
+        
     }
 }
