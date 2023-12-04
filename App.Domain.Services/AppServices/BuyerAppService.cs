@@ -8,6 +8,7 @@ using App.Domain.Core.Models.Identity.Entites;
 using App.Domain.Core.Models.Identity.Role;
 using App.Domain.Services.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -536,6 +537,30 @@ namespace App.Domain.Services.AppServices
             return true;
         }
 
-        
+        public async Task<List<BuyerUserCartDto>> FuildBuyerDto(int UserId, CancellationToken cancellation)
+        {
+            var newBuyerUserCartDto = new List<BuyerUserCartDto>();
+            var aBuyer = _buyerService.ByUserId(UserId, cancellation);
+            var allCart = await _cartService.GetByBuyerId(aBuyer.Id, cancellation);
+
+            if (allCart != null)
+            {
+                foreach (var cart in allCart)
+                {
+                    if (cart.IsActive == false)
+                    {
+                        var newCart = new BuyerUserCartDto();
+
+                        newCart.Title = await ProdutNameByCartId(cart, cancellation);
+                        newCart.Price = await PriceByCart(cart, cancellation);
+                        newCart.Url = await PictureByCart(cart, cancellation);
+
+                        newBuyerUserCartDto.Add(newCart);
+                    }
+                }
+            }
+
+            return newBuyerUserCartDto;
+        }
     }
 }

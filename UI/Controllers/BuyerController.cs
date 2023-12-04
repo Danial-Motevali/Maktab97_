@@ -78,7 +78,7 @@ namespace UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditProfile()
+        public async Task<IActionResult> EditProfile(CancellationToken cancellation)
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -90,8 +90,17 @@ namespace UI.Controllers
             if (user == null)
                 return NotFound();
 
+            var newUserDot = new BuyerUserDto()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                UserName = user.UserName,
+                Product = await _buyerAppService.FuildBuyerDto(user.Id, cancellation)
+            };
 
-            return View(user);
+            return View(newUserDot);
         }
 
         [HttpPost]
@@ -125,6 +134,7 @@ namespace UI.Controllers
 
             return View(result);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ShowComment(CancellationToken cancellation)
