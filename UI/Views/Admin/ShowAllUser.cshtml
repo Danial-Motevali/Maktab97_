@@ -748,6 +748,7 @@ else
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Role</th>
+                                                <th scope="col">EditUser</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -764,6 +765,12 @@ else
                                                         <td>@item.UserName</td>
                                                         <td>@item.Email</td>
                                                         <td>@item.UserRole</td>
+                                                        <td>
+                                                            <form asp-controller="Admin" asp-action="EditUser" method="get">
+                                                                <input name="UserId" value="@item.Id" type="hidden">
+                                                                <button type="submit" class="btn btn-success">EditUser</button>
+                                                            </form>
+                                                        </td>
                                                     </tr>
 
                                                     rowNumber++;

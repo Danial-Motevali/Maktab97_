@@ -147,36 +147,54 @@ namespace UI.Controllers
         
 
         [HttpGet]
-        public async Task<IActionResult> EditUser()
+        public async Task<IActionResult> EditUser(string UserId)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var markUser = new User();
 
-            if (id == null)
-                return NotFound();
+            if(UserId == null)
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var user = await _userManager.FindByIdAsync(id);
+                if (id == null)
+                    return NotFound();
 
-            if (user == null)
-                return NotFound();
+                var user = await _userManager.FindByIdAsync(id);
 
 
-            return View(user);
+                if (user == null)
+                    return NotFound();
+
+                markUser = user;
+            }
+            else
+            {
+                var user = await _userManager.FindByIdAsync(UserId);
+
+                if (user == null)
+                    return NotFound();
+
+                markUser = user;
+            }
+
+
+
+            return View(markUser);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(/*string id,*/ string userName, string firstName, string lastName, bool isDeleted)
+        public async Task<IActionResult> EditUser(string Id, string userName, string firstName, string lastName, bool isDeleted)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (id == null || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+            if (Id == null || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
                 return NotFound();
 
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(Id);
 
             if (user == null)
                 return NotFound();
 
-            user.Id = Convert.ToInt32(id);
+            user.Id = Convert.ToInt32(Id);
             user.UserName = userName;
             user.FirstName = firstName;
             user.LastName = lastName;
