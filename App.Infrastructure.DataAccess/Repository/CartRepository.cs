@@ -23,16 +23,16 @@ namespace App.Infrastructure.DataAccess.Repository
         }
         public async Task<Cart> Add(Cart inputAddress, CancellationToken cancellation)
         {
-            var address = await _db.Carts.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
+            //var address = await _db.Carts.FirstOrDefaultAsync(x => x.Id == inputAddress.Id);
 
-            if (address == null)
-            {
+            //if (address == null)
+            //{
                 await _db.Carts.AddAsync(inputAddress, cancellation);
                 await _db.SaveChangesAsync(cancellation);
 
                 return inputAddress;
-            }
-            return address;
+            //}
+            //return address;
         }
 
         public async Task<bool> Delete(int Id, CancellationToken cancellation)

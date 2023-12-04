@@ -341,7 +341,6 @@ namespace App.Domain.Services.AppServices
         public async Task<List<BuyerCartDto>> Cart(Buyer buyer, CancellationToken cancellation)
         {
             var newListCartDto = new List<BuyerCartDto>();
-            var newCart = new BuyerCartDto();
             var allCart = await _cartService.GetByBuyerId(buyer.Id, cancellation);
 
             if (allCart != null)
@@ -350,6 +349,8 @@ namespace App.Domain.Services.AppServices
                 {
                     if(cart.IsActive == true)
                     {
+                        var newCart = new BuyerCartDto();
+
                         newCart.ProdutName = await ProdutNameByCartId(cart, cancellation);
                         newCart.ProductPrice = await PriceByCart(cart, cancellation);
                         newCart.BuyerId = cart.BuyerId;
