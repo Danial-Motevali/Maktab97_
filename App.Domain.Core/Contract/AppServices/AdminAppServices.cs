@@ -35,5 +35,9 @@ namespace App.Domain.Core.Contract.AppServices
         Task<int> ShowSellerWage(int SellerId ,CancellationToken cancellation);
 
         string FindUserRole(int UserId, CancellationToken cancellation);
+
+        Task<List<ShowAllCategory>> ShowAllCategory(CancellationToken cancellation);
+
+        Task<bool> AddCategory(string Title, string Parent, CancellationToken cancellation);
     }
 }

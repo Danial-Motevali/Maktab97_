@@ -1,4 +1,5 @@
-﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.ShopDashBordDto>
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.Admin.ShowAllCategory>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -216,10 +217,11 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="home"></i><span>Dashboard</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a asp-controller="Seller" asp-action="ShodDashBord">ShodDashBord</a></li>     @* go to the action *@
-                                        <li><a asp-controller="Seller" asp-action="EditProfile">EditProfile</a></li>
-                                        <li><a asp-controller="Seller" asp-action="AuctionDashBord">AuctionDashBord</a></li>
-                                        <li><a asp-controller="Seller" asp-action="EditAuction">AuctionDashBord</a></li>
+                                        @* over here *@
+                                        <li><a asp-controller="Buyer" asp-action="Action">Action</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="Cart">Cart</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="EditProfile">EditProfile</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -232,7 +234,7 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="layout"></i><span>Page layout</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="box-layout.html">Boxed</a></li>
+                                        <li><a asp-controller="Buyer" asp-action="EditProfile">EditProfile</a></li>
                                         <li><a href="layout-rtl.html">RTL</a></li>
                                         <li><a href="layout-dark.html">Dark</a></li>
                                         <li><a href="footer-light.html">Footer Light</a></li>
@@ -711,44 +713,65 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>Picture</th>                @* fild tr with thos order *@
-                                                        <th>Prdouct Name</th>
-                                                        <th>Prdouct Category</th>
-                                                        <th>Price</th>
-                                                        <th>Wage</th>
-                                                        <th>Add to Auction</th>
-                                                        <th>Number of Day for Auction</th>
+                                                        <th>Title</th>
+                                                        <th>Parent Name</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if(Model != null)
+                                                    @if (Model != null)
                                                     {
-                                                        @foreach(var item in Model)
+                                                        @foreach (var item in Model)
                                                         {
                                                             <tr>
-                                                                <td><img class="img-fluid img-40" src="~/Images/@item.PictureUrl" alt="#"></td>
-                                                                        <td>
-                                                                     <div class="product-name">
-                                                                         <a href="#">
-                                                                            <h6>@item.ProductTitle</h6>
-                                                                         </a>
-                                                                     </div>
+                                                                <td>
+                                                                    <div class="product-name">
+                                                                        <a href="#">
+                                                                            <h6>@item.Title</h6>
+                                                                        </a>
+                                                                    </div>
                                                                 </td>
-                                                                <td>@item.ProductCategory</td>
-                                                                <td>@item.ProdductPrice</td>
-                                                                <td>@item.wage</td>
+                                                                <td>
+                                                                    <div class="product-name">
+                                                                        <a href="#">
+                                                                            <h6>@item.PatentTilte</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
                                                                 
-                                                                <td><a asp-controller="Seller" asp-route-AuctionDays="AuctionDay" asp-action="AddToAcuion" asp-route-ProductId="@item.ProductId"  asp-route-SellerId="@item.SellerId" class="btn btn-primary"></a> 
-                                                                </td>
                                                             </tr>
                                                         }
+                                                        <tr>
+                                                            <td class="text-end" colspan="5">
+                                                                <form asp-controller="Admin" asp-action="AddNewCategory" method="post">
+                                                                    <label>Category Title: </label>
+                                                                    <input name="Title">
+                                                                    <div>
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label" name="Parent" for="exampleFormControlSelect17">Pick A Category</label>
+                                                                            <select class="form-select input-air-primary digits" name="Parent" id="exampleFormControlSelect17">
+                                                                                <option></option>
+                                                                                @if (Model != null)
+                                                                                {
+                                                                                    @foreach (var item in Model)
+                                                                                    {
+                                                                                        <option>@item.Title</option>
+                                                                                    }
+                                                                                }
+                                                                            </select>
+                                                                        </div>
+                                                                        @* <div >
+                                                                            <input id="checkbox1" name="Parent" type="radio" value="Is">
+                                                                            <label class="text" for="checkbox1"><span>Parent</span></label>
+                                                                        </div> *@
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-secondary">Add new Category</button>
+                                                                </form>
+                                                            </td>    
+                                                        </tr>
                                                     }
-                                                    
-                                                   
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <a asp-controller="Seller" asp-action="AppProduct" class="btn btn-primary">Add a Product</a>
                                     </div>
                                 </div>
                             </div>

@@ -237,5 +237,21 @@ namespace UI.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddCategory(CancellationToken cancellation)
+        {
+            var allCategory = await _adminAppServices.ShowAllCategory(cancellation);
+
+            return View(allCategory);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewCategory(string Title, string Parent, CancellationToken cancellation)
+        {
+            await _adminAppServices.AddCategory(Title, Parent, cancellation);
+
+            return RedirectToAction("AddCategory");
+        }
     }
 }

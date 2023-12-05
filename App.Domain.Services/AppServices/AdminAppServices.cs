@@ -7,6 +7,7 @@ using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Domain.Services.Services;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 
 namespace App.Domain.Services.AppServices
 {
@@ -304,6 +305,75 @@ namespace App.Domain.Services.AppServices
             var aShop = _shopServices.GetBySellerId(aSeller.Id, cancellation);
 
             return aShop.IsDeleted??default(bool);
+        }
+
+        public async Task<List<ShowAllCategory>> ShowAllCategory(CancellationToken cancellation)
+        {
+            var allCategory = _categoryService.GetAll(cancellation);
+            var aCategroyDtoList = new List<ShowAllCategory>();
+
+            foreach(var category in allCategory)
+            {
+                var aCategoryDto = new ShowAllCategory();
+
+                aCategoryDto.Title = category.Title;
+
+                if(category.ParentId != null)
+                {
+                    var parent = await _categoryService.GetById(category.ParentId ?? default(int), cancellation);
+                    aCategoryDto.PatentTilte = parent.Title;
+                }
+                else
+                {
+                    aCategoryDto.PatentTilte = "null";
+                }
+
+                aCategoryDto.IsDeleted = category.IsDeleted??default(bool);
+
+                aCategroyDtoList.Add(aCategoryDto);
+            }
+
+            return aCategroyDtoList;
+        }
+
+        public async Task<bool> AddCategory(string Title, string Parent, CancellationToken cancellation)
+        {
+            var newCategory = new Category();
+
+            if(Parent == null)
+            {
+                newCategory.Title = Title;
+                newCategory.IsDeleted = false;
+                newCategory.ParentId = null;
+
+                await _categoryService.Add(newCategory, cancellation);
+
+                return true;
+            }
+
+            newCategory.Title = Title;
+            newCategory.IsDeleted = false;
+            newCategory.ParentId = await FindCategoryParent(Parent, cancellation);
+
+            await _categoryService.Add(newCategory, cancellation);
+
+
+            return true;
+        }
+
+        public async Task<int> FindCategoryParent(string ParentsName, CancellationToken cancellation)
+        {
+            var allCategory = _categoryService.GetAll(cancellation);
+
+            foreach(var category in allCategory)
+            {
+                if(category.Title == ParentsName)
+                {
+                    return category.Id;
+                }
+            }
+
+            return 0;
         }
     }
 }
