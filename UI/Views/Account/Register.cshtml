@@ -97,13 +97,18 @@
                                 </div>
                             </div>
                             <div>
-                                <div @* class="checkbox" *@>
-                                    <input @* id="checkbox2" *@ asp-for="potion" type="radio" value="Seller">
-                                    <label @* class="text-muted" *@ asp-for="potion" @* for="checkbox2" *@><span>Seller</span></label>
-                                </div>
-                                <div @* class="checkbox" *@>
-                                    <input id="checkbox1"  asp-for="potion" type="radio" value="Buyer">
+                                @* <div @">
+                                    <input id="checkbox2" asp-for="potion" type="radio" value="Seller">
+                                    <label class="text-muted" asp-for="potion" for="checkbox2"><span>Seller</span></label>
+                                    <input id="checkbox1" asp-for="potion" type="radio" value="Buyer">
                                     <label class="text-muted" asp-for="potion" for="checkbox1"><span>Buyer</span></label>
+                                </div> *@
+                                <div>
+                                    <label for="SelectedRole">Select Role:</label>
+                                    <select  id="SelectedRole" asp-for="potion">
+                                        <option value="Seller">Seller</option>
+                                        <option value="Buyer">Buyer</option>
+                                    </select>
                                 </div>
                             </div> 
                             <div class="form-group">
