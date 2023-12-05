@@ -96,20 +96,20 @@ namespace App.Domain.Services.AppServices
 
         //Seller Dashbord
 
-        public async Task<bool> DeleteProduct(int ProductId, CancellationToken cancellation)
+        public async Task<bool> DeleteProduct(int InventoryId, CancellationToken cancellation)
         {
-            var aProduct = await _productService.GetById(ProductId, cancellation);
+            var aInventory = await _inventoryService.GetById(InventoryId, cancellation);
 
-            if(aProduct.IsDeleted == false)
+            if(aInventory.IsDeleted == false)
             {
-                aProduct.IsDeleted = true;
+                aInventory.IsDeleted = true;
             }
             else
             {
-                aProduct.IsDeleted = false;
+                aInventory.IsDeleted = false;
             }
 
-            await _productService.Update(aProduct.Id , aProduct, cancellation);
+            await _inventoryService.Update(aInventory.Id , aInventory, cancellation);
 
             return true;
         } // from Interface
@@ -235,11 +235,12 @@ namespace App.Domain.Services.AppServices
 
                     aShowProductDto.SellerId = SellerId;
                     aShowProductDto.ProductId = aProduct.Id;
+                    aShowProductDto.InventoryId = inventory.Id;
                     aShowProductDto.ProductPrice = inventoryPrice.ProdutPrice ?? default(int);
                     aShowProductDto.ProductCategory = productCategory.Title;
                     aShowProductDto.ProductName = aProduct.Title;
                     aShowProductDto.Wage = wage.HowMuch;
-                    aShowProductDto.IsDeletd = aProduct.IsDeleted ?? default(bool);
+                    aShowProductDto.IsDeletd = inventory.IsDeleted ?? default(bool);
 
                     markProduct.Add(aShowProductDto);
                 }

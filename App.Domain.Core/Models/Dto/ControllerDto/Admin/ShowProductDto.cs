@@ -20,6 +20,8 @@ namespace App.Domain.Core.Models.Dto.ControllerDto.Admin
 
         public int Wage { get; set; }
 
+        public int InventoryId { get; set; }
+
         public int SellerId { get; set; }
 
         public int ProductId { get; set; }

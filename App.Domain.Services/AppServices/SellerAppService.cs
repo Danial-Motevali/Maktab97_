@@ -93,7 +93,7 @@ namespace App.Domain.Services.AppServices
 
             foreach (var inventory in allInventorys)
             {
-                if(inventory.PriceId != null && inventory.AuctionId == null)
+                if(inventory.PriceId != null && inventory.AuctionId == null && inventory.IsDeleted == false)
                 {
                     var newProduct = new ShopDashBordDto
                     {

@@ -105,9 +105,9 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteProduct(int Id, CancellationToken cancellation)
+        public async Task<IActionResult> DeleteProduct(int InventoryId, CancellationToken cancellation)
         {
-            await _adminAppServices.DeleteProduct(Id, cancellation);
+            await _adminAppServices.DeleteProduct(InventoryId, cancellation);
 
             return RedirectToAction("Index", "Home");
         }
