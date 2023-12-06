@@ -169,8 +169,8 @@ namespace UI.Controllers
             {
                 BuyerId = buyer.Id,
                 InventoryId = InventoryId,
-                IsDeleted = false
-
+                IsDeleted = false,
+                IsActive = false
             };
 
             return View(newComment);

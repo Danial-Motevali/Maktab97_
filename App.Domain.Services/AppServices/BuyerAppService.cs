@@ -459,7 +459,7 @@ namespace App.Domain.Services.AppServices
 
             foreach(var comment in allComment)
             {
-                if(comment.IsDeleted == false)
+                if(comment.IsDeleted == false && comment.IsActive == true)
                     activeComment.Add(comment);
             }
 
@@ -479,7 +479,6 @@ namespace App.Domain.Services.AppServices
             var allOrder = await _orderService.GetByBuyerId(input.Id, cancellation);
             var allInventoryOrder = new List<InventoryOreder>();
             var orderedProduct = new List<BuyerCartDto>();
-            var aBuyerCartDto = new BuyerCartDto();
 
             foreach (var order in allOrder)
             {
@@ -488,6 +487,8 @@ namespace App.Domain.Services.AppServices
 
             foreach(var inventory in allInventoryOrder)
             {
+                var aBuyerCartDto = new BuyerCartDto();
+
                 var aInventory = await _inventoryService.GetById(inventory.InventoryId??default(int), cancellation);
                 var newBuyerCartDto = await OrderetProdutHelper(aInventory, cancellation);
 
