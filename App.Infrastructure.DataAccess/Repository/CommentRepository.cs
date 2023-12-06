@@ -74,6 +74,7 @@ namespace App.Infrastructure.DataAccess.Repository
                 address.Title = inputAddress.Title;
                 address.Description = inputAddress.Description;
                 address.IsDeleted = inputAddress.IsDeleted;
+                address.IsActive = inputAddress.IsActive;
 
                 await _db.SaveChangesAsync(cancellation);
                 return true;

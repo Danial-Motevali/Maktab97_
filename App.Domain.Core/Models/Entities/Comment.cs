@@ -14,6 +14,8 @@ public class Comment
 
     public bool? IsDeleted { get; set; } = false;
 
+    public bool? IsActive { get; set; } = false;
+
     public int? BuyerId { get; set; }
 
     public int? InventoryId { get; set; }
