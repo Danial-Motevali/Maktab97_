@@ -27,28 +27,28 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            //if (!dbContext.Pictures.Any())
-            //{
-            //    var Address = new List<Picture>
-            //    {
-            //        new Picture { IsDeleted = false, Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK14YBkX2xiGRyEnptOiRHjxE9nd8Qr2iYDbHFbXKdgg&s" }
-            //    };
+            if (!dbContext.Pictures.Any())
+            {
+                var Address = new List<Picture>
+                {
+                    new Picture { IsDeleted = false, Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK14YBkX2xiGRyEnptOiRHjxE9nd8Qr2iYDbHFbXKdgg&s" }
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.Categories.Any())
-            //{
-            //    var Address = new List<Category>
-            //    {
-            //        new Category {Title = "electranic", IsDeleted = false},
-            //        new Category {Title = "Phone", ParentId = 1, IsDeleted = false}
-            //    };
+            if (!dbContext.Categories.Any())
+            {
+                var Address = new List<Category>
+                {
+                    new Category {Title = "electranic", IsDeleted = false},
+                    new Category {Title = "Phone", ParentId = 1, IsDeleted = false}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             if (!dbContext.IdRoles.Any()) 
             {
@@ -64,16 +64,16 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            //if (!dbContext.Prices.Any())
-            //{
-            //    var Address = new List<Price>
-            //    {
-            //        new Price { ProdutPrice = 200, IsDeleted = true}
-            //    };
+            if (!dbContext.Prices.Any())
+            {
+                var Address = new List<Price>
+                {
+                    new Price { ProdutPrice = 200, IsDeleted = true}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
 
 
@@ -144,16 +144,16 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            //if (!dbContext.Products.Any())
-            //{
-            //    var Address = new List<Product>
-            //    {
-            //        new Product { Title = "IPhone", IsDeleted = false, CategoryId = 2}
-            //    };
+            if (!dbContext.Products.Any())
+            {
+                var Address = new List<Product>
+                {
+                    new Product { Title = "IPhone", IsDeleted = false, CategoryId = 2}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             //if (!dbContext.orders.Any())
             //{
@@ -177,27 +177,27 @@ namespace UI
             //    dbContext.SaveChanges();
             //}
 
-            //if (!dbContext.Shops.Any())
-            //{
-            //    var Address = new List<Shop>
-            //    {
-            //        new Shop { Name = "phoneshop!!!", TimeOfCreate = DateTime.Now, IsDeleted = false, SellerId = 1}
-            //    };
+            if (!dbContext.Shops.Any())
+            {
+                var Address = new List<Shop>
+                {
+                    new Shop { Name = "phoneshop!!!", TimeOfCreate = DateTime.Now, IsDeleted = false, SellerId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.Inventories.Any())
-            //{
-            //    var Address = new List<Inventory>
-            //    {
-            //        new Inventory { Qnt = 3, IsDeleted = false, PriceId = 1, ProductId = 1, ShopId = 1}
-            //    };
+            if (!dbContext.Inventories.Any())
+            {
+                var Address = new List<Inventory>
+                {
+                    new Inventory { Qnt = 3, IsDeleted = false, PriceId = 1, ProductId = 1, ShopId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             //if (!dbContext.Carts.Any())
             //{
@@ -234,49 +234,28 @@ namespace UI
             //    dbContext.SaveChanges();
             //}
 
-            //if (!dbContext.Wages.Any())
-            //{
-            //    var Address = new List<Wage>
-            //    {
-            //        new Wage { HowMuch = 10, IsDeleted = false, SellerId = 1, InventoryId = 1, IsPaid = false}
-            //    };
+            if (!dbContext.Wages.Any())
+            {
+                var Address = new List<Wage>
+                {
+                    new Wage { HowMuch = 10, IsDeleted = false, SellerId = 1, InventoryId = 1, IsPaid = false}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.ProductPictures.Any())
-            //{
-            //    var Address = new List<ProductPicture>
-            //    {
-            //        new ProductPicture { PictureId = 1, ProductId = 1}
-            //    };
+            if (!dbContext.ProductPictures.Any())
+            {
+                var Address = new List<ProductPicture>
+                {
+                    new ProductPicture { PictureId = 1, ProductId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
-            //if (!dbContext.orders.Any())
-            //{
-            //    var Address = new List<Order>
-            //    {
-            //        new Order{ IsDeleted = false, BuyerId = 1}
-            //    };
-
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
-
-            //if (!dbContext.productOreders.Any())
-            //{
-            //    var Address = new List<ProductOreder>
-            //    {
-            //        new ProductOreder{ IsDeleted = false, OrederId = 1, ProductId = 1}
-            //    };
-
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
         }
     }
 }
