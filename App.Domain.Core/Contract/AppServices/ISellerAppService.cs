@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
 using App.Domain.Core.Models.Dto.ControllerDto;
+using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
 using System;
 using System.Collections.Generic;
@@ -27,5 +28,6 @@ namespace App.Domain.Core.Contract.AppServices
         Task<List<AuctionDashBordDto>> FillAuctionDto(Seller seller, CancellationToken cancellation);
 
         Task<bool> UpdateTheAcuion(int AuctionId, bool DeleteAuction, int AddTheDays, CancellationToken cancellation);
+
     }
 }

@@ -8,7 +8,7 @@ namespace App.Domain.Core.Models.Dto.ControllerDto
 {
     public class AuctionDashBordDto
     {
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
 
         public int ProductId { get; set; }
 

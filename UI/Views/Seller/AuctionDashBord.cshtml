@@ -720,8 +720,13 @@
                                                         <h1 class="mb-0">@product.LastPrice</h1>
                                                         <h1 class="mb-0">@product.ProductCategory</h1>
                                                         <p class="mb-0">@product.TimeOfEnd</p>
-                                                    </div><a class="btn btn-lg btn-primary btn-block" asp-route-AuctionId="@product.AuctionId" asp-controller="Seller" asp-action="EditAuction">
+                                                    </div>
+                                                    <a class="btn btn-lg btn-primary btn-block" asp-route-AuctionId="@product.AuctionId" asp-controller="Seller" asp-action="EditAuction">
                                                     </a>
+                                                    <form asp-controller="Seller" asp-action="AuctionHistory" method="get">
+                                                        <input type="hidden" value="@product.AuctionId" name="AuctionId">
+                                                        <button class="btn btn-sussecc">See History</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         }

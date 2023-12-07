@@ -5,6 +5,7 @@ using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Identity.Entites;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
 
 namespace UI.Controllers
@@ -60,6 +61,12 @@ namespace UI.Controllers
             var auctionDto = await _sellerAppService.FillAuctionDto(seller, cancellation);
 
             return View(auctionDto);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AuctionHistory(int AuctionId, CancellationToken cancellation)
+        {
+            return View();
         }
 
         [HttpPost]
@@ -179,5 +186,6 @@ namespace UI.Controllers
 
             return View();
         } // warnign workers are working
+        
     }
 }

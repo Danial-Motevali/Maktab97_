@@ -3,10 +3,12 @@ using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto;
+using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Reflection.Metadata.Ecma335;
 
 namespace App.Domain.Services.AppServices
 {
@@ -379,56 +381,66 @@ namespace App.Domain.Services.AppServices
 
         public async Task<List<AuctionDashBordDto>> FillAuctionDto(Seller seller, CancellationToken cancellation)
         {
-            var activeAuction = new List<Auction>();
-            var allAuction = await _auctionService.GetBySellerId(seller.Id, cancellation);
-            var mark = new Inventory();
-            var markList = new List<AuctionDashBordDto>();
+            var DtoList = new List<AuctionDashBordDto>();
+            var allInventory = await InventoryHasAuction(seller.Id, cancellation);
+            var allAuction = new List<Auction>();
+            var aDto = new AuctionDashBordDto();
 
-            var newAuctionDto = new AuctionDashBordDto
+            //find all auctive auction
+            foreach(var inventory in allInventory)
             {
-                SellerId = seller.Id,
-            };
-
-            foreach (var auction in allAuction)
+                allAuction.Add(await _auctionService.GetById(inventory.AuctionId??default(int), cancellation));
+            }
+            
+            //fild the auction dto
+            foreach(var auction in allAuction)
             {
-                if(auction.IsActive == true)
-                {
-                    activeAuction.Add(auction);
-                    newAuctionDto.LastPrice = auction.LastPrice??default(int);
-                    newAuctionDto.AuctionId = auction.Id??default(int);
-                    newAuctionDto.TimeOfEnd = auction.TimeOfEnd ?? default(DateTime);
-                }
+                aDto = new AuctionDashBordDto();
 
+                aDto.AuctionId = auction.Id??default(int);
+                aDto.TimeOfEnd = auction.TimeOfEnd??default(DateTime);
+                aDto.LastPrice = auction.LastPrice ?? default(int);
+                var helper = await FillAuctionDtoHelper(aDto, auction.Id ?? default(int), cancellation); //find product name , and product picture
+
+                DtoList.Add(helper);
             }
 
-            foreach(var auction in activeAuction)
+            return DtoList;
+        }
+
+        //give all the inventorys that have auctionId
+        public async Task<List<Inventory>> InventoryHasAuction(int sellerId, CancellationToken cancellation)
+        {
+            var aShop = _shopService.GetBySellerId(sellerId, cancellation);
+            var allInventory = _inventoryService.GetByShopId(aShop.Id, cancellation);
+            var markList = new List<Inventory>();
+
+            foreach(var inventory in allInventory)
             {
-                mark = _inventoryService.GetByAuctionId(auction.Id ?? default(int), cancellation);
-                markList.Add(await FillAuctionDtoHelper(newAuctionDto, mark, cancellation));
+                if (inventory.AuctionId != null)
+                    markList.Add(inventory);
             }
 
             return markList;
         }
 
-        public async Task<AuctionDashBordDto> FillAuctionDtoHelper(AuctionDashBordDto dto, Inventory inventory, CancellationToken cancellation)
+        //get a dto fild the missing part and return that dto
+        public async Task<AuctionDashBordDto> FillAuctionDtoHelper(AuctionDashBordDto dto, int AuctionId, CancellationToken cancellation)
         {
-            var aProduct = await _productService.GetById(inventory.ProductId, cancellation);
-            var allPicture = _productPictureService.GetByProducId(inventory.ProductId ??default(int), cancellation);
-            var apicture = new Picture();
-            var aCategory = await _categoryService.GetById(aProduct.CategoryId??default(int), cancellation);
+            var aInventory = _inventoryService.GetByAuctionId(AuctionId, cancellation);
+            var aProduct = await _productService.GetById(aInventory.ProductId, cancellation);
+            var allProductPicture = _productPictureService.GetByProducId(aProduct.Id, cancellation);
 
-            dto.ProductCategory = aCategory.Title;
-            dto.ProductTitle = aProduct.Title;
-
-            foreach(var picture in allPicture)
+            foreach(var item in allProductPicture)
             {
-                apicture = await _pictureService.GetById(   picture.PictureId ?? default(int), cancellation);
-                dto.PictureUrl = apicture.Url;
+                var picture = await _pictureService.GetById(item.PictureId??default(int), cancellation);
+
+                dto.PictureUrl = picture.Url;
                 break;
             }
 
-            dto.InventoryQnt = inventory.Qnt ?? default(int);
-            dto.ProductId = inventory.ProductId??default(int);
+            dto.ProductTitle = aProduct.Title;
+            dto.ProductId = aProduct.Id;
 
             return dto;
         }
