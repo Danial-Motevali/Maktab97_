@@ -347,6 +347,7 @@ namespace App.Domain.Services.AppServices
             newAuction.TimeOfEnd =  DateTime.Now.AddDays(1);
             newAuction.SellerId = SellerId;
             newAuction.LastPrice = 0;
+            newAuction.ParentId = null;
 
             await _auctionService.Add(newAuction, cancellation);
 

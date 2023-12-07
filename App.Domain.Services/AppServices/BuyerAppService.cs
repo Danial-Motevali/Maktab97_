@@ -275,11 +275,11 @@ namespace App.Domain.Services.AppServices
 
         public async Task<List<AuctionDto>> Action(CancellationToken cancellation)
         {
-            var allAuction = _auctionService.GetAll(cancellation);
+            var allAuction = await FindAuctionWithInventory(cancellation);
             var activeAuction = new List<AuctionDto>();
             var newAuctionDto = new AuctionDto();
 
-            if (allAuction == null)
+            if (allAuction.Count() == 0)
                 return null;
 
             foreach(var auction in allAuction)
@@ -292,9 +292,9 @@ namespace App.Domain.Services.AppServices
                 }
             }
 
-            foreach(var auction in allAuction)
+            foreach (var auction in allAuction)
             {
-                if(auction.IsActive == true && auction.TimeOfEnd != DateTime.Now)
+                if (auction.IsActive == true && auction.TimeOfEnd != DateTime.Now)
                 {
                     newAuctionDto.AuctionId = auction.Id;
                     newAuctionDto.IsActive = true;
@@ -303,12 +303,29 @@ namespace App.Domain.Services.AppServices
                     newAuctionDto.ProductName = await FindProductName(auction, cancellation);
                     newAuctionDto.TimeOfStart = auction.TimeOfStart;
                     newAuctionDto.SellerId = auction.SellerId;
+                    newAuctionDto.ParentId = auction.ParentId;
 
                     activeAuction.Add(newAuctionDto);
                 }
             }
 
             return activeAuction;
+        }
+
+        public async Task<List<Auction>> FindAuctionWithInventory(CancellationToken cancellation)
+        {
+            var allInventory = _inventoryService.GetAll(cancellation);
+            var allAuction = new List<Auction>();
+
+            foreach(var inventory in allInventory)
+            {
+                if(inventory.AuctionId != null)
+                {
+                    allAuction.Add(await _auctionService.GetById(inventory.AuctionId ??default(int), cancellation));
+                }
+            }
+
+            return allAuction;
         }
 
         public async Task<string> FindProductName(Auction auction, CancellationToken cancellation)
@@ -322,17 +339,44 @@ namespace App.Domain.Services.AppServices
         public async Task<bool> AddNewPrice(int newPrice, int AuctionId, CancellationToken cancellation)
         {
             var aAuction = await _auctionService.GetById(AuctionId, cancellation);
+            var aInventory = _inventoryService.GetByAuctionId(AuctionId, cancellation);
+            var newAuction = new Auction();
 
-            if(aAuction == null)
-                return false;
-
-            if(aAuction.LastPrice < newPrice && aAuction.TimeOfEnd != DateTime.Now)
+            if (aAuction.LastPrice < newPrice && aAuction.ParentId == null)
             {
-                aAuction.LastPrice = newPrice;
-                await _auctionService.Update(aAuction.Id ?? default(int) ,aAuction, cancellation);
+                newAuction.LastPrice = newPrice;
+                newAuction.ParentId = aAuction.Id;
+                newAuction.SellerId = aAuction.SellerId ?? default(int);
+                newAuction.IsActive = aAuction.IsActive;
+                newAuction.TimeOfStart = aAuction.TimeOfStart ?? default(DateTime);
+                newAuction.TimeOfEnd = aAuction.TimeOfEnd ?? default(DateTime);
+
+                await _auctionService.Add(newAuction, cancellation);
+
+                aInventory.AuctionId = newAuction.Id;
+
+                await _inventoryService.Update(aInventory.Id, aInventory, cancellation);
+
+                return true;
+
+            } else if (aAuction.LastPrice < newPrice && aAuction.ParentId != null)
+            {
+                newAuction.LastPrice = newPrice;
+                newAuction.ParentId = aAuction.ParentId;
+                newAuction.SellerId = aAuction.SellerId ?? default(int);
+                newAuction.IsActive = aAuction.IsActive;
+                newAuction.TimeOfStart = aAuction.TimeOfStart ?? default(DateTime);
+                newAuction.TimeOfEnd = aAuction.TimeOfEnd ?? default(DateTime);
+
+                await _auctionService.Add(newAuction, cancellation);
+
+                aInventory.AuctionId = newAuction.Id;
+
+                await _inventoryService.Update(aInventory.Id, aInventory, cancellation);
 
                 return true;
             }
+
 
             return false;
         }

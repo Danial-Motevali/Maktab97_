@@ -8,6 +8,10 @@ public class Auction
 
     public int? LastPrice { get; set; }
 
+    public int? ParentId { get; set; } 
+
+    public Auction? Parent { get; set; }
+
     public bool IsActive { get; set; } = true;
 
     public int? SellerId { get; set; }

@@ -10,6 +10,8 @@ namespace App.Domain.Core.Models.Dto.ControllerDto.Buyer
     {
         public int? SellerId { get; set; }
 
+        public int? ParentId { get; set; }
+
         public int? AuctionId { get; set; }
 
         public string? ProductName { get; set; }
