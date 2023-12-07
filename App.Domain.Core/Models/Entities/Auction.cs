@@ -15,7 +15,12 @@ public class Auction
     public bool IsActive { get; set; } = true;
 
     public int? SellerId { get; set; }
+
     public Seller? Seller { get; set; } 
+
+    public int? UserId { get; set; }
+
+    public User? User { get; set; }
 
     public DateTime? TimeOfStart { get; set; }
 
