@@ -370,6 +370,7 @@ namespace App.Domain.Services.AppServices
                 newAuction.IsActive = aAuction.IsActive;
                 newAuction.TimeOfStart = aAuction.TimeOfStart ?? default(DateTime);
                 newAuction.TimeOfEnd = aAuction.TimeOfEnd ?? default(DateTime);
+                newAuction.UserId = UserId;
 
                 await _auctionService.Add(newAuction, cancellation);
 
