@@ -19,7 +19,7 @@ namespace App.Domain.Core.Contract.AppServices
 
         Task<List<AuctionDto>> Action(CancellationToken cancellation);
 
-        Task<bool> AddNewPrice(int newPrice, int AuctionId, CancellationToken cancellation);
+        Task<bool> AddNewPrice(int UserId, int newPrice, int AuctionId, CancellationToken cancellation);
 
         Task<List<BuyerCartDto>> Cart(Buyer buyer, CancellationToken cancellation);
 

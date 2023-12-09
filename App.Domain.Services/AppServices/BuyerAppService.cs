@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -277,7 +278,6 @@ namespace App.Domain.Services.AppServices
         {
             var allAuction = await FindAuctionWithInventory(cancellation);
             var activeAuction = new List<AuctionDto>();
-            var newAuctionDto = new AuctionDto();
 
             if (allAuction.Count() == 0)
                 return null;
@@ -294,6 +294,8 @@ namespace App.Domain.Services.AppServices
 
             foreach (var auction in allAuction)
             {
+                var newAuctionDto = new AuctionDto();
+
                 if (auction.IsActive == true && auction.TimeOfEnd != DateTime.Now)
                 {
                     newAuctionDto.AuctionId = auction.Id;
@@ -336,7 +338,7 @@ namespace App.Domain.Services.AppServices
             return aProduct.Title;
         }
 
-        public async Task<bool> AddNewPrice(int newPrice, int AuctionId, CancellationToken cancellation)
+        public async Task<bool> AddNewPrice(int UserId, int newPrice, int AuctionId, CancellationToken cancellation)
         {
             var aAuction = await _auctionService.GetById(AuctionId, cancellation);
             var aInventory = _inventoryService.GetByAuctionId(AuctionId, cancellation);
@@ -350,6 +352,7 @@ namespace App.Domain.Services.AppServices
                 newAuction.IsActive = aAuction.IsActive;
                 newAuction.TimeOfStart = aAuction.TimeOfStart ?? default(DateTime);
                 newAuction.TimeOfEnd = aAuction.TimeOfEnd ?? default(DateTime);
+                newAuction.UserId = UserId;
 
                 await _auctionService.Add(newAuction, cancellation);
 
