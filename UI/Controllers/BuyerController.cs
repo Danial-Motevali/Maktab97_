@@ -51,9 +51,10 @@ namespace UI.Controllers
             return View(result);
         }
 
-        public IActionResult AddNewPrice(int NewPrice, int AuctionId, CancellationToken cancellation)
+        public async Task<IActionResult> AddNewPrice(int NewPrice, int AuctionId, CancellationToken cancellation)
         {
-            var result = _buyerAppService.AddNewPrice(NewPrice, AuctionId, cancellation);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var result = await _buyerAppService.AddNewPrice(userId, NewPrice, AuctionId, cancellation);
 
             return View("Action");
         }
