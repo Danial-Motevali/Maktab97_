@@ -449,5 +449,10 @@ namespace App.Domain.Services.AppServices
         {
             throw new NotImplementedException();
         }
+
+        public Task<Auction> AuctionHistory(int AuctionId, CancellationToken cancellation)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
