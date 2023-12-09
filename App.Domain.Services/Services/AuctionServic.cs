@@ -43,6 +43,20 @@ namespace App.Domain.Services.Services
             return await _repository.GetById(Id, cancellation);
         }
 
+        public async Task<List<Auction>> GetByParentId(int ParentId, CancellationToken cancellation)
+        {
+            var allAuction = _repository.GetAll(cancellation);
+            var markAuction = new List<Auction>();
+
+            foreach(var auction in allAuction)
+            {
+                if(auction.ParentId == ParentId)
+                    markAuction.Add(auction);
+            }
+
+            return markAuction;
+        }
+
         public async Task<List<Auction>> GetBySellerId(int SellerId, CancellationToken cancellation)
         {
             var allAuction = _repository.GetAll(cancellation);

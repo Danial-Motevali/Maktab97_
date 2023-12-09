@@ -450,9 +450,23 @@ namespace App.Domain.Services.AppServices
             throw new NotImplementedException();
         }
 
-        public Task<Auction> AuctionHistory(int AuctionId, CancellationToken cancellation)
+        public async Task<List<Auction>> AuctionHistory(int AuctionId, CancellationToken cancellation)
         {
-            throw new NotImplementedException();
+            var aAuction = await _auctionService.GetById(AuctionId, cancellation);
+            var allAuction = new List<Auction>();
+
+            if(aAuction.ParentId == null)
+            {
+                allAuction.Add(aAuction);
+
+                return allAuction;
+            }
+            else
+            {
+                var parentAuction = await _auctionService.GetById(aAuction.ParentId??default(int), cancellation);
+
+                return null;
+            }
         }
     }
 }

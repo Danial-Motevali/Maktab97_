@@ -66,7 +66,9 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> AuctionHistory(int AuctionId, CancellationToken cancellation)
         {
-            return View();
+            var result = await _sellerAppService.AuctionHistory(AuctionId, cancellation);
+
+            return View(result);
         }
 
         [HttpPost]
