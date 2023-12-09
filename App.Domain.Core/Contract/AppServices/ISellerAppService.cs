@@ -29,6 +29,6 @@ namespace App.Domain.Core.Contract.AppServices
 
         Task<bool> UpdateTheAcuion(int AuctionId, bool DeleteAuction, int AddTheDays, CancellationToken cancellation);
 
-        Task<List<Auction>> AuctionHistory(int AuctionId, CancellationToken cancellation);
+        Task<List<AuctionHistoryDto>> AuctionHistory(int AuctionId, CancellationToken cancellation);
     }
 }

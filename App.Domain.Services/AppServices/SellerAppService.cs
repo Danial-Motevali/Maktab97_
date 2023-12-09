@@ -26,7 +26,8 @@ namespace App.Domain.Services.AppServices
         private readonly IWageService _wageService;
         private readonly IAuctionService _auctionService;
         private readonly IMedalService _medalService;
-        public SellerAppService(AppSetting appSetting, IMedalService medalService, IAuctionService auctionService, IWageService wageService, IPriceService priceService, ICategoryService categoryService, IProductService productService, IPictureService pictureService, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductPictureService productPictureService)
+        private readonly IUserServices _userServices;
+        public SellerAppService(AppSetting appSetting, IUserServices userServices, IMedalService medalService, IAuctionService auctionService, IWageService wageService, IPriceService priceService, ICategoryService categoryService, IProductService productService, IPictureService pictureService, ISellerService sellerService, IShopService shopService, IInventoryService inventoryService, IProductPictureService productPictureService)
         {
             _sellerService = sellerService;
             _shopService = shopService;
@@ -40,6 +41,7 @@ namespace App.Domain.Services.AppServices
             _auctionService = auctionService;
             _medalService = medalService;
             _appSetting = appSetting;
+            _userServices = userServices;
         }
 
         public Seller FindSeller(int UserId, CancellationToken cancellation)
@@ -450,22 +452,54 @@ namespace App.Domain.Services.AppServices
             throw new NotImplementedException();
         }
 
-        public async Task<List<Auction>> AuctionHistory(int AuctionId, CancellationToken cancellation)
+        //get auctionId and check if is have parent id or not and convert to dto and find buye name and return
+        public async Task<List<AuctionHistoryDto>> AuctionHistory(int AuctionId, CancellationToken cancellation)
         {
             var aAuction = await _auctionService.GetById(AuctionId, cancellation);
-            var allAuction = new List<Auction>();
+            var allAuction = new List<AuctionHistoryDto>();
+            var newAuctionDto = new AuctionHistoryDto();    
 
             if(aAuction.ParentId == null)
             {
-                allAuction.Add(aAuction);
+                newAuctionDto = new AuctionHistoryDto();
+
+                newAuctionDto.LastPrice = aAuction.LastPrice;
+
+                allAuction.Add(newAuctionDto);
 
                 return allAuction;
             }
             else
             {
-                var parentAuction = await _auctionService.GetById(aAuction.ParentId??default(int), cancellation);
+                newAuctionDto = new AuctionHistoryDto();
 
-                return null;
+                var parentAuction = await _auctionService.GetById(aAuction.ParentId??default(int), cancellation);
+                newAuctionDto.LastPrice = parentAuction.LastPrice;
+
+                allAuction.Add(newAuctionDto);
+
+                var auctionWithParent = await _auctionService.GetByParentId(aAuction.ParentId??default(int), cancellation);
+                foreach(var auction in auctionWithParent)
+                {
+                    newAuctionDto = new AuctionHistoryDto();
+
+                    newAuctionDto.LastPrice = auction.LastPrice;
+
+                    if(auction.UserId != null)
+                    {
+                        var Buyer = await _userServices.GetById(auction.UserId ?? default(int), cancellation);
+
+                        newAuctionDto.BuyerName = Buyer.UserName;
+                    }
+                    else
+                    {
+                        newAuctionDto.BuyerName = "null";
+                    }
+
+                    allAuction.Add(newAuctionDto);
+                }
+
+                return allAuction;
             }
         }
     }
