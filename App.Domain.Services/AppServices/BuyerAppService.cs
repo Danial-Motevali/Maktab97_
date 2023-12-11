@@ -284,7 +284,10 @@ namespace App.Domain.Services.AppServices
 
             foreach(var auction in allAuction)
             {
-                if(auction.TimeOfEnd == DateTime.Now)
+                if (auction.IsActive == false)
+                    continue;
+
+                if(DateTime.Compare(auction.TimeOfEnd??default(DateTime), DateTime.Now) <= 0 )
                 {
                     auction.IsActive = false;
 

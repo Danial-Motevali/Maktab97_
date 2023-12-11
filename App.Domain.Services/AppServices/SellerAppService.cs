@@ -367,6 +367,9 @@ namespace App.Domain.Services.AppServices
             return true;
         }
 
+
+
+        //search to all auctions and make IsDeleted if is need it
         public async Task EndAuction(int sellerId, CancellationToken cancellation)
         {
             var allAuction = await _auctionService.GetBySellerId(sellerId, cancellation);
@@ -380,6 +383,8 @@ namespace App.Domain.Services.AppServices
 
             await _auctionService.Update(specficAuction.Id ??default(int),specficAuction, cancellation);
         }
+
+
 
         public async Task<List<AuctionDashBordDto>> FillAuctionDto(Seller seller, CancellationToken cancellation)
         {
@@ -397,6 +402,10 @@ namespace App.Domain.Services.AppServices
             //fild the auction dto
             foreach(var auction in allAuction)
             {
+                if (auction.TimeOfEnd <= DateTime.Now)
+                    EndAuction(auction.SellerId??default(int), cancellation);
+                    continue;
+
                 aDto = new AuctionDashBordDto();
 
                 aDto.AuctionId = auction.Id??default(int);
@@ -409,6 +418,8 @@ namespace App.Domain.Services.AppServices
 
             return DtoList;
         }
+
+
 
         //give all the inventorys that have auctionId
         public async Task<List<Inventory>> InventoryHasAuction(int sellerId, CancellationToken cancellation)
@@ -425,6 +436,8 @@ namespace App.Domain.Services.AppServices
 
             return markList;
         }
+
+
 
         //get a dto fild the missing part and return that dto
         public async Task<AuctionDashBordDto> FillAuctionDtoHelper(AuctionDashBordDto dto, int AuctionId, CancellationToken cancellation)
@@ -447,10 +460,14 @@ namespace App.Domain.Services.AppServices
             return dto;
         }
 
+
+
         public Task<bool> UpdateTheAcuion(int AuctionId, bool DeleteAuction, int AddTheDays, CancellationToken cancellation)
         {
             throw new NotImplementedException();
         }
+
+
 
         //get auctionId and check if is have parent id or not and convert to dto and find buye name and return
         public async Task<List<AuctionHistoryDto>> AuctionHistory(int AuctionId, CancellationToken cancellation)
