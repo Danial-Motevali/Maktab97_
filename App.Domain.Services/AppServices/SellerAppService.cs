@@ -360,10 +360,10 @@ namespace App.Domain.Services.AppServices
 
             await _inventoryService.Update(aInventory.Id ,aInventory, cancellation);
 
-            var scedul = DateTime.Now.AddDays(1);
+            var scedul = DateTime.Now.AddMinutes(2);
             var defultScedul = new DateTimeOffset(scedul);
 
-             BackgroundJob.Schedule(() => EndAuction(SellerId, cancellation), defultScedul);
+            BackgroundJob.Schedule<SellerAppService>(x => x.EndAuction(SellerId, cancellation), defultScedul);
 
             return true;
         }
@@ -375,16 +375,15 @@ namespace App.Domain.Services.AppServices
         {
             var allAuction = await _auctionService.GetBySellerId(sellerId, cancellation);
             var specficAuction = new Auction();
-            var result = new Auction();
 
             foreach(var auction in allAuction)
             {
-                if(auction.TimeOfEnd == DateTime.Now && auction.IsActive == true)
+                if(DateTime.Compare(auction.TimeOfEnd ?? default(DateTime), DateTime.Now) <= 0 && auction.IsActive == true)
                 {
                     specficAuction.IsActive = false;
                     specficAuction.WinnerId = auction.UserId;
 
-                    await _auctionService.Update(result.Id ?? default(int), result, cancellation);
+                    await _auctionService.Update(specficAuction.Id ?? default(int), specficAuction, cancellation);
 
                 }
             };
@@ -406,8 +405,13 @@ namespace App.Domain.Services.AppServices
             //fild the auction dto
             foreach(var auction in allAuction)
             {
-                if (auction.TimeOfEnd <= DateTime.Now)
-                    EndAuction(auction.SellerId??default(int), cancellation);
+                if (DateTime.Compare(auction.TimeOfEnd??default(DateTime), DateTime.Now) <= 0 && auction.IsActive == true)
+                {
+                    EndAuction(auction.SellerId ?? default(int), cancellation);
+                    continue;
+                }
+
+                if (auction.IsActive == false)
                     continue;
 
                 aDto = new AuctionDashBordDto();
