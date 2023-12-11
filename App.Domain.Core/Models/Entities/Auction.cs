@@ -22,6 +22,10 @@ public class Auction
 
     public User? User { get; set; }
 
+    public int? WinnerId { get; set; }
+
+    public User? Winner { get; set; }
+
     public DateTime? TimeOfStart { get; set; }
 
     public DateTime? TimeOfEnd { get; set; }
