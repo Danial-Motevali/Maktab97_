@@ -349,6 +349,10 @@ namespace App.Domain.Services.AppServices
 
             if (aAuction.LastPrice < newPrice && aAuction.ParentId == null)
             {
+                aAuction.IsActive = false;
+
+                await _auctionService.Update(aAuction.Id??default(int), aAuction, cancellation);
+
                 newAuction.LastPrice = newPrice;
                 newAuction.ParentId = aAuction.Id;
                 newAuction.SellerId = aAuction.SellerId ?? default(int);
@@ -356,6 +360,7 @@ namespace App.Domain.Services.AppServices
                 newAuction.TimeOfStart = aAuction.TimeOfStart ?? default(DateTime);
                 newAuction.TimeOfEnd = aAuction.TimeOfEnd ?? default(DateTime);
                 newAuction.UserId = UserId;
+                newAuction.WinnerId = aAuction.WinnerId;
 
                 await _auctionService.Add(newAuction, cancellation);
 
@@ -367,6 +372,10 @@ namespace App.Domain.Services.AppServices
 
             } else if (aAuction.LastPrice < newPrice && aAuction.ParentId != null)
             {
+                aAuction.IsActive = false;
+
+                await _auctionService.Update(aAuction.Id ?? default(int), aAuction, cancellation);
+
                 newAuction.LastPrice = newPrice;
                 newAuction.ParentId = aAuction.ParentId;
                 newAuction.SellerId = aAuction.SellerId ?? default(int);
