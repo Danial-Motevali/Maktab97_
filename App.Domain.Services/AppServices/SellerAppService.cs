@@ -352,6 +352,7 @@ namespace App.Domain.Services.AppServices
             newAuction.SellerId = SellerId;
             newAuction.LastPrice = 0;
             newAuction.ParentId = null;
+            newAuction.WinnerId = null;
 
             await _auctionService.Add(newAuction, cancellation);
 
@@ -374,17 +375,20 @@ namespace App.Domain.Services.AppServices
         {
             var allAuction = await _auctionService.GetBySellerId(sellerId, cancellation);
             var specficAuction = new Auction();
+            var result = new Auction();
 
             foreach(var auction in allAuction)
             {
-                if(auction.TimeOfEnd == DateTime.Now)
+                if(auction.TimeOfEnd == DateTime.Now && auction.IsActive == true)
+                {
                     specficAuction.IsActive = false;
+                    specficAuction.WinnerId = auction.UserId;
+
+                    await _auctionService.Update(result.Id ?? default(int), result, cancellation);
+
+                }
             };
-
-            await _auctionService.Update(specficAuction.Id ??default(int),specficAuction, cancellation);
         }
-
-
 
         public async Task<List<AuctionDashBordDto>> FillAuctionDto(Seller seller, CancellationToken cancellation)
         {
