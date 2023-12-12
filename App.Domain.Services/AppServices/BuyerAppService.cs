@@ -649,6 +649,17 @@ namespace App.Domain.Services.AppServices
 
                 dto.LastPrice = auction.LastPrice??default(int);
 
+                dto.AuctionId = auction.Id??default(int);
+
+                if(auction.UserId == UserId)
+                {
+                    dto.IsActive = true;
+                }
+                else
+                {
+                    dto.IsActive = false;
+                }
+
                 result.Add(dto);
             }
 

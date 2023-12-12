@@ -203,10 +203,19 @@ namespace UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AuctionHistory(int CommentId, CancellationToken cancellation)
+        public async Task<IActionResult> AuctionHistory(CancellationToken cancellation)
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var auction = await _buyerAppService.FuilAuctionDto(int.Parse(id), cancellation);
+
+            return View(auction);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OneAuctionHistory(int AuctionId, CancellationToken cancellation)
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var auction = await _buyerAppService.AActionHistory(AuctionId, cancellation);
 
             return View(auction);
         }

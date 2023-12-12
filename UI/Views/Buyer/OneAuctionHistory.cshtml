@@ -714,7 +714,6 @@
                                                 <th>Url</th>
                                                 <th>Prdouct Name</th>
                                                 <th>Price</th>
-                                                <th>Win</th>
                                                 <th>History</th>
                                             </tr>
                                         </thead>
@@ -733,11 +732,8 @@
                                                             </div>
                                                         </td>
                                                         <td>@item.LastPrice</td>
-                                                        <td>@item.IsActive</td>
                                                         <td>
-                                                            <form asp-action="OneAuctionHistory" asp-controller="Buyer" method="get">
-                                                                <input name="AuctionId" type="hidden" value="@item.AuctionId">
-                                                                <button class="btn btn-primary">See History</button>
+                                                            <form>
                                                             </form>
                                                         </td>
                                                     </tr>
