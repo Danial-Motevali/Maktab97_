@@ -182,12 +182,5 @@ namespace UI.Controllers
 
             return RedirectToAction("Index");
         }
-
-        public async Task<IActionResult> EditAuction(int AuctionId, DateTime newDate, CancellationToken cancellation)
-        {
-
-            return View();
-        } // warnign workers are working
-        
     }
 }
