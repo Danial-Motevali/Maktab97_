@@ -598,9 +598,9 @@ namespace App.Domain.Services.AppServices
             return true;
         }
 
-        public async Task<List<BuyerUserCartDto>> FuildBuyerDto(int UserId, CancellationToken cancellation)
+        public async Task<List<ProductHistoryDto>> FuildBuyerDto(int UserId, CancellationToken cancellation)
         {
-            var newBuyerUserCartDto = new List<BuyerUserCartDto>();
+            var newBuyerUserCartDto = new List<ProductHistoryDto>();
             var aBuyer = _buyerService.ByUserId(UserId, cancellation);
             var allCart = await _cartService.GetByBuyerId(aBuyer.Id, cancellation);
 
@@ -610,7 +610,7 @@ namespace App.Domain.Services.AppServices
                 {
                     if (cart.IsActive == false)
                     {
-                        var newCart = new BuyerUserCartDto();
+                        var newCart = new ProductHistoryDto();
 
                         newCart.Title = await ProdutNameByCartId(cart, cancellation);
                         newCart.Price = await PriceByCart(cart, cancellation);

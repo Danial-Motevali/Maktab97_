@@ -35,6 +35,6 @@ namespace App.Domain.Core.Contract.AppServices
 
         Task<List<BuyerSearchDto>> ShowAllProduct(CancellationToken cancellation);
 
-        Task<List<BuyerUserCartDto>> FuildBuyerDto(int UserId, CancellationToken cancellation);
+        Task<List<ProductHistoryDto>> FuildBuyerDto(int UserId, CancellationToken cancellation);
     }
 }

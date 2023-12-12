@@ -1,4 +1,4 @@
-﻿@model App.Domain.Core.Models.Dto.ControllerDto.Buyer.BuyerUserDto
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.Buyer.ProductHistoryDto>
 @{
     ViewData["Title"] = "EditProfile";
 }
@@ -229,7 +229,7 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Widgets</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        
+
                                         <li><a href="general-widget.html">General</a></li>
                                         <li><a href="chart-widget.html">Chart</a></li>
                                     </ul>
@@ -710,47 +710,46 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-xl-6 col-sm-12">
-                                    <form asp-controller="Buyer" asp-action="EditProfile" method="post">            @* over here *@
-                                        <div class="row">
-                                            <div class="mb-3 col-sm-6">
-                                                <label for="inputEmail4" asp-for="FirstName">First Name</label>
-                                                <input class="form-control" asp-for="FirstName" id="inputEmail4" type="text">
-                                            </div>
-                                            <div class="mb-3 col-sm-6">
-                                                <label for="inputPassword4" asp-for="LastName">Last Name</label>
-                                                <input class="form-control" asp-for="LastName" id="inputPassword4" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 col-sm-12">
-                                            <label for="inputPassword4" asp-for="UserName">User Name</label>
-                                            <input class="form-control" asp-for="UserName" id="inputPassword4" type="text">
-                                        </div>
-                                        @* <div class="row"> *@
-                                        <div class="mb-3 col-sm-12">
-                                            <label for="inputPassword7" asp-for="Email">Email Address</label>
-                                            <input class="form-control" asp-for="Email" id="inputPassword7" type="email">
-                                        </div>
-                                       
-                                        <div class="col-sm-12">
-                                            <div class="mb-3 col-sm-4">
-                                                <button type="submit" class="btn btn-primary">Update me out</button>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" value="@Model.Id" asp-for="Id" />
-                                    </form>
-                                </div>
-                                <div class="col-xl-6 col-sm-12">
-                                        <div class="checkout-details">
-                                            <div class="order-box">
-                                                <div class="title-box">
-                                                    <div class="checkbox-title">
-                                                    <form asp-action="ProductHistory" asp-controller="Buyer" method="get">
-                                                        <button type="submit" class="btn btn-primary">ProductHistory</button>
-                                                    </form>
-                                                    </div>
+                                    <div class="checkout-details">
+                                        <div class="order-box">
+                                            <div class="title-box">
+                                                <div class="checkbox-title">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Image</th>
+                                                                <th>Prdouct Name</th>
+                                                                <th>Price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (Model != null)
+                                                            {
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    <tr>
+                                                                        <td><img class="img-fluid img-40" src="~/Images/@item.Url" alt="#"></td>
+                                                                        <td>
+                                                                            <div class="product-name">
+                                                                                <a href="#">
+                                                                                    <h6>@item.Title</h6>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>@item.Price</td>
+                                                                    </tr>
+                                                                }
+                                                                <tr>
+                                                                    <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" asp-controller="Buyer" asp-action="Index">continue shopping</a></td>    @* href="product.html" *@
+                                                                    <td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

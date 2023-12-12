@@ -98,7 +98,6 @@ namespace UI.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 UserName = user.UserName,
-                Product = await _buyerAppService.FuildBuyerDto(user.Id, cancellation)
             };
 
             return View(newUserDot);
@@ -187,6 +186,24 @@ namespace UI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> DeleteComment(int CommentId, CancellationToken cancellation)
+        {
+            await _buyerAppService.DeleteComment(CommentId, cancellation);
+
+            return RedirectToAction("ShowComment");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductHistory(int CommentId, CancellationToken cancellation)
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var product = await _buyerAppService.FuildBuyerDto(int.Parse(id), cancellation);
+
+
+            return View(product);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AuctionHistory(int CommentId, CancellationToken cancellation)
         {
             await _buyerAppService.DeleteComment(CommentId, cancellation);
 
