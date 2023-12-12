@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
 using System;
@@ -36,5 +37,7 @@ namespace App.Domain.Core.Contract.AppServices
         Task<List<BuyerSearchDto>> ShowAllProduct(CancellationToken cancellation);
 
         Task<List<ProductHistoryDto>> FuildBuyerDto(int UserId, CancellationToken cancellation);
+
+        Task<List<AuctionDashBordDto>> FuilAuctionDto(int UserId, CancellationToken cancellation);
     }
 }

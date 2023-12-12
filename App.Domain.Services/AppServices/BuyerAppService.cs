@@ -2,11 +2,13 @@
 using App.Domain.Core.Contract.Service;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Entities;
+using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Entities;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Domain.Core.Models.Identity.Role;
 using App.Domain.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -623,5 +625,56 @@ namespace App.Domain.Services.AppServices
 
             return newBuyerUserCartDto;
         }
+
+        public async Task<List<AuctionDashBordDto>> FuilAuctionDto(int UserId, CancellationToken cancellation)
+        {
+            //all auction that connect to inventory
+            var allAuction = await BuyerIsIn(UserId, cancellation);
+            var result = new List<AuctionDashBordDto>();
+            var dto = new AuctionDashBordDto();
+
+            foreach(var auction in allAuction)
+            {
+                dto = new AuctionDashBordDto();
+
+                //find picture url from auction
+                var ainventroy = _inventoryService.GetByAuctionId(auction.Id??default(int), cancellation);
+                var allPictureProduct = _productPictureService.GetByProducId(ainventroy.ProductId??default(int), cancellation).First();
+                var aPicture = await _pictureService.GetById(allPictureProduct.PictureId??default(int), cancellation);
+                dto.PictureUrl = aPicture.Url;
+
+                //find producttitle from auction
+                var aProduct = await _productService.GetById(ainventroy.ProductId, cancellation);
+                dto.ProductTitle = aProduct.Title;
+
+                dto.LastPrice = auction.LastPrice??default(int);
+
+                result.Add(dto);
+            }
+
+            return result;
+        }
+
+        //find all the auction that buyer add new price
+        public async Task<List<Auction>> BuyerIsIn(int userId, CancellationToken cancellation)
+        {
+            var result = new List<Auction>();
+            var allAuction = _auctionService.GetAll(cancellation);
+            var allInventory = _inventoryService.GetAll(cancellation);
+
+            foreach (var auction in allAuction)
+            {
+                var mark = allInventory.FirstOrDefault(x => x.AuctionId == auction.Id);
+
+                if (mark == null)
+                    continue;
+
+                if(auction.UserId == userId )
+                    result.Add(auction);
+            }
+
+            return result;
+        }
+
     }
 }

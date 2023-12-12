@@ -205,9 +205,10 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> AuctionHistory(int CommentId, CancellationToken cancellation)
         {
-            await _buyerAppService.DeleteComment(CommentId, cancellation);
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var auction = await _buyerAppService.FuilAuctionDto(int.Parse(id), cancellation);
 
-            return RedirectToAction("ShowComment");
+            return View(auction);
         }
     }
 }
