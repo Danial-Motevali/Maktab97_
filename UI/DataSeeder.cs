@@ -110,16 +110,17 @@ namespace UI
                 dbContext.SaveChanges();
             }
 
-            //if (!dbContext.Auctions.Any())
-            //{
-            //    var Address = new List<Auction>
-            //    {
-            //        new Auction { LastPrice = 100, TimeOfStart = DateTime.Now, TimeOfEnd = DateTime.UtcNow, IsActive = false, SellerId = 1}
-            //    };
+            if (!dbContext.Auctions.Any())
+            {
+                var Address = new List<Auction>
+                {
+                    new Auction { LastPrice = 23, TimeOfStart = DateTime.Now, TimeOfEnd = DateTime.Now.AddMinutes(8), IsActive = false, SellerId = 1, UserId = 3},
+                    new Auction { LastPrice = 30, TimeOfStart = DateTime.Now, TimeOfEnd = DateTime.Now.AddMinutes(8), IsActive = false, SellerId = 1, UserId = 3, WinnerId = 3, ParentId = 1}
+                };
 
-            //    dbContext.AddRange(Address);
-            //    dbContext.SaveChanges();
-            //}
+                dbContext.AddRange(Address);
+                dbContext.SaveChanges();
+            }
 
             if (!dbContext.MyAdmins.Any())
             {
