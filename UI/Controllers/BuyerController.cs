@@ -214,7 +214,6 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> OneAuctionHistory(int AuctionId, CancellationToken cancellation)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var auction = await _buyerAppService.AActionHistory(AuctionId, cancellation);
 
             return View(auction);

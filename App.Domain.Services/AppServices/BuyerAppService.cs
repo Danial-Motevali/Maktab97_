@@ -687,5 +687,55 @@ namespace App.Domain.Services.AppServices
             return result;
         }
 
+        public async Task<List<AuctionHistoryDto>> AActionHistory(int AuctionId, CancellationToken cancellation)
+        {
+            var aAuction = await _auctionService.GetById(AuctionId, cancellation);
+            var allAuction = new List<AuctionHistoryDto>();
+            var newAuctionDto = new AuctionHistoryDto();
+
+            if (aAuction.ParentId == null)
+            {
+                newAuctionDto = new AuctionHistoryDto();
+
+                newAuctionDto.LastPrice = aAuction.LastPrice;
+
+                allAuction.Add(newAuctionDto);
+
+                return allAuction;
+            }
+            else
+            {
+                newAuctionDto = new AuctionHistoryDto();
+
+                var parentAuction = await _auctionService.GetById(aAuction.ParentId ?? default(int), cancellation);
+                newAuctionDto.LastPrice = parentAuction.LastPrice;
+
+                allAuction.Add(newAuctionDto);
+
+                var auctionWithParent = await _auctionService.GetByParentId(aAuction.ParentId ?? default(int), cancellation);
+                foreach (var auction in auctionWithParent)
+                {
+                    newAuctionDto = new AuctionHistoryDto();
+
+                    newAuctionDto.LastPrice = auction.LastPrice;
+
+                    if (auction.UserId != null)
+                    {
+                        var Buyer = await _userServices.GetById(auction.UserId ?? default(int), cancellation);
+
+                        newAuctionDto.BuyerName = Buyer.UserName;
+                    }
+                    else
+                    {
+                        newAuctionDto.BuyerName = "null";
+                    }
+
+                    allAuction.Add(newAuctionDto);
+                }
+
+                return allAuction;
+            }
+        }
     }
+    
 }

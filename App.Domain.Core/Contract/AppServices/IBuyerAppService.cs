@@ -39,5 +39,7 @@ namespace App.Domain.Core.Contract.AppServices
         Task<List<ProductHistoryDto>> FuildBuyerDto(int UserId, CancellationToken cancellation);
 
         Task<List<AuctionDashBordDto>> FuilAuctionDto(int UserId, CancellationToken cancellation);
+
+        Task<List<AuctionHistoryDto>> AActionHistory(int AuctionId, CancellationToken cancellation);
     }
 }

@@ -1,4 +1,4 @@
-﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.AuctionDashBordDto>
+﻿@model List<App.Domain.Core.Models.Dto.ControllerDto.AuctionHistoryDto>
 
 
 
@@ -711,10 +711,8 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Url</th>
                                                 <th>Prdouct Name</th>
                                                 <th>Price</th>
-                                                <th>History</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -723,19 +721,10 @@
                                                 @foreach (var item in Model)
                                                 {
                                                     <tr>
-                                                        <td><img class="img-fluid img-40" src="~/Images/@item.PictureUrl" alt="#"></td>
                                                         <td>
-                                                            <div class="product-name">
-                                                                <a href="#">
-                                                                    <h6>@item.ProductTitle</h6>
-                                                                </a>
-                                                            </div>
+                                                            <h6>@item.BuyerName</h6>
                                                         </td>
                                                         <td>@item.LastPrice</td>
-                                                        <td>
-                                                            <form>
-                                                            </form>
-                                                        </td>
                                                     </tr>
                                                 }
                                             }
