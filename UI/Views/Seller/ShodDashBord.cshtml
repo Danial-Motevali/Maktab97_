@@ -738,7 +738,15 @@
                                                                 <td>@item.ProdductPrice</td>
                                                                 <td>@item.wage</td>
                                                                 
-                                                                <td><a asp-controller="Seller" asp-route-AuctionDays="AuctionDay" asp-action="AddToAcuion" asp-route-ProductId="@item.ProductId"  asp-route-SellerId="@item.SellerId" class="btn btn-primary"></a> 
+                                                                @* <td><a asp-controller="Seller" asp-route-AuctionDays="AuctionDay" asp-action="AddToAcuion" asp-route-ProductId="@item.ProductId"  asp-route-SellerId="@item.SellerId" class="btn btn-primary">
+                                                                    <input name="Days" type="Nu">
+                                                                </a> 
+                                                                </td> *@
+                                                                <td>
+                                                                    <form asp-controller="Seller" asp-route-AuctionDays="AuctionDay" asp-action="AddToAcuion" asp-route-ProductId="@item.ProductId" asp-route-SellerId="@item.SellerId">
+                                                                        <input name="Days" type="number">
+                                                                        @* <button type="submit"></button> *@
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         }

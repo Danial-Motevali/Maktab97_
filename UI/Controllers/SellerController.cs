@@ -176,9 +176,9 @@ namespace UI.Controllers
             return fileName;
         }
 
-        public async Task<IActionResult> AddToAcuion(int ProductId, int SellerId,int AddToAcuion,  CancellationToken cancellation)
+        public async Task<IActionResult> AddToAcuion(int ProductId, int SellerId,int Days,  CancellationToken cancellation)
         {
-            await _sellerAppService.AddToAcuion(ProductId, SellerId, cancellation);
+            await _sellerAppService.AddToAcuion(ProductId, SellerId, Days, cancellation);
 
             return RedirectToAction("Index");
         }

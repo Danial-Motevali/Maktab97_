@@ -332,7 +332,7 @@ namespace App.Domain.Services.AppServices
         //    return 0;
         //}
 
-        public async Task<bool> AddToAcuion(int ProductId, int SellerId, CancellationToken cancellation)
+        public async Task<bool> AddToAcuion(int ProductId, int SellerId, int Days, CancellationToken cancellation)
         {
             var productInInventorys = await _inventoryService.GetByProductId(ProductId, cancellation);
             var aShop = _shopService.GetBySellerId(SellerId, cancellation);
@@ -348,7 +348,7 @@ namespace App.Domain.Services.AppServices
             }
 
             newAuction.TimeOfStart = DateTime.Now;
-            newAuction.TimeOfEnd =  DateTime.Now.AddDays(1);
+            newAuction.TimeOfEnd =  DateTime.Now.AddDays(Days);
             newAuction.SellerId = SellerId;
             newAuction.LastPrice = 0;
             newAuction.ParentId = null;
@@ -360,7 +360,7 @@ namespace App.Domain.Services.AppServices
 
             await _inventoryService.Update(aInventory.Id ,aInventory, cancellation);
 
-            var scedul = DateTime.Now.AddMinutes(2);
+            var scedul = DateTime.Now.AddDays(Days);
             var defultScedul = new DateTimeOffset(scedul);
 
             BackgroundJob.Schedule<SellerAppService>(x => x.EndAuction(SellerId, cancellation), defultScedul);
