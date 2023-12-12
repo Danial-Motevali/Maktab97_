@@ -407,18 +407,15 @@ namespace App.Domain.Services.AppServices
             {
                 if (DateTime.Compare(auction.TimeOfEnd??default(DateTime), DateTime.Now) <= 0 && auction.IsActive == true)
                 {
-                    EndAuction(auction.SellerId ?? default(int), cancellation);
-                    continue;
+                    await EndAuction(auction.SellerId ?? default(int), cancellation);
                 }
-
-                if (auction.IsActive == false)
-                    continue;
 
                 aDto = new AuctionDashBordDto();
 
                 aDto.AuctionId = auction.Id??default(int);
                 aDto.TimeOfEnd = auction.TimeOfEnd??default(DateTime);
                 aDto.LastPrice = auction.LastPrice ?? default(int);
+                aDto.IsActive = auction.IsActive;
                 var helper = await FillAuctionDtoHelper(aDto, auction.Id ?? default(int), cancellation); //find product name , and product picture
 
                 DtoList.Add(helper);

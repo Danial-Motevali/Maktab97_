@@ -27,5 +27,7 @@ namespace App.Domain.Core.Models.Dto.ControllerDto
         public int LastPrice { get; set; } 
 
         public int wage { get; set; } 
+
+        public bool IsActive { get; set; }  
     }
 }

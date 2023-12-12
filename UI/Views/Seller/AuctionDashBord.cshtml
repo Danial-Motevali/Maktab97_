@@ -705,7 +705,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header pb-0">
-                                    <h5>Simple Pricing Card</h5>
+                                    <h5>AuctionDashbord</h5>
                                 </div>
                                 <div class="card-body row pricing-content">
                                     @*over here*@               @if (Model != null)
@@ -718,8 +718,9 @@
                                                         <h3>@product.ProductTitle</h3>
                                                         <img src="~/Images/@product.PictureUrl">
                                                         <h1 class="mb-0">@product.LastPrice</h1>
-                                                        <h1 class="mb-0">@product.ProductCategory</h1>
+                                                        <h1 class="mb-0">@product.ProductTitle</h1>
                                                         <p class="mb-0">@product.TimeOfEnd</p>
+                                                        <p class="mb-0">@product.IsActive</p>
                                                     </div>
                                                     <a class="btn btn-lg btn-primary btn-block" asp-route-AuctionId="@product.AuctionId" asp-controller="Seller" asp-action="EditAuction">
                                                     </a>
