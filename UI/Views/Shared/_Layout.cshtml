@@ -290,11 +290,14 @@
                                             </ul>
                                         } *@
                                     }
-                                    else if (!_signInManager.IsSignedIn(User) && !User.IsInRole("Admin") || !User.IsInRole("Seller"))
+                                    else if (!_signInManager.IsSignedIn(User))
                                     {
-                                        <ul>
-                                            <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
-                                        </ul>
+                                        @if (!User.IsInRole("Admin") || !User.IsInRole("Seller"))
+                                        {
+                                            <ul>
+                                                <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
+                                            </ul>
+                                        }
                                     }
                                 </li>
                                  <li class="dropdown">
