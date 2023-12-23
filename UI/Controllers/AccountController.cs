@@ -91,6 +91,8 @@ namespace UI.Controllers
             var allUser = _userServices.GetAll(cancellation);
             var inputUser = new User();
 
+
+
             if (ModelState.IsValid)
             {
                 foreach(var user in allUser)
@@ -110,16 +112,16 @@ namespace UI.Controllers
                 if (result.Succeeded)
                 {
                     if(inputUser.Potion == Potion.Buyer)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", inputUser);
 
                     if (inputUser.Potion == Potion.Seller)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", inputUser);
 
                     if (inputUser.Potion == Potion.Admin)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", inputUser);
 
                     if (inputUser.Potion == Potion.Owner)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", inputUser);
                 }
             }
             return View(input);
