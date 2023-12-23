@@ -3,6 +3,7 @@ using App.Domain.Core.Contract.Repository;
 using App.Domain.Core.Contract.Services;
 using App.Domain.Core.Models.Dto.ControllerDto;
 using App.Domain.Core.Models.Identity.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 
 namespace UI.Controllers
 {
+    [Authorize(Roles = "Seller")]
     public class SellerController : Controller
     {
         private readonly UserManager<User> _userManager;

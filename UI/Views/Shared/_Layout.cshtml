@@ -281,6 +281,7 @@
                                                 <li><a asp-controller="Admin" asp-action="ShowTheSeller">ShowTheSeller</a></li>
                                             </ul>
                                         }
+                                        
                                         @* @if (User.IsInRole("Owner"))
                                         {
                                             <ul class="nav-submenu menu-content">
@@ -288,6 +289,12 @@
                                                 <li><a asp-controller="ManagerUser" asp-action="Index">MangeUser</a></li>
                                             </ul>
                                         } *@
+                                    }
+                                    else if (!_signInManager.IsSignedIn(User) && !User.IsInRole("Admin") || !User.IsInRole("Seller"))
+                                    {
+                                        <ul>
+                                            <li><a asp-controller="Buyer" asp-action="Index">Shop</a></li>
+                                        </ul>
                                     }
                                 </li>
                                  <li class="dropdown">

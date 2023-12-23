@@ -3,6 +3,7 @@ using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Domain.Services.AppServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 
 namespace UI.Controllers
 {
+    [Authorize(Roles = "Buyer")]
     public class BuyerController : Controller
     {
         private readonly IBuyerAppService _buyerAppService;
@@ -19,6 +21,8 @@ namespace UI.Controllers
             _buyerAppService = buyerAppService;
             _userManager = userManager;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index(CancellationToken cancellation)
         {
             var allProduct = await _buyerAppService.ShowAllProduct(cancellation);
@@ -26,6 +30,7 @@ namespace UI.Controllers
             return View(allProduct);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Serach(string inputValue, CancellationToken cancellation)
         {
