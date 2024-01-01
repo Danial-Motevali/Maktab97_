@@ -31,227 +31,316 @@ namespace UI.Controllers
         //buyer
         public async Task<IActionResult> ShowTheBuyer(CancellationToken cancellation)
         {
-            var buyerDto = new List<UserDto>();
-            var findBuyerFromUser = _adminAppServices.FindAllBuyer(cancellation);
-
-            foreach (var buyer in findBuyerFromUser)
+            try
             {
-                var userToDto = new UserDto
+                var buyerDto = new List<UserDto>();
+                var findBuyerFromUser = _adminAppServices.FindAllBuyer(cancellation);
+
+                foreach (var buyer in findBuyerFromUser)
                 {
-                    Id = buyer.Id,
-                    FirstName = buyer.FirstName,
-                    LastName = buyer.LastName,
-                    IsDeleted = buyer.IsDeleted ?? default(bool),
-                    UserName = buyer.UserName,
-                    Email = buyer.Email
-                };
+                    var userToDto = new UserDto
+                    {
+                        Id = buyer.Id,
+                        FirstName = buyer.FirstName,
+                        LastName = buyer.LastName,
+                        IsDeleted = buyer.IsDeleted ?? default(bool),
+                        UserName = buyer.UserName,
+                        Email = buyer.Email
+                    };
 
-                buyerDto.Add(userToDto);
+                    buyerDto.Add(userToDto);
+                }
+
+                return View(buyerDto);
             }
-
-            return View(buyerDto);
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
 
         public IActionResult BuyerComments(int Id, CancellationToken cancellation)
         {
-            var findBuyerFromUser = _adminAppServices.FindBuyer(Id, cancellation);
-            var findCommetnByUserId = _adminAppServices.FindCommentByUserId(findBuyerFromUser, cancellation);
+            try
+            {
+                var findBuyerFromUser = _adminAppServices.FindBuyer(Id, cancellation);
+                var findCommetnByUserId = _adminAppServices.FindCommentByUserId(findBuyerFromUser, cancellation);
 
-            return View(findCommetnByUserId);
+                return View(findCommetnByUserId);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteComment(int Id, CancellationToken cancellation)
         {
-            await _adminAppServices.DeleteComment(Id, cancellation);
+            try
+            {
+                await _adminAppServices.DeleteComment(Id, cancellation);
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         //Seller
         public async Task<IActionResult> ShowTheSeller(CancellationToken cancellation)
         {
-            var sellerDto = new List<UserDto>();
-            var findSellerFromUser = _adminAppServices.FindAllSeller(cancellation);
-
-            foreach (var seller in findSellerFromUser)
+            try
             {
-                var userToDto = new UserDto
+                var sellerDto = new List<UserDto>();
+                var findSellerFromUser = _adminAppServices.FindAllSeller(cancellation);
+
+                foreach (var seller in findSellerFromUser)
                 {
-                    Id = seller.Id,
-                    FirstName = seller.FirstName,
-                    LastName = seller.LastName,
-                    IsDeleted = seller.IsDeleted ?? default(bool),
-                    UserName = seller.UserName,
-                    Email = seller.Email,
-                    Wage = await _adminAppServices.ShowSellerWage(seller.Id, cancellation),
-                    ShopName = await _adminAppServices.FindShopName(seller.Id, cancellation),
-                    Shop = await _adminAppServices.ShopActivite(seller.Id, cancellation)
-                };
+                    var userToDto = new UserDto
+                    {
+                        Id = seller.Id,
+                        FirstName = seller.FirstName,
+                        LastName = seller.LastName,
+                        IsDeleted = seller.IsDeleted ?? default(bool),
+                        UserName = seller.UserName,
+                        Email = seller.Email,
+                        Wage = await _adminAppServices.ShowSellerWage(seller.Id, cancellation),
+                        ShopName = await _adminAppServices.FindShopName(seller.Id, cancellation),
+                        Shop = await _adminAppServices.ShopActivite(seller.Id, cancellation)
+                    };
 
-                sellerDto.Add(userToDto);
+                    sellerDto.Add(userToDto);
+                }
+
+                return View(sellerDto);
             }
-
-            return View(sellerDto);
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         public async Task<IActionResult> SellersProducts(int Id, CancellationToken cancellation)
         {
-            var sellerId = _adminAppServices.FindSeller(Id, cancellation);
-            var findSellerProduct = await _adminAppServices.SellersProduct(sellerId, cancellation);
+            try
+            {
+                var sellerId = _adminAppServices.FindSeller(Id, cancellation);
+                var findSellerProduct = await _adminAppServices.SellersProduct(sellerId, cancellation);
 
-            return View(findSellerProduct);
+                return View(findSellerProduct);
+            }
+            catch(Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int InventoryId, CancellationToken cancellation)
         {
-            await _adminAppServices.DeleteProduct(InventoryId, cancellation);
+            try
+            {
+                await _adminAppServices.DeleteProduct(InventoryId, cancellation);
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         public async Task<IActionResult> DeleteShop(int Id, CancellationToken cancellation)
         {
-            await _adminAppServices.DeleteShop(Id, cancellation);
+            try
+            {
+                await _adminAppServices.DeleteShop(Id, cancellation);
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         //Edit user
         [HttpGet]
         public IActionResult ShowAllUser(CancellationToken cancellation)
         {
-            var activeIndexDto = new List<IndexDto>();
-            var models = _userManager.Users
-            .Select(x => new IndexDto()
+            try
             {
-                Id = x.Id.ToString(),
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                UserName = x.UserName,
-                IsDeleted = x.IsDeleted ?? default(bool),
-                UserRole = _adminAppServices.FindUserRole(x.Id, cancellation)
-            }).ToList();
-            
-            foreach(var model in models)
-            {
-                if(model.IsDeleted == false)
-                    activeIndexDto.Add(model);
-            }
+                var activeIndexDto = new List<IndexDto>();
+                var models = _userManager.Users
+                .Select(x => new IndexDto()
+                {
+                    Id = x.Id.ToString(),
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    UserName = x.UserName,
+                    IsDeleted = x.IsDeleted ?? default(bool),
+                    UserRole = _adminAppServices.FindUserRole(x.Id, cancellation)
+                }).ToList();
 
-            return View(activeIndexDto);
+                foreach (var model in models)
+                {
+                    if (model.IsDeleted == false)
+                        activeIndexDto.Add(model);
+                }
+
+                return View(activeIndexDto);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
         
 
         [HttpGet]
         public async Task<IActionResult> EditUser(string UserId)
         {
-            var markUser = new User();
-
-            if(UserId == null)
+            try
             {
-                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var markUser = new User();
 
-                if (id == null)
-                    return NotFound();
+                if (UserId == null)
+                {
+                    var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var user = await _userManager.FindByIdAsync(id);
+                    if (id == null)
+                        return NotFound();
+
+                    var user = await _userManager.FindByIdAsync(id);
 
 
-                if (user == null)
-                    return NotFound();
+                    if (user == null)
+                        return NotFound();
 
-                markUser = user;
+                    markUser = user;
+                }
+                else
+                {
+                    var user = await _userManager.FindByIdAsync(UserId);
+
+                    if (user == null)
+                        return NotFound();
+
+                    markUser = user;
+                }
+
+                return View(markUser);
             }
-            else
+            catch (Exception ex)
             {
-                var user = await _userManager.FindByIdAsync(UserId);
-
-                if (user == null)
-                    return NotFound();
-
-                markUser = user;
+                return View(ex);
             }
-
-
-
-            return View(markUser);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUser(string Id, string userName, string firstName, string lastName, bool isDeleted)
         {
-            //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (Id == null || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
-                return NotFound();
-
-            var user = await _userManager.FindByIdAsync(Id);
-
-            if (user == null)
-                return NotFound();
-
-            user.Id = Convert.ToInt32(Id);
-            user.UserName = userName;
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.IsDeleted = isDeleted;
-
-            var result = await _userManager.UpdateAsync(user);
-
-            if (result.Succeeded) return RedirectToAction("Index", "Home");
-
-            foreach (var item in result.Errors)
+            try
             {
-                ModelState.AddModelError(string.Empty, item.Description);
-            }
+                //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return View(result);
+                if (Id == null || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+                    return NotFound();
+
+                var user = await _userManager.FindByIdAsync(Id);
+
+                if (user == null)
+                    return NotFound();
+
+                user.Id = Convert.ToInt32(Id);
+                user.UserName = userName;
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.IsDeleted = isDeleted;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded) return RedirectToAction("Index", "Home");
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            if (string.IsNullOrEmpty(id))
-                return NotFound();
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return NotFound();
-
-            if(user.IsDeleted == false)
+            try
             {
-                user.IsDeleted = true;
+                if (string.IsNullOrEmpty(id))
+                    return NotFound();
+
+                var user = await _userManager.FindByIdAsync(id);
+                if (user == null)
+                    return NotFound();
+
+                if (user.IsDeleted == false)
+                {
+                    user.IsDeleted = true;
+                }
+                else
+                {
+                    user.IsDeleted = false;
+                }
+
+                var result = await _userManager.UpdateAsync(user);
+
+                //await _userManager.DeleteAsync(user);
+
+                return RedirectToAction("Index", "Home");
             }
-            else
+            catch (Exception ex)
             {
-                user.IsDeleted = false;
+                return View(ex);
             }
-
-            var result = await _userManager.UpdateAsync(user);
-
-            //await _userManager.DeleteAsync(user);
-
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public async Task<IActionResult> AddCategory(CancellationToken cancellation)
         {
-            var allCategory = await _adminAppServices.ShowAllCategory(cancellation);
+            try
+            {
+                var allCategory = await _adminAppServices.ShowAllCategory(cancellation);
 
-            return View(allCategory);
+                return View(allCategory);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewCategory(string Title, string Parent, CancellationToken cancellation)
         {
-            await _adminAppServices.AddCategory(Title, Parent, cancellation);
+            try
+            {
+                await _adminAppServices.AddCategory(Title, Parent, cancellation);
 
-            return RedirectToAction("AddCategory");
+                return RedirectToAction("AddCategory");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
     }
 }

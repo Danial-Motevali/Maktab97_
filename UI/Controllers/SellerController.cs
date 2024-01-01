@@ -35,154 +35,223 @@ namespace UI.Controllers
 
         public IActionResult ShodDashBord(CancellationToken cancellation)
         {
-
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var seller = _sellerAppService.FindSeller(userId, cancellation);
-
-            var shopDto = new ShopDashBordDto
+            try
             {
-                SellerId = seller.Id,
-            };
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var seller = _sellerAppService.FindSeller(userId, cancellation);
 
-            var hasAShop = _sellerAppService.FindShop(seller.Id, cancellation);
+                var shopDto = new ShopDashBordDto
+                {
+                    SellerId = seller.Id,
+                };
 
-            if (hasAShop == null) 
-            {
-                return View("~/Views/Seller/CreateAShop.cshtml", shopDto); 
+                var hasAShop = _sellerAppService.FindShop(seller.Id, cancellation);
+
+                if (hasAShop == null)
+                {
+                    return View("~/Views/Seller/CreateAShop.cshtml", shopDto);
+                }
+
+                var shopDasBordDto = _sellerAppService.FillTheDto(hasAShop, cancellation);
+
+                return View(shopDasBordDto);
             }
-
-            var shopDasBordDto = _sellerAppService.FillTheDto(hasAShop, cancellation);
-
-            return View(shopDasBordDto);
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         public async Task<IActionResult> AuctionDashBord(CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var seller = _sellerAppService.FindSeller(userId, cancellation);
-            var auctionDto = await _sellerAppService.FillAuctionDto(seller, cancellation);
+            try
+            {
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var seller = _sellerAppService.FindSeller(userId, cancellation);
+                var auctionDto = await _sellerAppService.FillAuctionDto(seller, cancellation);
 
-            return View(auctionDto);
+                return View(auctionDto);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> AuctionHistory(int AuctionId, CancellationToken cancellation)
         {
-            var result = await _sellerAppService.AuctionHistory(AuctionId, cancellation);
+            try
+            {
+                var result = await _sellerAppService.AuctionHistory(AuctionId, cancellation);
 
-            return View(result);
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public  IActionResult CreateANewShop(ShopDashBordDto shop, CancellationToken cancellation) 
         {
-            var newShop = _sellerAppService.CreateAShop(shop, cancellation).Result;
+            try
+            {
+                var newShop = _sellerAppService.CreateAShop(shop, cancellation).Result;
 
-            return RedirectToAction("ShodDashBord", newShop);
+                return RedirectToAction("ShodDashBord", newShop);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (id == null) 
-                return NotFound();
+                if (id == null)
+                    return NotFound();
 
-            var user = await _userManager.FindByIdAsync(id);
+                var user = await _userManager.FindByIdAsync(id);
 
-            if (user == null) 
-                return NotFound();
-                    
+                if (user == null)
+                    return NotFound();
 
-            return View(user);
+
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> EditProfile(string id, string userName, string firstName, string lastName, bool isDeleted)
         {
-            //int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
-                return NotFound();
-
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
-                return NotFound();
-
-            user.Id = Convert.ToInt32(id);
-            user.UserName = userName;
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.IsDeleted = isDeleted;
-
-            var result = await _userManager.UpdateAsync(user);
-
-            if (result.Succeeded)
-                return RedirectToAction("Index");
-
-            foreach (var item in result.Errors)
+            try
             {
-                ModelState.AddModelError(string.Empty, item.Description);
-            }
+                //int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            return View(result);
+                if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+                    return NotFound();
+
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user == null)
+                    return NotFound();
+
+                user.Id = Convert.ToInt32(id);
+                user.UserName = userName;
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.IsDeleted = isDeleted;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                    return RedirectToAction("Index");
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public IActionResult AppProduct(CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var seller = _sellerAppService.FindSeller(userId, cancellation);
-
-            var newProduct = new AddProductDto
+            try
             {
-                ShopId = _shopService.GetBySellerId(seller.Id, cancellation).Id,
-                category = _categoryService.GetAll(cancellation)
-            };
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var seller = _sellerAppService.FindSeller(userId, cancellation);
 
-            return View(newProduct);
+                var newProduct = new AddProductDto
+                {
+                    ShopId = _shopService.GetBySellerId(seller.Id, cancellation).Id,
+                    category = _categoryService.GetAll(cancellation)
+                };
+
+                return View(newProduct);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AppProduct(AddProductDto productDto ,CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var seller = _sellerAppService.FindSeller(userId, cancellation);
+            try
+            {
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var seller = _sellerAppService.FindSeller(userId, cancellation);
 
-            string filename = UploadFile(productDto);
-            productDto.PictureUrl = filename;
+                string filename = UploadFile(productDto);
+                productDto.PictureUrl = filename;
 
-            await _sellerAppService.AddProduct(productDto, seller, cancellation);
+                await _sellerAppService.AddProduct(productDto, seller, cancellation);
 
-            return RedirectToAction("ShodDashBord");
+                return RedirectToAction("ShodDashBord");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         public string UploadFile(AddProductDto input)
         {
-            string fileName = null;
-
-            if (input.PictureUrlFile != null)
+            try
             {
-                string uploadDir = Path.Combine(_env.WebRootPath, "Images");
-                fileName = Guid.NewGuid() + "_" + input.PictureUrlFile.FileName;
-                string filePath = Path.Combine(uploadDir, fileName);
+                string fileName = null;
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                if (input.PictureUrlFile != null)
                 {
-                    input.PictureUrlFile.CopyTo(fileStream);
-                }
-            }
+                    string uploadDir = Path.Combine(_env.WebRootPath, "Images");
+                    fileName = Guid.NewGuid() + "_" + input.PictureUrlFile.FileName;
+                    string filePath = Path.Combine(uploadDir, fileName);
 
-            return fileName;
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        input.PictureUrlFile.CopyTo(fileStream);
+                    }
+                }
+
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                return "null";
+            }
         }
 
         public async Task<IActionResult> AddToAcuion(int ProductId, int SellerId,int Days,  CancellationToken cancellation)
         {
-            await _sellerAppService.AddToAcuion(ProductId, SellerId, Days, cancellation);
+            try
+            {
+                await _sellerAppService.AddToAcuion(ProductId, SellerId, Days, cancellation);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
     }
 }

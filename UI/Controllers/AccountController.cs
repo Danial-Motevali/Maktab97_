@@ -30,49 +30,54 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto input, CancellationToken cancellation)
         {
-
-
-            if (ModelState.IsValid)
+            try
             {
-                var newUser = new User()
+                if (ModelState.IsValid)
                 {
-                    //Id = input.Id,
-                    Email = input.Email,
-                    FirstName = input.FirstName,
-                    LastName = input.LastName,
-                    UserName = input.UserName,
-                    EmailConfirmed = true
-                };
+                    var newUser = new User()
+                    {
+                        //Id = input.Id,
+                        Email = input.Email,
+                        FirstName = input.FirstName,
+                        LastName = input.LastName,
+                        UserName = input.UserName,
+                        EmailConfirmed = true
+                    };
 
-                var result = await _userManager.CreateAsync(newUser, input.PassWord);
+                    var result = await _userManager.CreateAsync(newUser, input.PassWord);
 
-                if (result.Succeeded)
-                {
-                    if (input.potion == PotionDto.Seller)
+                    if (result.Succeeded)
                     {
-                        await _accountAppService.CreateSeller(newUser, cancellation);
+                        if (input.potion == PotionDto.Seller)
+                        {
+                            await _accountAppService.CreateSeller(newUser, cancellation);
+                        }
+                        else if (input.potion == PotionDto.Buyer)
+                        {
+                            await _accountAppService.CreateBuyer(newUser, cancellation);
+                        }
+                        else if (input.potion == PotionDto.Admin)
+                        {
+                            await _accountAppService.CreateBuyer(newUser, cancellation);
+                        }
                     }
-                    else if (input.potion == PotionDto.Buyer)
+
+                    if (result.Succeeded)
                     {
-                        await _accountAppService.CreateBuyer(newUser, cancellation);
+                        return RedirectToAction("Login");
                     }
-                    else if (input.potion == PotionDto.Admin)
+
+                    foreach (var errore in result.Errors)
                     {
-                        await _accountAppService.CreateBuyer(newUser, cancellation);
+                        ModelState.AddModelError("", errore.Description);
                     }
                 }
-
-                if (result.Succeeded )
-                {
-                    return RedirectToAction("Login");
-                }
-
-                foreach (var errore in result.Errors)
-                {
-                    ModelState.AddModelError("", errore.Description);
-                }
+                return View(input);
             }
-            return View(input);
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
@@ -87,44 +92,51 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto input, CancellationToken cancellation)
         {
-            var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
-            var allUser = _userServices.GetAll(cancellation);
-            var inputUser = new User();
-
-
-
-            if (ModelState.IsValid)
+            try
             {
-                foreach(var user in allUser)
+                var result = await _signInManager.PasswordSignInAsync(input.UserName, input.PassWord, false, false);
+                var allUser = _userServices.GetAll(cancellation);
+                var inputUser = new User();
+
+
+
+                if (ModelState.IsValid)
                 {
-                    if(user.UserName == input.UserName)
+                    foreach (var user in allUser)
                     {
-                        inputUser = user;
+                        if (user.UserName == input.UserName)
+                        {
+                            inputUser = user;
+                        }
                     }
                 }
-            }
 
-            if (_signInManager.IsSignedIn(User))
-                return RedirectToAction("Index", "Home");
+                if (_signInManager.IsSignedIn(User))
+                    return RedirectToAction("Index", "Home");
 
-            if (ModelState.IsValid)
-            {
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    if(inputUser.Potion == Potion.Buyer)
-                        return RedirectToAction("Index", "Home", inputUser);
+                    if (result.Succeeded)
+                    {
+                        if (inputUser.Potion == Potion.Buyer)
+                            return RedirectToAction("Index", "Home", inputUser);
 
-                    if (inputUser.Potion == Potion.Seller)
-                        return RedirectToAction("Index", "Home", inputUser);
+                        if (inputUser.Potion == Potion.Seller)
+                            return RedirectToAction("Index", "Home", inputUser);
 
-                    if (inputUser.Potion == Potion.Admin)
-                        return RedirectToAction("Index", "Home", inputUser);
+                        if (inputUser.Potion == Potion.Admin)
+                            return RedirectToAction("Index", "Home", inputUser);
 
-                    if (inputUser.Potion == Potion.Owner)
-                        return RedirectToAction("Index", "Home", inputUser);
+                        if (inputUser.Potion == Potion.Owner)
+                            return RedirectToAction("Index", "Home", inputUser);
+                    }
                 }
+                return View(input);
             }
-            return View(input);
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]

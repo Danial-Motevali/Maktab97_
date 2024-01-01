@@ -2,9 +2,7 @@
 using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto.ControllerDto.Buyer;
 using App.Domain.Core.Models.Identity.Entites;
-using App.Domain.Services.AppServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -25,203 +23,322 @@ namespace UI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(CancellationToken cancellation)
         {
-            var allProduct = await _buyerAppService.ShowAllProduct(cancellation);
+            try
+            {
+                var allProduct = await _buyerAppService.ShowAllProduct(cancellation);
 
-            return View(allProduct);
+                return View(allProduct);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Serach(string inputValue, CancellationToken cancellation)
         {
-            var result = await _buyerAppService.Search(inputValue, cancellation);
+            try
+            {
+                var result = await _buyerAppService.Search(inputValue, cancellation);
 
-            return View("Index", result);
+                return View("Index", result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AddToCart(int ProductId, int ShopId, CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
-            var result = await _buyerAppService.AddToCart(buyer, ProductId, ShopId, cancellation);
+            try
+            {
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+                var result = await _buyerAppService.AddToCart(buyer, ProductId, ShopId, cancellation);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         public async Task<IActionResult> Action(CancellationToken cancellation)
         {
-            var result = await _buyerAppService.Action(cancellation);
+            try
+            {
+                var result = await _buyerAppService.Action(cancellation);
 
-            return View(result);
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         public async Task<IActionResult> AddNewPrice(int NewPrice, int AuctionId, CancellationToken cancellation)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var result = await _buyerAppService.AddNewPrice(userId, NewPrice, AuctionId, cancellation);
+            try
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var result = await _buyerAppService.AddNewPrice(userId, NewPrice, AuctionId, cancellation);
 
-            return View("Action");
+                return View("Action");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Cart(CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+            try
+            {
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var buyer = _buyerAppService.FindBuyer(userId, cancellation);
 
-            var result = await _buyerAppService.Cart(buyer, cancellation);
+                var result = await _buyerAppService.Cart(buyer, cancellation);
 
-            return View(result);
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Cart(List<BuyerCartDto> outputList, CancellationToken cancellation)
         {
-            await _buyerAppService.AddOrder(outputList, cancellation);
+            try
+            {
+                await _buyerAppService.AddOrder(outputList, cancellation);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> EditProfile(CancellationToken cancellation)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (id == null)
-                return NotFound();
-
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
-                return NotFound();
-
-            var newUserDot = new BuyerUserDto()
+            try
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                UserName = user.UserName,
-            };
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return View(newUserDot);
+                if (id == null)
+                    return NotFound();
+
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user == null)
+                    return NotFound();
+
+                var newUserDot = new BuyerUserDto()
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                };
+
+                return View(newUserDot);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> EditProfile(string id, string userName, string firstName, string lastName, bool isDeleted)
         {
-            //int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
-                return NotFound();
-
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
-                return NotFound();
-
-            user.Id = Convert.ToInt32(id);
-            user.UserName = userName;
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.IsDeleted = isDeleted;
-
-            var result = await _userManager.UpdateAsync(user);
-
-            if (result.Succeeded)
-                return RedirectToAction("Index");
-
-            foreach (var item in result.Errors)
+            try
             {
-                ModelState.AddModelError(string.Empty, item.Description);
-            }
+                //int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            return View(result);
+                if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+                    return NotFound();
+
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user == null)
+                    return NotFound();
+
+                user.Id = Convert.ToInt32(id);
+                user.UserName = userName;
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.IsDeleted = isDeleted;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                    return RedirectToAction("Index");
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
 
         [HttpGet]
         public async Task<IActionResult> ShowComment(CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+            try
+            {
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var buyer = _buyerAppService.FindBuyer(userId, cancellation);
 
-            var allComments = await _buyerAppService.ShowComment(buyer, cancellation);
+                var allComments = await _buyerAppService.ShowComment(buyer, cancellation);
 
-            return View(allComments);
+                return View(allComments);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> CommentSection(CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
+            try
+            {
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var buyer = _buyerAppService.FindBuyer(userId, cancellation);
 
-            var allOrder = await _buyerAppService.OrderetProdut(buyer, cancellation);
+                var allOrder = await _buyerAppService.OrderetProdut(buyer, cancellation);
 
-            return View(allOrder);
+                return View(allOrder);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
 
         [HttpGet]
         public async Task<IActionResult> AddComment(int InventoryId, CancellationToken cancellation)
         {
-            int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var buyer = _buyerAppService.FindBuyer(userId, cancellation);
-
-            var newComment = new Comment()
+            try
             {
-                BuyerId = buyer.Id,
-                InventoryId = InventoryId,
-                IsDeleted = false,
-                IsActive = false
-            };
+                int userId = Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var buyer = _buyerAppService.FindBuyer(userId, cancellation);
 
-            return View(newComment);
+                var newComment = new Comment()
+                {
+                    BuyerId = buyer.Id,
+                    InventoryId = InventoryId,
+                    IsDeleted = false,
+                    IsActive = false
+                };
+
+                return View(newComment);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AddComment(Comment input, CancellationToken cancellation)
         {
-            await _buyerAppService.AddComment(input, cancellation);
+            try
+            {
+                await _buyerAppService.AddComment(input, cancellation);
 
-            return RedirectToAction("CommentSection");
+                return RedirectToAction("CommentSection");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteComment(int CommentId, CancellationToken cancellation)
         {
-            await _buyerAppService.DeleteComment(CommentId, cancellation);
+            try
+            {
+                await _buyerAppService.DeleteComment(CommentId, cancellation);
 
-            return RedirectToAction("ShowComment");
+                return RedirectToAction("ShowComment");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> ProductHistory(int CommentId, CancellationToken cancellation)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var product = await _buyerAppService.FuildBuyerDto(int.Parse(id), cancellation);
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var product = await _buyerAppService.FuildBuyerDto(int.Parse(id), cancellation);
 
 
-            return View(product);
+                return View(product);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> AuctionHistory(CancellationToken cancellation)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var auction = await _buyerAppService.FuilAuctionDto(int.Parse(id), cancellation);
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var auction = await _buyerAppService.FuilAuctionDto(int.Parse(id), cancellation);
 
-            return View(auction);
+                return View(auction);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> OneAuctionHistory(int AuctionId, CancellationToken cancellation)
         {
-            var auction = await _buyerAppService.AActionHistory(AuctionId, cancellation);
+            try
+            {
+                var auction = await _buyerAppService.AActionHistory(AuctionId, cancellation);
 
-            return View(auction);
+                return View(auction);
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
         }
     }
 }
