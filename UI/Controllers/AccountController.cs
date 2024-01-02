@@ -119,16 +119,16 @@ namespace UI.Controllers
                     if (result.Succeeded)
                     {
                         if (inputUser.Potion == Potion.Buyer)
-                            return RedirectToAction("Index", "Home", inputUser);
+                            return RedirectToAction("Index", "Home");
 
                         if (inputUser.Potion == Potion.Seller)
-                            return RedirectToAction("Index", "Home", inputUser);
+                            return RedirectToAction("Index", "Home");
 
                         if (inputUser.Potion == Potion.Admin)
-                            return RedirectToAction("Index", "Home", inputUser);
+                            return RedirectToAction("Index", "Home");
 
                         if (inputUser.Potion == Potion.Owner)
-                            return RedirectToAction("Index", "Home", inputUser);
+                            return RedirectToAction("Index", "Home");
                     }
                 }
                 return View(input);
