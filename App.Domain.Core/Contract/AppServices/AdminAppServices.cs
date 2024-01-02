@@ -25,6 +25,7 @@ namespace App.Domain.Core.Contract.AppServices
 
         Task<bool> DeleteProduct(int ProductId ,CancellationToken cancellation);
         Task<bool> DeleteComment(int CommentId ,CancellationToken cancellation);
+        Task<bool> ActiveComment(int CommentId ,CancellationToken cancellation);
 
         Task<bool> DeleteShop(int UserId, CancellationToken cancellation);
 

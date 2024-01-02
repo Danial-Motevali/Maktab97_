@@ -43,7 +43,6 @@ namespace UI.Controllers
                         Id = buyer.Id,
                         FirstName = buyer.FirstName,
                         LastName = buyer.LastName,
-                        IsDeleted = buyer.IsDeleted,
                         UserName = buyer.UserName,
                         Email = buyer.Email
                     };
@@ -75,12 +74,27 @@ namespace UI.Controllers
             }
         }
 
-        [HttpPost]
+
         public async Task<IActionResult> DeleteComment(int Id, CancellationToken cancellation)
         {
             try
             {
                 await _adminAppServices.DeleteComment(Id, cancellation);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActiveComment(int Id, CancellationToken cancellation)
+        {
+            try
+            {
+                await _adminAppServices.ActiveComment(Id, cancellation);
 
                 return RedirectToAction("Index", "Home");
             }

@@ -718,7 +718,6 @@
                                                 <th scope="col">Last Name</th>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Email</th>
-                                                <th scope="col">IsDeleted</th>
                                                 <th scope="col">Activite</th>
                                                 <th scope="col">BuyerComment</th>
                                             </tr>
@@ -735,7 +734,6 @@
                                                         <td>@item.LastName</td>
                                                         <td>@item.UserName</td>
                                                         <td>@item.Email</td>
-                                                        <td>@item.IsDeleted</td>
                                                         <td>
                                                             <form asp-controller="Admin" asp-action="DeleteUser">
                                                                 <input type="hidden" value="@item.Id" name="Id">
@@ -751,7 +749,6 @@
                                                         </td>
                                                     </tr>
 
-                                                    rowNumber++;
                                                 }
                                             }
                                             

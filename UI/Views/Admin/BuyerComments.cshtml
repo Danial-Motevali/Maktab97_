@@ -731,11 +731,12 @@
                                                                     <div class="card-body row">
                                                                         <div class="col-lm-9">
                                                                             <div class="shadow-lg p-25 shadow-showcase text-center mb-2">
-                                                                                <form asp-controller="Admin" asp-action="DeleteComment" asp-route-Id="@comment.Id" method="post">
+                                                                                <form asp-controller="Admin" asp-action="ActiveComment" asp-route-Id="@comment.Id" method="post">
                                                                                     <p>CommentTilt : @comment.Title</p>
                                                                                     <p>Description : @comment.Description</p>
-                                                                                    <p>IsDeleted : @comment.IsDeleted</p>
+                                                                                    <p>IsActive : @comment.IsActive</p>
                                                                                     <button type="submit" class="btn btn-primary">Change Activit</button>
+                                                                                    <a class="btn btn-praimry" asp-action="DeleteComment" asp-controller="Admin" asp-route-Id="@comment.Id">Delete the Comment</a>
                                                                                 </form>
                                                                             </div>
                                                                         </div>

@@ -375,5 +375,17 @@ namespace App.Domain.Services.AppServices
 
             return 0;
         }
+
+        public async Task<bool> ActiveComment(int CommentId, CancellationToken cancellation)
+        {
+            var aInventory = await _commentService.GetById(CommentId, cancellation);
+
+            if (aInventory.IsActive == false)
+                aInventory.IsActive = true;
+
+            await _commentService.Update(CommentId, aInventory, cancellation);
+
+            return true;
+        }
     }
 }
