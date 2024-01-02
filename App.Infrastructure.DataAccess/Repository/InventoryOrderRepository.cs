@@ -53,13 +53,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public async Task<List<InventoryOreder>> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.inventoryOreder.ToList();
+            var mark = new List<InventoryOreder>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeleted == false).ToList();
+
+            return mark;
         }
 
         public async Task<InventoryOreder> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.inventoryOreder.FirstOrDefault(x => x.Id == Id);
+            var address = _db.inventoryOreder.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
 
             return address;
         }

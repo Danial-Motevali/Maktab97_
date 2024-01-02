@@ -17,4 +17,6 @@ public class Cart
     public int? InventoryId { get; set; }
 
     public Inventory? Inventory { get; set; }
+
+    public bool IsDeleted { get; set; } = false;
 }

@@ -14,4 +14,6 @@ public class Medal
 
     public Seller? Seller { get; set; } 
 
+    public bool IsDeleted { get; set; } = false;
+
 }

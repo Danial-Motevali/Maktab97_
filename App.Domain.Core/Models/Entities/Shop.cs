@@ -10,7 +10,7 @@ public class Shop
 
     public DateTime? TimeOfCreate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public ICollection<Inventory>? Inventories { get; set; }
 

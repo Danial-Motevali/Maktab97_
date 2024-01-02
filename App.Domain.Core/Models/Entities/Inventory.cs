@@ -6,7 +6,7 @@ public class Inventory
 {
     public int Id { get; set; }
     public int? Qnt { get; set; }
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public int? AuctionId { get; set; }
     public Auction? Auction { get; set; } 

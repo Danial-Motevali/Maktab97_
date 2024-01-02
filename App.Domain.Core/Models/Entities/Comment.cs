@@ -12,7 +12,7 @@ public class Comment
 
     public DateTime? TimeOfCreate { get; set; }
 
-    public bool? IsDeleted { get; set; } = false;
+    public bool IsDeleted { get; set; } = false;
 
     public bool? IsActive { get; set; } = false;
 

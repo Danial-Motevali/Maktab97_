@@ -19,6 +19,6 @@ namespace App.Domain.Core.Models.Entities
 
         public Inventory? Inventory { get; set; } 
 
-        public bool? IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
     }
 }

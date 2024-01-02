@@ -14,4 +14,6 @@ public class Seller
     public ICollection<Wage>? Wages { get; set; }
     public int? UserId { get; set; }
     public User? User { get; set; }
+
+    public bool IsDeleted { get; set; } = false;
 }

@@ -10,7 +10,7 @@ public class Address
 
     public string? Street { get; set; } 
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
 
     public int? MyAdminId { get; set; }

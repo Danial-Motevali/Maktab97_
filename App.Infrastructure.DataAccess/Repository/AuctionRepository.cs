@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,13 +54,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public  List<Auction> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Auctions.ToList();
+            var mark = new List<Auction>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeletd == false).ToList();
+
+            return mark;
         }
 
         public async Task<Auction> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Auctions.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Auctions.FirstOrDefault(x => x.Id == Id && x.IsDeletd == false);
 
             return address;
         }

@@ -10,4 +10,6 @@ public class MyAdmin
     public ICollection<Address>? Addresses { get; set; } 
     public int? UserId { get; set; }
     public User? User { get; set; }
+
+    public bool IsDeleted { get; set; } = false;
 }

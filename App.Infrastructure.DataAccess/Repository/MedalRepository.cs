@@ -53,13 +53,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public  List<Medal> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Medals.ToList();
+            var mark = new List<Medal>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeleted == false).ToList();
+
+            return mark;
         }
 
         public async Task<Medal> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Medals.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Medals.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
 
             return address;
         }

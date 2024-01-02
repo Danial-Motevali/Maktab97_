@@ -8,7 +8,7 @@ public class Product
 
     public string? Title { get; set; } = null!;
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public int? CategoryId { get; set; }
 

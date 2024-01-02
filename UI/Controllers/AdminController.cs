@@ -43,7 +43,7 @@ namespace UI.Controllers
                         Id = buyer.Id,
                         FirstName = buyer.FirstName,
                         LastName = buyer.LastName,
-                        IsDeleted = buyer.IsDeleted ?? default(bool),
+                        IsDeleted = buyer.IsDeleted,
                         UserName = buyer.UserName,
                         Email = buyer.Email
                     };
@@ -105,7 +105,7 @@ namespace UI.Controllers
                         Id = seller.Id,
                         FirstName = seller.FirstName,
                         LastName = seller.LastName,
-                        IsDeleted = seller.IsDeleted ?? default(bool),
+                        IsDeleted = seller.IsDeleted,
                         UserName = seller.UserName,
                         Email = seller.Email,
                         Wage = await _adminAppServices.ShowSellerWage(seller.Id, cancellation),
@@ -183,7 +183,7 @@ namespace UI.Controllers
                     LastName = x.LastName,
                     Email = x.Email,
                     UserName = x.UserName,
-                    IsDeleted = x.IsDeleted ?? default(bool),
+                    IsDeleted = x.IsDeleted,
                     UserRole = _adminAppServices.FindUserRole(x.Id, cancellation)
                 }).ToList();
 

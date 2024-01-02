@@ -11,4 +11,6 @@ public class ProductPicture
     public Picture? Picture { get; set; } 
 
     public Product? Product { get; set; } 
+
+    public bool IsDeleted { get; set; } = false;
 }

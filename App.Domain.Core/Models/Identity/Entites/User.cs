@@ -13,7 +13,7 @@ namespace App.Domain.Core.Models.Identity.Entites
 
         public string? LastName { get; set; } 
 
-        public bool? IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
 
         public Potion? Potion { get; set; }
     }

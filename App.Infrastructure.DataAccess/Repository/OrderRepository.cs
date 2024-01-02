@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Entities;
 using App.Infrastructure.Data.EF;
 using AutoMapper;
@@ -53,13 +54,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public List<Order> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.orders.ToList();
+            var mark = new List<Order>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeleted == false).ToList();
+
+            return mark;
         }
 
         public async Task<Order> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.orders.FirstOrDefault(x => x.Id == Id);
+            var address = _db.orders.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
 
             return address;
         }

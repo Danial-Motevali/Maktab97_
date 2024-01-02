@@ -31,4 +31,6 @@ public class Auction
     public DateTime? TimeOfEnd { get; set; }
 
     public ICollection<Inventory>? Inventories { get; set; }
+
+    public bool IsDeletd { get; set; } = false;
 }

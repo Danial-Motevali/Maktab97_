@@ -241,7 +241,7 @@ namespace App.Domain.Services.AppServices
                     aShowProductDto.ProductCategory = productCategory.Title;
                     aShowProductDto.ProductName = aProduct.Title;
                     aShowProductDto.Wage = wage.HowMuch;
-                    aShowProductDto.IsDeletd = inventory.IsDeleted ?? default(bool);
+                    aShowProductDto.IsDeletd = inventory.IsDeleted;
 
                     markProduct.Add(aShowProductDto);
                 }
@@ -304,7 +304,7 @@ namespace App.Domain.Services.AppServices
             var aSeller = _sellerSercies.ByUserId(UserId, cancellation);
             var aShop = _shopServices.GetBySellerId(aSeller.Id, cancellation);
 
-            return aShop.IsDeleted??default(bool);
+            return aShop.IsDeleted;
         }
 
         public async Task<List<ShowAllCategory>> ShowAllCategory(CancellationToken cancellation)
@@ -328,7 +328,7 @@ namespace App.Domain.Services.AppServices
                     aCategoryDto.PatentTilte = "null";
                 }
 
-                aCategoryDto.IsDeleted = category.IsDeleted??default(bool);
+                aCategoryDto.IsDeleted = category.IsDeleted;
 
                 aCategroyDtoList.Add(aCategoryDto);
             }

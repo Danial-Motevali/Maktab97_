@@ -47,13 +47,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public List<Shop> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Shops.ToList();
+            var mark = new List<Shop>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeleted == false).ToList();
+
+            return mark;
         }
 
         public async Task<Shop> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Shops.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Shops.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
 
             return address;
         }

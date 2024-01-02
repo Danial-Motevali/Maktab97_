@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contract.Repository;
+using App.Domain.Core.Entities;
 using App.Domain.Core.Models.Dto;
 using App.Domain.Core.Models.Identity.Entites;
 using App.Infrastructure.Data.EF;
@@ -53,13 +54,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public List<Seller> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Sellers.ToList();
+            var mark = new List<Seller>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeleted == false).ToList();
+
+            return mark;
         }
 
         public async Task<Seller> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Sellers.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Sellers.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
 
             return address;
         }

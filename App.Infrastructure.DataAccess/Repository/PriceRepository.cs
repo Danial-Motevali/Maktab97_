@@ -53,13 +53,16 @@ namespace App.Infrastructure.DataAccess.Repository
         public List<Price> GetAll(CancellationToken cancellation)
         {
             var addresses = _db.Prices.ToList();
+            var mark = new List<Price>();
 
-            return addresses;
+            mark = addresses.Where(x => x.IsDeleted == false).ToList();
+
+            return mark;
         }
 
         public async Task<Price> GetById(int Id, CancellationToken cancellation)
         {
-            var address = _db.Prices.FirstOrDefault(x => x.Id == Id);
+            var address = _db.Prices.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
 
             return address;
         }
